@@ -105,20 +105,20 @@ class BinarySearchTree:
         while cur_node:
             if cur_node.left:
                 if cur_node.left.data == data:
-                    if cur_node.left.left:
+                    if cur_node.left.right:
                         cur_node.left = cur_node.left.right
                         return 
                     
-                    elif not cur_node.left.left:
+                    else:
                         cur_node.left = None
                         return 
                     
             if cur_node.right:     
                 if cur_node.right.data == data:
-                    if cur_node.right.right:
-                        cur_node.right = cur_node.right.right
+                    if cur_node.right.left:
+                        cur_node.right = cur_node.right.left
                         return 
-                    elif not cur_node.right.right:
+                    else:
                         cur_node.right = None
                         return 
                     
@@ -128,6 +128,27 @@ class BinarySearchTree:
             else:
                 cur_node = cur_node.right
         return 
+    
+    # этот метод не правильный, нужно завтра доделать
+    def len(self):
+        count = 0
+        stack = [self.root]
+        
+        if not self.root:
+            return count
+        
+        while stack:
+            node = stack.pop()
+            count += 1
+            
+            if node.left:
+                stack.append(node.left)
+            if node.right:
+                stack.append(node.right)
+        return count
+    
+    # я хочу написать метод print, чтобы вывести все узлы в отсортированном ввиде(в таком, котором они находятся в дереве)
+    # но для этого мне нужно узнать как написать полный перебор дерева, а потом перевернуть путь, как в алгоритмы дейкстры
     
 if __name__ == "__main__":
     tree = BinarySearchTree()
@@ -140,9 +161,10 @@ if __name__ == "__main__":
     tree.append(120)
     tree.append(250)
     print(tree.max())
-    tree.delete(20)
+    tree.delete(50)
     print(tree.min())
-    print(tree.search(20))
+    # print(tree.search(20))
     print(tree.left(90))
     print(tree.right(90))
+    
     

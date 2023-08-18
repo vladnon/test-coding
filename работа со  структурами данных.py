@@ -445,6 +445,38 @@ class BinarySearchTree:
             if node.right:
                 stack.append(node.right)
         return count
+    
+    def delete(self, data):
+        cur_node = self.root
+        if not self.root:
+            return False
+        while cur_node:
+            if cur_node.left:
+                if data == cur_node.left.data:
+                    if cur_node.left.right:
+                        cur_node.left = cur_node.left.right
+                        return True
+                        
+                    else:
+                        cur_node.left = None
+                        return True
+                    
+            if cur_node.right:
+                if data == cur_node.right.data:
+                    if cur_node.right.left:
+                        cur_node.right = cur_node.right.left
+                        return True
+                        
+                    else:
+                        cur_node.right = None
+            
+            if data < cur_node.left:
+                cur_node = cur_node.left
+            
+            else:
+                cur_node = cur_node.right
+        return False
+
                 
                 
                  
@@ -454,17 +486,17 @@ if __name__ == "__main__":
     my_tree.add(50)
     my_tree.add(45)
     my_tree.add(49)
-    my_tree.add(45)
+    # my_tree.add(45)
     my_tree.add(90)
-    print(my_tree.search(90))
-    print(my_tree.max())
-    print(my_tree.min())
-    print(my_tree.hasnext(90))
+    # print(my_tree.search(90))
+    # print(my_tree.max())
+    # print(my_tree.min())
+    # print(my_tree.hasnext(90))
     # print(my_tree.ok(1))
-    print(my_tree.hasright(45))
-    print(my_tree.len())
-    print(my_tree.delete(0))
-    print(my_tree.len())
+    # print(my_tree.hasright(45))
+    # print(my_tree.len())
+    print(my_tree.delete(45))
+    # print(my_tree.len())
     print(my_tree.search(45))
     
     
