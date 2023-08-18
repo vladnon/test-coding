@@ -272,6 +272,7 @@ graph2 = {
 # дерево всегда отсортировано, это работает по принципу, того что у узла есть только два ребенка и левый всегда меньше чем родитель, а 
 # а правый всегда больше, то есть поиск в нем будет как в бинарном поиске(отметает те которые больше(меньше) чем искомое)
 
+
 # у узла в дереве есть информация(data), и два ребенка слева(left) и справа(right), собственно изначально они ничего не равны, тк их нет
 class Node:
     def __init__(self, data) -> None:
@@ -344,8 +345,7 @@ class BinarySearchTree:
                 # если же это лист, то возвращет его значение
                 else:
                     return cur_node.data
-        else:
-            return None
+        return None
         
     def min(self) -> int:
          # создает нынешнюю ноду
@@ -359,8 +359,7 @@ class BinarySearchTree:
                 # если же это лист, то возвращет его значение
                 else:
                     return cur_node.data
-        else:
-            return None
+        return None
         
     def hasnext(self, data: int) -> bool:
         # создает нынешнюю ноду
@@ -386,7 +385,7 @@ class BinarySearchTree:
         while cur_node:
             if data == cur_node.data:
                 if  cur_node.right:
-                    return True
+                    return True, cur_node.right.data
                 else:
                     return False
             elif data < cur_node.data:
@@ -400,7 +399,7 @@ class BinarySearchTree:
         while cur_node:
             if data == cur_node.data:
                 if cur_node.left:
-                    return True
+                    return True, cur_node.left.data
                 else:
                     return False
             elif data < cur_node.data:
@@ -409,16 +408,8 @@ class BinarySearchTree:
                 cur_node = cur_node.right
         return False
     
-    # def delete(self, target) -> None:
-    #     cur_node = self.root
-    #     while cur_node:
-    #         if cur_node.data == target:
-    #             if cur_node.left.data 
-    #         elif  cur_node.data < target:
-    #             cur_node = cur_node.left
-    #         else:
-    #             cur_node = cur_node.right
-    #     return False
+    
+    
     def ok(self, target):
         cur_node = self.root
         parents = {}
@@ -437,6 +428,25 @@ class BinarySearchTree:
                     
                 
         return parents[cur_node] 
+    
+    def len(self):
+        count = 0
+        stack = [self.root]
+        
+        if not self.root:
+            return count
+        
+        while stack:
+            node = stack.pop()
+            count += 1
+            
+            if node.left:
+                stack.append(node.left)
+            if node.right:
+                stack.append(node.right)
+        return count
+                
+                
                  
 if __name__ == "__main__":
     
@@ -446,13 +456,16 @@ if __name__ == "__main__":
     my_tree.add(49)
     my_tree.add(45)
     my_tree.add(90)
-    print(my_tree.search(1))
+    print(my_tree.search(90))
     print(my_tree.max())
     print(my_tree.min())
     print(my_tree.hasnext(90))
     # print(my_tree.ok(1))
     print(my_tree.hasright(45))
-    
+    print(my_tree.len())
+    print(my_tree.delete(0))
+    print(my_tree.len())
+    print(my_tree.search(45))
     
     
     

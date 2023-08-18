@@ -81,7 +81,6 @@ class LinkedList:
             if count == index:
                 self.extend()
                 return
-            
             if count  + 1 == index:
                 the_node_to_remove = cur_node.next
                 the_node_after_removed = the_node_to_remove.next
