@@ -66,9 +66,9 @@
     {
       "id": "pointer:pointer",
       "typeName": "pointer",
-      "x": 1173.1231380309364,
-      "y": 1862.7688547869186,
-      "lastActivityTimestamp": 1692291585900,
+      "x": -2771.147491851876,
+      "y": -183.97598774237827,
+      "lastActivityTimestamp": 1692461493805,
       "meta": {}
     },
     {
@@ -79,8 +79,8 @@
       "typeName": "page"
     },
     {
-      "x": 6291.980621734689,
-      "y": 1192.3092702130814,
+      "x": 5754.480621734689,
+      "y": 1317.3092702130814,
       "z": 0.1,
       "meta": {},
       "id": "camera:page:c61puxctYpA_jkAlu3ISK",
@@ -100,6 +100,7 @@
         "shape:84VfrhDpHn-wSkKQY4Vh3",
         "shape:9JZwH2_WedY40-mWiNkqu",
         "shape:9jzUWSQ5f4OZk7YmpbTy1",
+        "shape:Dqukf_DA278h7COmJgOOt",
         "shape:FRHuEM-gjhK5O18zY9kI0",
         "shape:GwlhtAuerLl2lmQAxxaQW",
         "shape:JSFZBvn20_T-2emK1Ba-_",
@@ -128,7 +129,7 @@
         "shape:xbji6LljmKfEw1srlNPyH",
         "shape:zKnXksxI1Z37coi9iJu3v"
       ],
-      "hoveredId": "shape:9JZwH2_WedY40-mWiNkqu",
+      "hoveredId": null,
       "erasingIds": [],
       "hintingIds": [],
       "focusLayerId": null,
@@ -143,7 +144,12 @@
       "stylesForNextShape": {
         "tldraw:geo": "ellipse"
       },
-      "brush": null,
+      "brush": {
+        "x": -2771.147491851876,
+        "y": -183.97598774237827,
+        "w": 6611.71875,
+        "h": 3505.0779724121094
+      },
       "scribble": null,
       "cursor": {
         "type": "default",
@@ -157,8 +163,8 @@
       "screenBounds": {
         "x": 0,
         "y": 0,
-        "w": 1334.1666259765625,
-        "h": 526.6666259765625
+        "w": 1226.6666259765625,
+        "h": 551.6666259765625
       },
       "zoomBrush": null,
       "isGridMode": false,

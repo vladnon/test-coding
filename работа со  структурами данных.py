@@ -446,10 +446,12 @@ class BinarySearchTree:
                 stack.append(node.right)
         return count
     
+    # неправильно
     def delete(self, data):
         cur_node = self.root
         if not self.root:
             return False
+        
         while cur_node:
             if cur_node.left:
                 if data == cur_node.left.data:
@@ -477,8 +479,72 @@ class BinarySearchTree:
                 cur_node = cur_node.right
         return False
 
-                
-                
+    # способы обхода бинарного дерева
+    
+    # pre-order(прямой), корень, левое поддерево и наконец правое поддерево
+    # стоит напомнить как работает стэк: он работает в обратном порядке от очереди, самое левое значение выйдет последним
+    def pre_order(self):
+        # создает стэк с корнем, откуда и будет начинаться обход
+        stack = [self.root]
+        # и массив с результатом
+        result = []
+        
+        if not self.root:
+            return []
+        
+        # пока стэк не будет пуст, будет достовать из конца стэка одно значение, которое будет нынешним, и добаляет значение в массив
+        while stack:
+            cur_node = stack.pop()
+            result.append(cur_node.data)
+            # здесь стоит вспомить правило стэка, добавив первым правое значение, оно будет рассмотрено последним, что и надо
+            # то есть правое поддерево будет в любом случае рассмотрено вторым 
+            if cur_node.right:
+                stack.append(cur_node.right)
+            # а левое первым
+            if cur_node.left:
+                stack.append(cur_node.left)
+        return result
+    
+    # in-order(симметричный), левое поддерво корень и правое подддерво, из-за это выводит значения в отсортированном в виде
+    def in_order(self):
+        # стэк
+        stack = []
+        # массив всех значений дерева
+        result = []
+        # в этой реализации результат будет отсортирован, так что корень надо отложить на потом, после левого поддерева
+        cur_node = self.root
+        if not self.root:
+            raise []
+        
+        #  пока стэк и узлы не закончяться
+        while cur_node or stack:
+            # до конца левого поддерева узлы будут добаляться в стэк
+            while cur_node:
+                stack.append(cur_node)
+                cur_node = cur_node.left
+            
+            # вынимает один узел из стэка, добавляем его в результат, и идем исследовать правое поддерево
+            cur_node = stack.pop()
+            result.append(cur_node.data)
+            cur_node = cur_node.right
+        return result
+    
+    
+    # post-order(обратный), левое поддерево, правое поддерево и корень
+    def post_order(self):
+        stack = []
+        result = []
+        node = self.root
+        
+        while node or stack:
+            if node:
+                stack.append(node)
+                result.insert(0, node.data)
+                node = node.right
+            else:
+                cur_node = stack.pop()
+                node = cur_node.left
+        return result
                  
 if __name__ == "__main__":
     
@@ -486,8 +552,10 @@ if __name__ == "__main__":
     my_tree.add(50)
     my_tree.add(45)
     my_tree.add(49)
-    # my_tree.add(45)
+    my_tree.add(47)
     my_tree.add(90)
+    my_tree.add(20)
+    my_tree.add(37)
     # print(my_tree.search(90))
     # print(my_tree.max())
     # print(my_tree.min())
@@ -495,10 +563,12 @@ if __name__ == "__main__":
     # print(my_tree.ok(1))
     # print(my_tree.hasright(45))
     # print(my_tree.len())
-    print(my_tree.delete(45))
+    # print(my_tree.delete(45))
     # print(my_tree.len())
-    print(my_tree.search(45))
-    
+    # print(my_tree.search(45))
+    print(my_tree.pre_order())
+    print(my_tree.in_order())
+    print(my_tree.post_order())
     
     
     # my_list = Linked_list()

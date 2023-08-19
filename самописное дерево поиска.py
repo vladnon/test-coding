@@ -1,3 +1,5 @@
+from collections import deque
+
 class Node:
     def __init__(self, data) -> None:
         self.left = None
@@ -98,6 +100,8 @@ class BinarySearchTree:
                 cur_node = cur_node.right
         return False
 
+
+    # этот метод не правильный, нужно завтра доделать
     def delete(self, data: int):
         cur_node = self.root
         if not self.root:
@@ -107,8 +111,7 @@ class BinarySearchTree:
                 if cur_node.left.data == data:
                     if cur_node.left.right:
                         cur_node.left = cur_node.left.right
-                        return 
-                    
+                         
                     else:
                         cur_node.left = None
                         return 
@@ -129,7 +132,6 @@ class BinarySearchTree:
                 cur_node = cur_node.right
         return 
     
-    # этот метод не правильный, нужно завтра доделать
     def len(self):
         count = 0
         stack = [self.root]
@@ -149,6 +151,40 @@ class BinarySearchTree:
     
     # я хочу написать метод print, чтобы вывести все узлы в отсортированном ввиде(в таком, котором они находятся в дереве)
     # но для этого мне нужно узнать как написать полный перебор дерева, а потом перевернуть путь, как в алгоритмы дейкстры
+
+    def pre_order(self):
+        stack = [self.root]
+        result = []
+        
+        if not self.root:
+            return []
+        
+        while stack:
+            cur_node = stack.pop()
+            result.append(cur_node.data)
+            if cur_node.right:
+                stack.append(cur_node.right)
+            if cur_node.left:
+                stack.append(cur_node.left)
+        return result
+    
+    def in_order(self):
+        stack = []
+        result = []
+        cur_node = self.root
+        
+        if not self.root:
+            return []
+        
+        while cur_node or stack:
+            while cur_node:
+                stack.append(cur_node)
+                cur_node = cur_node.left
+            cur_node = stack.pop()
+            result.append(cur_node.data)
+            cur_node = cur_node.right
+        return result
+
     
 if __name__ == "__main__":
     tree = BinarySearchTree()
@@ -160,11 +196,12 @@ if __name__ == "__main__":
     tree.append(91)
     tree.append(120)
     tree.append(250)
-    print(tree.max())
-    tree.delete(50)
-    print(tree.min())
+    # print(tree.max())
+    # tree.delete(50)
+    # print(tree.min())
     # print(tree.search(20))
-    print(tree.left(90))
-    print(tree.right(90))
-    
+    # print(tree.left(90))
+    # print(tree.right(91))
+    print(tree.pre_order())
+    print(tree.in_order())
     
