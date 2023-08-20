@@ -168,7 +168,7 @@ class BinarySearchTree:
                 stack.append(cur_node.left)
         return result
     
-    def in_order(self):
+    def iin_order(self):
         stack = []
         result = []
         cur_node = self.root
@@ -203,5 +203,5 @@ if __name__ == "__main__":
     # print(tree.left(90))
     # print(tree.right(91))
     print(tree.pre_order())
-    print(tree.in_order())
+    print(tree.iin_order())
     
