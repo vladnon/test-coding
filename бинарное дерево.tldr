@@ -66,9 +66,9 @@
     {
       "id": "pointer:pointer",
       "typeName": "pointer",
-      "x": -2771.147491851876,
-      "y": -183.97598774237827,
-      "lastActivityTimestamp": 1692461493805,
+      "x": 3667.1898927741786,
+      "y": 2922.625464864463,
+      "lastActivityTimestamp": 1692685279140,
       "meta": {}
     },
     {
@@ -79,9 +79,9 @@
       "typeName": "page"
     },
     {
-      "x": 5754.480621734689,
-      "y": 1317.3092702130814,
-      "z": 0.1,
+      "x": 4531.204285220541,
+      "y": 1375.5490116269634,
+      "z": 0.1319570532975533,
       "meta": {},
       "id": "camera:page:c61puxctYpA_jkAlu3ISK",
       "typeName": "camera"
@@ -90,44 +90,7 @@
       "editingId": null,
       "croppingId": null,
       "selectedIds": [
-        "shape:-HRas9eu0ECEDU37yg2QX",
-        "shape:0cWPgBxG3egqtFVdtuTxb",
-        "shape:1--R7K6fANkQI5kRtyDOO",
-        "shape:1W4TE-MaulrOyeKXDGco4",
-        "shape:7YCUuPqnUUt9gQDBAzyRX",
-        "shape:7iHYJAvHO0exPT6Bz1HG2",
-        "shape:7wLPNcLBJnZE1kka_gtbB",
-        "shape:84VfrhDpHn-wSkKQY4Vh3",
-        "shape:9JZwH2_WedY40-mWiNkqu",
-        "shape:9jzUWSQ5f4OZk7YmpbTy1",
-        "shape:Dqukf_DA278h7COmJgOOt",
-        "shape:FRHuEM-gjhK5O18zY9kI0",
-        "shape:GwlhtAuerLl2lmQAxxaQW",
-        "shape:JSFZBvn20_T-2emK1Ba-_",
-        "shape:Knr_fHkliWEsm4lGDV-X-",
-        "shape:Nd70_orG6RQ1r_o3HI1P8",
-        "shape:OnIahQWa2tMAeXBxs9HBD",
-        "shape:QrwsyFKTgNITuZqgwkRns",
-        "shape:QvHI9amJVIoRGoyMuW_vI",
-        "shape:TibYKzTwI7tWB6K61Iex3",
-        "shape:Vl0XzK3uYSWf8SOUuuxBR",
-        "shape:XfvRPC1HQg20YLPHpQr2S",
-        "shape:Y3cnzs2EYTsZXcQEILUB8",
-        "shape:ZHt_Dw7NYg02nRcil4M0m",
-        "shape:_4M0ZlS5eyvfXdDH63gUe",
-        "shape:_u9ckrY-SaUHSoYv1bnzG",
-        "shape:cYF87OMJsaOrjqwyalOmj",
-        "shape:dKINso-MPQB-UkK0X3DVr",
-        "shape:dooTFxg42CfiZ8p_PRC0A",
-        "shape:joZ5kvc_QFC5R6y82Cb_g",
-        "shape:k8YIAks4lQ0MHtKE5OwvQ",
-        "shape:pDDwnBeWJ_zZSCtw5F0db",
-        "shape:tsf10siCM6ekvP3S_Ivz7",
-        "shape:w-zQfbXZhdOhmoENtepWZ",
-        "shape:waEsYmZ3gBu-eKFAKksvz",
-        "shape:xHxfdfNiGLJCfiq9ORppG",
-        "shape:xbji6LljmKfEw1srlNPyH",
-        "shape:zKnXksxI1Z37coi9iJu3v"
+        "shape:7YCUuPqnUUt9gQDBAzyRX"
       ],
       "hoveredId": null,
       "erasingIds": [],
@@ -144,12 +107,7 @@
       "stylesForNextShape": {
         "tldraw:geo": "ellipse"
       },
-      "brush": {
-        "x": -2771.147491851876,
-        "y": -183.97598774237827,
-        "w": 6611.71875,
-        "h": 3505.0779724121094
-      },
+      "brush": null,
       "scribble": null,
       "cursor": {
         "type": "default",
@@ -163,8 +121,8 @@
       "screenBounds": {
         "x": 0,
         "y": 0,
-        "w": 1226.6666259765625,
-        "h": 551.6666259765625
+        "w": 1295.833251953125,
+        "h": 743.3333129882812
       },
       "zoomBrush": null,
       "isGridMode": false,
