@@ -101,36 +101,101 @@ class BinarySearchTree:
         return False
 
 
-    # этот метод не правильный, нужно завтра доделать
+    # этот метод не правильный, нужно доделать
+    
     def delete(self, data: int):
         cur_node = self.root
+        parent = None
+        
         if not self.root:
             return 
+        
         while cur_node:
-            if cur_node.left:
-                if cur_node.left.data == data:
-                    if cur_node.left.right:
-                        cur_node.left = cur_node.left.right
+            if cur_node.data == data:
+                # ситуация, когда у узла либо одни ребенок либо его нет
+                if not cur_node.left:
+                    if parent:
+                        if parent.left == cur_node:
+                            parent.left = cur_node.right
+                        else:
+                            parent.right = cur_node.right
                          
                     else:
-                        cur_node.left = None
-                        return 
-                    
-            if cur_node.right:     
-                if cur_node.right.data == data:
-                    if cur_node.right.left:
-                        cur_node.right = cur_node.right.left
-                        return 
+                        self.root = cur_node.right 
+                       
+                elif not cur_node.right:
+                    if parent:
+                        if parent.right == cur_node:
+                            parent.right = cur_node.left
+                        else:
+                            parent.left = cur_node.left
+                         
                     else:
-                        cur_node.right = None
-                        return 
-                    
-            if data < cur_node.left.data:
+                        self.root = cur_node.right 
+                else:
+                    # ситуация, когда у узла два потомка
+                    child_parent = cur_node
+                    child = cur_node.right
+                    while child.left:
+                        child_parent = child
+                        child = child.left
+                    cur_node.data = child.data
+                    if child_parent.left == child.right:
+                        child_parent = child.right
+                    else:
+                        child_parent.right = child.right
+                        
+            parent = cur_node    
+            if data < cur_node.data:
                 cur_node = cur_node.left
 
             else:
                 cur_node = cur_node.right
         return 
+    
+    
+    def delete(self, data):
+        cur_node = self.root
+        parent = None
+        
+        if not self.root:
+            return parent
+        
+        while cur_node:
+            if cur_node.data == data:
+                if not cur_node.left:
+                    if parent:
+                        if parent.left == cur_node:
+                            parent.left = cur_node.right
+                        else:
+                            parent.right = cur_node.right
+                    else:
+                        self.root = cur_node.right
+                elif not cur_node.right:
+                    if parent:
+                        if parent.right == cur_node:
+                            parent.left = cur_node.right
+                    else:
+                        self.root = cur_node.right
+                        
+                else:
+                    child = cur_node.right
+                    child_parent = cur_node
+                    while child.left:
+                        child_parent = child
+                        child = child.left
+                    cur_node.data = child.data
+                    if child_parent.left == child.right:
+                        child_parent = child.right
+                    else:
+                        child_parent.right = child.right
+            parent = cur_node
+            if data < cur_node.data:
+                cur_node = cur_node.left
+            else:
+                cur_node = cur_node.right
+        return
+                    
     
     def len(self):
         count = 0
@@ -148,7 +213,6 @@ class BinarySearchTree:
             if node.right:
                 stack.append(node.right)
         return count
-    
     # я хочу написать метод print, чтобы вывести все узлы в отсортированном ввиде(в таком, котором они находятся в дереве)
     # но для этого мне нужно узнать как написать полный перебор дерева, а потом перевернуть путь, как в алгоритмы дейкстры
 
@@ -193,15 +257,15 @@ if __name__ == "__main__":
     tree.append(45)
     tree.append(20)
     tree.append(76)
-    tree.append(91)
+    tree.append(97)
     tree.append(120)
-    tree.append(250)
+    tree.append(95)
     # print(tree.max())
-    # tree.delete(50)
+    tree.delete(50)
     # print(tree.min())
     # print(tree.search(20))
-    # print(tree.left(90))
-    # print(tree.right(91))
-    print(tree.pre_order())
-    print(tree.iin_order())
+    print(tree.left(76))
+    print(tree.right(76))
+    # print(tree.pre_order())
+    # print(tree.iin_order())
     
