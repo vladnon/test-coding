@@ -121,8 +121,23 @@ def fact(num):
 
 from collections import deque
 
-def bfs(start: int, target: int, graph: dict[int]) -> bool:
-    pass
+# def bfs(start: int, target: int, graph: dict[int]) -> bool:
+#     queue = deque()
+#     queue += [start]
+#     visited = set()
+
+#     while queue:
+#         node = queue.popleft()
+#         if node not  in visited:
+#             if node == target:
+#                 return True
+            
+#             else:
+#                 queue += graph[node]
+#                 visited.add(node)
+
+
+#     return False
 
 # Dfs - алгоритм, который просто ищет любой путь в невзвешенном графе
 # Его реализация рекурсивная, поэтому там используется стек,
@@ -149,4 +164,73 @@ def dfs(start: int, target: int, graph: dict[int], visited: list[int]):
 # работает он так: он создает несколько словарей: словарь под длину пути(вначале он будет бесконченость для всех ребер, 
 # кроме первого, он будте 0), словарь родителей узлов(вначале -1 для всех узлов, потому мы их еще не исследовали),
 # и очередь(работает парой - вес и узел), после он будет перезаписыпать пути до узлов, если он короче уже исседованных, 
-# и заполнять словарь с родителя
+# и заполнять словарь с родителями, а также добавлять парами пути и узлы, и так пока очередь ну будет пуста(то есть
+# пока весь граф не будет исследован)
+# По сути он просто идет по путям, которые короче, и если он нашел путь, который короче уже исследованного, то просто 
+# перезаписывает его путь и вес
+
+
+def dijkstra(graph: dict[dict], start: int, end: int) -> list[int]:
+    costs = {node: float("inf") for node in graph}
+    costs[start] = 0
+
+    parents = {node: -1 for node in graph}
+    queue = deque([(0, start)])
+
+    while queue:
+        cost, node = queue.popleft()
+
+        for neighbor, edge_cost in graph[node].items():
+            new_cost = cost + edge_cost
+            if new_cost < costs[neighbor]:
+                costs[neighbor] = new_cost
+                parents[neighbor] = node
+                queue.append((new_cost, neighbor))
+
+    path = []
+    cur_node = end
+    while cur_node != -1:
+        path.append(cur_node)
+        cur_node = parents[cur_node]
+
+    path.reverse()
+
+    return path
+
+# Поиск k-ближайших соседей(knn)
+# Его используют в первоначальном ввиде для классификации, а с модификациями уже можно сделать и регрессию(прогназирование)
+# открой рисунок с названием ""
+# кароче это прям алгоритм обучения модели, так что тебе еще рано, плюс я не знаю как его написать, но как он работает могу написать
+# у нас есть график, в котором помечены точки которые отвечают за разные классы(если пандас будешь учить поймешь), и точка, которая обозначает
+# объект, который надо классифицировать, и все просто, первые k-ближайшие точки, и определят, что это за класс, на графике оси являются 
+# признаками, что говорит мне, о том что я не просто страдаю херней, изучая статиску
+
+
+if __name__ == "__main__":
+    # print(bubble_sort([8, 5, 3, 7, 7 ,2]))
+    # print(quick_sort([8, 5, 3, 7, 7 ,2]))
+    # print(binary_search([90, 150 , 8, 5, 3, 7 , 2], 2))
+    # print(linear_search([8, 5, 3, 7, 7 ,2], 8))
+    # print(fib(3))
+    # print(fact(5))
+    # print(sum([2, 4, 6]))
+    graph = {
+        1 : [1, 3],
+        2 : [1],
+        3 : [1, 3, 2]
+    }
+
+    graph_for_algorithm = {
+        1: {2: 3, 3: 1},
+        2: {1: 3, 4: 2, 3: 1},
+        3: {1: 1, 4: 5, 2: 1},
+        4: {2: 2, 3: 5}
+    }
+    
+
+    # print(bfs(graph, 1, 2))
+    print(dfs(1, 3, graph, visited = []))
+    print(dijkstra(graph_for_algorithm, 1, 4))
+    
+    
+    

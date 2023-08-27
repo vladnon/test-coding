@@ -545,17 +545,165 @@ class BinarySearchTree:
                 cur_node = stack.pop()
                 node = cur_node.left
         return result
+    
+# AVl - дерево, разновидность дерева поиска, которая имеет одно приемущество - оно самобалансируеться, то есть к обычному дереву поиска добавить 
+# числа от 1 до 10, то все они уйдут вглубь правого поддерева, и это дерево просто напросто превратиться в связный список, в котором все дейтсвия
+# будут со сложностью O(n), а не O(log n)
+# в этом дерева есть понятие высота узла, типо у самого нижнего листа будет высота 0, и тд по дереву вверх, а у отсутствовавшего узла -1
+# ну то есть высота - это путь от узла до его последнего ребенка
+# смысл, чтобы разница между высотами для каждого дочернего узла было меньше улюили равна 1 по мод
+class Node:
+    def __init__(self, data) -> None:
+        self.data = data 
+        self.right = None
+        self.left = None
+        self.height = 1
+    
+class AVLBinaryTree:
+    def __init__(self) -> None:
+        self.root = None
+        
+    def _height(self, node):
+        if not node:
+            return 0
+        return node.height
+    
+    def update_height(self, node):
+        if not node:
+            return 
+        node.height = 1 + max(self._height(node.left), self._height(node.right))
+        
+    def balance_check(self, node):
+        if not node:
+            return None
+        return self._height(node.left) - self._height(node.right)
+    
+    def rotate_right(self, node):
+        new_root = node.left
+        node.left = new_root.right
+        new_root.right = node
+        self.update_height(node)
+        self.update_height(new_root)
+        return new_root
+        
+    def rotate_left(self, node):
+        new_root = node.right
+        node.right = new_root.left
+        new_root.left = node
+        self.update_height(node)
+        self.update_height(new_root)
+        return new_root
+    
+    def balance(self, node):
+        balance = self.balance_check(node)
+        
+        if balance > 1:
+            if self.balance_check(node.left) < 0:
+                node.left = self.rotate_left(node.left)
+            return self.rotate_right(node)
+        
+        if balance < -1:
+            if self.balance_check(node.right) > 0:
+               node.right = self.rotate_right(node.right)
+            return self.rotate_left(node)
+        return node
+    
+    
+    
+    
+    def append(self, data):
+        new_node = Node(data)
+        
+        if not self.root:
+            self.root = new_node
+            return
+        
+        cur_node = self.root
+        parent = None
+        
+        while cur_node:
+            parent = cur_node
+            
+            if data < cur_node.data:
+                if not cur_node.left:
+                    cur_node.left = new_node
+                    break
+                cur_node = cur_node.left
+            else:
+                if not cur_node.right:
+                    cur_node.right = new_node
+                    break
+                cur_node = cur_node.right
+        
+        self.update_height(parent)
+        self.balance(parent)
+                
+    def search(self, data):
+        cur_node = self.root
+        
+        while cur_node:
+            if data == cur_node.data:
+                return True
+            if data < cur_node.data:
+                cur_node = cur_node.left
+            else:
+                cur_node = cur_node.right
+        return False
+    
+    def get_right(self, data):
+        cur_node = self.root
+        
+        while cur_node:
+            if data == cur_node.data:
+                if cur_node.right:
+                    return cur_node.right.data
+                else:
+                    return False
+            if data < cur_node.data:
+                cur_node = cur_node.left
+            else:
+                cur_node = cur_node.right
+        return False
+    
+    def get_left(self, data):
+        cur_node = self.root
+        
+        while cur_node:
+            if data == cur_node.data:
+                if cur_node.left:
+                    return cur_node.left.data
+                else:
+                    return False
+            if data < cur_node.data:
+                cur_node = cur_node.left
+            else:
+                cur_node = cur_node.right
+        return False
+                
+    
+                
+    
                  
 if __name__ == "__main__":
+    AVL_tree = AVLBinaryTree()
+    AVL_tree.append(1)
+    AVL_tree.append(2)
+    AVL_tree.append(3)
+    print(AVL_tree.search(2))
+    print(AVL_tree.get_left(2))
+    print(AVL_tree.get_right(2))
     
-    my_tree = BinarySearchTree()
-    my_tree.add(50)
-    my_tree.add(45)
-    my_tree.add(49)
-    my_tree.add(47)
-    my_tree.add(90)
-    my_tree.add(20)
-    my_tree.add(37)
+    
+    
+    
+    # my_tree = BinarySearchTree()
+    # my_tree.add(50)
+    # my_tree.add(45)
+    # my_tree.add(49)
+    # my_tree.add(47)
+    # my_tree.add(90)
+    # my_tree.add(20)
+    # my_tree.add(37)
     # print(my_tree.search(90))
     # print(my_tree.max())
     # print(my_tree.min())
@@ -566,9 +714,9 @@ if __name__ == "__main__":
     # print(my_tree.delete(45))
     # print(my_tree.len())
     # print(my_tree.search(45))
-    print(my_tree.pre_order())
-    print(my_tree.in_order())
-    print(my_tree.post_order())
+    # print(my_tree.pre_order())
+    # print(my_tree.in_order())
+    # print(my_tree.post_order())
     
     
     # my_list = Linked_list()
