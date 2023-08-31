@@ -1,11 +1,10 @@
 
 
 
-
 # if __name__ == "__main__":
-    # print(uniqueOccurrences([1,2,2,1,1,3]))
-    # name = input()
-    # print(f"Hello, {name}")
+    # solution = Solution()
+    # solution.sumOfLeftLeaves([3,9,20,None,None,15,7])
+
 
 
 

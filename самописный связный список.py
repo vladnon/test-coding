@@ -134,29 +134,38 @@ class LinkedList:
         
     
     # не буду писать метод reverse, т.к. не совсем понимаю алгоритм
-     
+    def isPalindrome(self) -> bool:
+        cur_node = self.head
+        nums = []
+
+        while cur_node:
+            nums.append(cur_node.data)
+            cur_node = cur_node.next
+
+        return nums == nums[:: -1]
 if __name__ == "__main__":
     nums = LinkedList()
     
     nums.append(1)
-    nums.append(243)
-    nums.append(56)
-    nums.append(71)
-    nums.append(4)
+    nums.append(2)
+    nums.append(2)
+    nums.append(1)
     
     # nums.extend(20)
     
     # nums.remove_first()
     
     # nums.remove_last()
+
+    print(nums.isPalindrome())
     
-    nums.insert(29, 2)
+    # nums.insert(29, 2)
     
     # nums.remove(2)
     
     # nums.removenthfromthend(1)
     
-    nums.print()
+    # nums.print()
     
     # nums.len()
     

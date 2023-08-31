@@ -23,7 +23,6 @@ class BinarySearchTree:
                     if not cur_node.left:
                         cur_node.left = new_node
                         break
-                    
                     else:
                         cur_node = cur_node.left
                         
@@ -248,24 +247,62 @@ class BinarySearchTree:
             result.append(cur_node.data)
             cur_node = cur_node.right
         return result
+    
+    def left_sum(self):
+        total_sum = 0 
+        stack = [self.root]
+
+        if not self.root:
+            return []
+        
+        while stack:
+            cur_node = stack.pop()
+            if cur_node.right:
+                stack.append(cur_node.right)
+            if cur_node.left:
+                child_node = cur_node.left
+                if not child_node.right and not child_node.left:
+                    total_sum += child_node.data
+                stack.append(cur_node.left)
+            
+        return total_sum
+    
+
 
     
+    def invertTree(self):
+        stack = [self.root]
+
+        if not self.root:
+            return self.root
+
+        while stack:
+            cur_node = stack.pop()
+            if cur_node.left and cur_node.right:
+                cur_node.left.data, cur_node.right.data = cur_node.right.data, cur_node.left.data
+                stack.append(cur_node.right)
+                stack.append(cur_node.left  )
+
 if __name__ == "__main__":
     tree = BinarySearchTree()
-    tree.append(90)
-    tree.append(50)
-    tree.append(45)
-    tree.append(20)
-    tree.append(76)
-    tree.append(97)
-    tree.append(120)
-    tree.append(95)
+    tree.append(4)
+    tree.append(2)
+    tree.append(7)
+    tree.append(1)
+    tree.append(3)
+    tree.append(6)
+    tree.append(9)
+    tree.invertTree()
+    print(tree.pre_order())
+    # print(tree.findTarget(4))
     # print(tree.max())
-    tree.delete(50)
+    # tree.delete(90)
     # print(tree.min())
     # print(tree.search(20))
-    print(tree.left(76))
-    print(tree.right(76))
+    # print(tree.left(45))
+    # print(tree.right(97))
+    # print(tree.left_sum())
+    # print(tree.min_diff())
     # print(tree.pre_order())
     # print(tree.iin_order())
     
