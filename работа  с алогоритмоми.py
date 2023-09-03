@@ -43,14 +43,17 @@ def quick_sort(nums):
 # теперь они два отсортиванных элемента, следующий сравнивается сначала с последним из отсортированным, и если тот меньше с меньшим, и тд
 
 def insertion_sort(nums: list[int]) -> list[int]:
+    # основной цикл, который проходит по массиву, и , и 
     for idx in range(len(nums)):
+        #записывает настоящее число
         cur_elem = nums[idx]
+        #тк каждое новое число будет неотсортировано, то отсортировано будет число на один индекс меньше нынешнего 
         sorted_idx = idx - 1
 
+        # цикл поиска нужного места в отсортированном подмассиве, для нового вставки нового числа
         while sorted_idx >= 0 and cur_elem < nums[sorted_idx]:
             nums[sorted_idx + 1] = nums[sorted_idx]
             sorted_idx -= 1
-        
         nums[sorted_idx + 1] = cur_elem
     return nums
 
@@ -89,16 +92,10 @@ def binary_search(nums, target):
 # Линейный поиск
 # Просто сравнивается каждое число с числом, которое мы ищем
 def linear_search(nums: list[int], target) -> str:
-    low = 0
-    result = False
-    
-    while low < len(nums) and not result:
-        if nums[low] == target:
-            result = True
-            return f"В этом массиве есть число {target}, под индексом {nums.index(target)}"
-        else:
-            low += 1
-    return f"В этом массиве нет числа {target}"
+    for num in nums:
+        if num == target:
+            return True
+    return False
 
     # for num in nums:
     #     if num == target:
@@ -106,6 +103,8 @@ def linear_search(nums: list[int], target) -> str:
     #     else:
     #         next(nums)
     # return -1
+
+    
     
 # Рекурсия 
 # По сути это функция, которое в процессе выполнение выполняет себя столько раз, пока не будет собдюдено условие
@@ -223,7 +222,7 @@ if __name__ == "__main__":
     # print(bubble_sort([8, 5, 3, 7, 7 ,2]))
     # print(quick_sort([8, 5, 3, 7, 7 ,2]))
     # print(binary_search([90, 150 , 8, 5, 3, 7 , 2], 2))
-    # print(linear_search([8, 5, 3, 7, 7 ,2], 8))
+    print(linear_search([8, 5, 3, 7, 7 ,2], 8))
     # print(fib(3))
     # print(fact(5))
     # print(sum([2, 4, 6]))
