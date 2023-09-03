@@ -38,8 +38,21 @@ def quick_sort(nums):
             )
     
     
-# Сортировка выбором
+# Сортировка вставками
+# кароче изначально 1 элемент масива отсортирован, и сравнивается со следущем, если он больше то норм, если меньше меняется местами с 1 и
+# теперь они два отсортиванных элемента, следующий сравнивается сначала с последним из отсортированным, и если тот меньше с меньшим, и тд
 
+def insertion_sort(nums: list[int]) -> list[int]:
+    for idx in range(len(nums)):
+        cur_elem = nums[idx]
+        sorted_idx = idx - 1
+
+        while sorted_idx >= 0 and cur_elem < nums[sorted_idx]:
+            nums[sorted_idx + 1] = nums[sorted_idx]
+            sorted_idx -= 1
+        
+        nums[sorted_idx + 1] = cur_elem
+    return nums
 
 
 # Бинарный поиск
@@ -214,6 +227,8 @@ if __name__ == "__main__":
     # print(fib(3))
     # print(fact(5))
     # print(sum([2, 4, 6]))
+    print(insertion_sort([5, 1, 10, 5, -2  ]))
+
     graph = {
         1 : [1, 3],
         2 : [1],
@@ -229,8 +244,8 @@ if __name__ == "__main__":
     
 
     # print(bfs(graph, 1, 2))
-    print(dfs(1, 3, graph, visited = []))
-    print(dijkstra(graph_for_algorithm, 1, 4))
+    # print(dfs(1, 3, graph, visited = []))
+    # print(dijkstra(graph_for_algorithm, 1, 4))
     
     
     

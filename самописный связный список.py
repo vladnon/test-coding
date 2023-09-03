@@ -5,6 +5,7 @@ class Node:
     def __init__(self, data = None) -> None:
         self.data = data
         self.next = None
+        self.swapped = False
         
 class LinkedList:
     def __init__(self) -> None:
@@ -22,9 +23,9 @@ class LinkedList:
         
     def print(self):
         cur_node = self.head
-        output = ''
+        output = []
         while cur_node is not None:
-            output += f"| [{cur_node.data}] |"
+            output.append(cur_node.data)
             cur_node = cur_node.next
         print(output)
             
@@ -143,13 +144,25 @@ class LinkedList:
             cur_node = cur_node.next
 
         return nums == nums[:: -1]
+    
+    def sortList(self):
+        cur_node = self.head
+        swapped = True
+        while swapped:
+            swapped = False
+            while cur_node.next:
+                if cur_node.data > cur_node.next.data:
+                    cur_node.data, cur_node.next.data = cur_node.next.data, cur_node.data
+                    swapped = True
+                cur_node = cur_node.next
+            
 if __name__ == "__main__":
     nums = LinkedList()
     
+    nums.append(5)
+    nums.append(9)
     nums.append(1)
-    nums.append(2)
-    nums.append(2)
-    nums.append(1)
+    nums.append(7)
     
     # nums.extend(20)
     
@@ -157,15 +170,19 @@ if __name__ == "__main__":
     
     # nums.remove_last()
 
-    print(nums.isPalindrome())
+    # print(nums.isPalindrome())
+
+    
     
     # nums.insert(29, 2)
     
     # nums.remove(2)
     
     # nums.removenthfromthend(1)
+
+    nums.sortList()
     
-    # nums.print()
+    nums.print()
     
     # nums.len()
     

@@ -248,7 +248,7 @@ class BinarySearchTree:
             cur_node = cur_node.right
         return result
     
-    def left_sum(self):
+    def left_sum_lists(self):
         total_sum = 0 
         stack = [self.root]
 
@@ -270,18 +270,6 @@ class BinarySearchTree:
 
 
     
-    def invertTree(self):
-        stack = [self.root]
-
-        if not self.root:
-            return self.root
-
-        while stack:
-            cur_node = stack.pop()
-            if cur_node.left and cur_node.right:
-                cur_node.left.data, cur_node.right.data = cur_node.right.data, cur_node.left.data
-                stack.append(cur_node.right)
-                stack.append(cur_node.left  )
 
 if __name__ == "__main__":
     tree = BinarySearchTree()
