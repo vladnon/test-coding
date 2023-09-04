@@ -43,20 +43,46 @@ def quick_sort(nums):
 # теперь они два отсортиванных элемента, следующий сравнивается сначала с последним из отсортированным, и если тот меньше с меньшим, и тд
 
 def insertion_sort(nums: list[int]) -> list[int]:
-    # основной цикл, который проходит по массиву, и , и 
     for idx in range(len(nums)):
-        #записывает настоящее число
         cur_elem = nums[idx]
-        #тк каждое новое число будет неотсортировано, то отсортировано будет число на один индекс меньше нынешнего 
         sorted_idx = idx - 1
 
-        # цикл поиска нужного места в отсортированном подмассиве, для нового вставки нового числа
         while sorted_idx >= 0 and cur_elem < nums[sorted_idx]:
             nums[sorted_idx + 1] = nums[sorted_idx]
             sorted_idx -= 1
         nums[sorted_idx + 1] = cur_elem
     return nums
 
+# Сортировка слиянием
+
+def merge_sort(nums: list[int]) -> list[int]:
+    if len(nums) == 1:
+        return nums
+    mid = len(nums) // 2
+    left = nums[:mid]
+    right = nums[mid:]
+    return merge_two_lists(merge_sort(left), merge_sort(right))
+
+
+# Слияние двух списков
+
+def merge_two_lists(list1: list[int], list2: list[int]) -> list[int]:
+    p1 =  p2 = 0
+    result = []
+    while p1 < len(list1) and p2 < len(list2):
+        if list1[p1] < list2[p2]:
+            result.append(list1[p1])
+            p1 += 1
+        else:
+            result.append(list2[p2])
+            p2 += 1
+    while p1 < len(list1):
+        result.append(list1[p1])
+        p1 += 1
+    while p2 < len(list2):
+        result.append(list2[p2])
+        p2 += 1
+    return result
 
 # Бинарный поиск
 # Берется среднее число, если оно равно числу, которое мы ищем, то алгоритм выполнился, т.к. мы нашли число, если число меньше, то мы отрезаем от массива все правые числа от этого элемента, и находим средний элемент уже нового массива, и так далее пока не найдем элемент
@@ -96,13 +122,6 @@ def linear_search(nums: list[int], target) -> str:
         if num == target:
             return True
     return False
-
-    # for num in nums:
-    #     if num == target:
-    #         return target
-    #     else:
-    #         next(nums)
-    # return -1
 
     
     
@@ -222,11 +241,13 @@ if __name__ == "__main__":
     # print(bubble_sort([8, 5, 3, 7, 7 ,2]))
     # print(quick_sort([8, 5, 3, 7, 7 ,2]))
     # print(binary_search([90, 150 , 8, 5, 3, 7 , 2], 2))
-    print(linear_search([8, 5, 3, 7, 7 ,2], 8))
+    # print(linear_search([8, 5, 3, 7, 7 ,2], 8))
     # print(fib(3))
     # print(fact(5))
     # print(sum([2, 4, 6]))
-    print(insertion_sort([5, 1, 10, 5, -2  ]))
+    print(insertion_sort([100, 5, 105, 201, 21, 0, -2]))
+    print(merge_two_lists([2, 8, 8, 16], [3, 4, 5, 5, 10]))
+    print(merge_sort([6, 20, 1, -2, 100]))
 
     graph = {
         1 : [1, 3],
