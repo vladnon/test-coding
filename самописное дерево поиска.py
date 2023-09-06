@@ -266,6 +266,24 @@ class BinarySearchTree:
         return total_sum
     
 
+    def findMode(self):
+        stack = [self.root]
+        count = {}
+
+        while stack:
+            cur_node = stack.pop()
+            count[cur_node.data] = 1 + count.get(cur_node.data, 0)
+            print(count)
+            if cur_node.right:
+                stack.append(cur_node.right)
+            if cur_node.left:
+                stack.append(cur_node.left)
+        max_val = []
+        for key in count.keys():
+            if count[key] == 2:
+                max_val.append(key)
+        return max_val
+
 
     
 
@@ -278,8 +296,10 @@ if __name__ == "__main__":
     tree.append(3)
     tree.append(6)
     tree.append(9)
-    tree.invertTree()
-    print(tree.pre_order())
+    tree.append(2)
+    # tree.invertTree()
+    # print(tree.pre_order())
+    print(tree.findMode())
     # print(tree.findTarget(4))
     # print(tree.max())
     # tree.delete(90)

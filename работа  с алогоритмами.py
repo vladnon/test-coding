@@ -53,7 +53,10 @@ def insertion_sort(nums: list[int]) -> list[int]:
         nums[sorted_idx + 1] = cur_elem
     return nums
 
+
 # Сортировка слиянием
+# Рекурсивно разделяет список, на меньшие списки, пока длина меньшего списка не будет равна 1
+# тогда другим алгоритмом слияния двух списков в один отсортированный все эти маленькие списки объединяются в отсортированный так-же рекурсивно 
 
 def merge_sort(nums: list[int]) -> list[int]:
     if len(nums) == 1:
@@ -65,6 +68,8 @@ def merge_sort(nums: list[int]) -> list[int]:
 
 
 # Слияние двух списков
+# Алгоритм двух указателей, двигаем указатели в двух списках сначала, если первый поинтер меньше, то добавляем элемент в массив, который потом будет 
+# возвращен, и двигаем указатель право на один, и так в друг списках пока поинтеры не дайдут до конца списка
 
 def merge_two_lists(list1: list[int], list2: list[int]) -> list[int]:
     p1 =  p2 = 0
@@ -91,7 +96,7 @@ def merge_two_lists(list1: list[int], list2: list[int]) -> list[int]:
 
 def binary_search(nums, target):
     
-    new_nums = quick_sort(nums)
+    new_nums = merge_sort(nums)
     
     if len(nums) <= 1:
         return nums
@@ -238,16 +243,16 @@ def dijkstra(graph: dict[dict], start: int, end: int) -> list[int]:
 
 
 if __name__ == "__main__":
-    # print(bubble_sort([8, 5, 3, 7, 7 ,2]))
-    # print(quick_sort([8, 5, 3, 7, 7 ,2]))
+    print(bubble_sort([8, 5, 3, 7, 7 ,2]))
+    print(quick_sort([8, 5, 3, 7, 7 ,2]))
     # print(binary_search([90, 150 , 8, 5, 3, 7 , 2], 2))
     # print(linear_search([8, 5, 3, 7, 7 ,2], 8))
     # print(fib(3))
     # print(fact(5))
     # print(sum([2, 4, 6]))
-    print(insertion_sort([100, 5, 105, 201, 21, 0, -2]))
-    print(merge_two_lists([2, 8, 8, 16], [3, 4, 5, 5, 10]))
-    print(merge_sort([6, 20, 1, -2, 100]))
+    print(insertion_sort([8, 5, 3, 7, 7 ,2]))
+    # print(merge_two_lists([2, 8, 8, 16], [3, 4, 5, 5, 10]))
+    print(merge_sort([8, 5, 3, 7, 7 ,2]))
 
     graph = {
         1 : [1, 3],

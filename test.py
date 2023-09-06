@@ -1,67 +1,91 @@
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
-class Solution:
-    def sortList(self, head):
-        cur_node = head
-        index = 0
-        nums = self.quick_sort(head)
+from collections import deque
 
-        while cur_node:
-            cur_node.val = nums[index]
-            index += 1
-            cur_node = cur_node.next
-        return head
+def algorithm(graph, start, end):
+    costs = {node: float("inf") for node in graph}
+    costs[start] = 0    
 
-    def print(self, head):
-        cur_node = head
-        result = []
+    parents = {node : -1 for node in graph}
+    queue = deque([(0, start)])
+    while queue:
+        cost, node = queue.popleft()
 
-        while cur_node:
-            result.append(cur_node.val)
-            cur_node = cur_node.next
-        return result
+        for neighbor, weight in graph[node].items():
+            new_cost = weight + cost
+            if new_cost < costs[neighbor]:
+                costs[neighbor] = new_cost
+                parents[neighbor] = node
+                queue.append((new_cost, neighbor))
 
-    def quick_sort(self, head):
-        nums = self.print(head)
+    cur_node = end
+    path = []
+    while cur_node != -1:
+        path.append(cur_node)
+        cur_node = parents[cur_node]
+        
+    path.reverse()
 
-        if len(nums) < 2:
-            return nums
+    return path
+
+def find_after_sorting(nums: list[int], target: int) -> list[int]:
+    nums = sorted(nums)
+    left, right = 0, len(nums) - 1
+    result = []
+
+    while left <= right:
+        mid = (left + right) // 2
+        guess = nums[mid]
+        if guess > target:
+            right = mid - 1
+        elif guess < target:
+            left = mid + 1
+        else:
+            idx = 0
+            for num in nums:
+                if num == target:
+                    result.append(idx)
+                idx += 1
+            return result
+    return result
+
+# def binary_search(nums, target):
     
-        pivot = nums[len(nums) // 2]
+#     new_nums = merge_sort(nums)
+    
+#     if len(nums) <= 1:
+#         return nums
+    
+#     left = 0
+#     right = len(nums) - 1
+    
+#     while left <= right:
+#         mid = (left + right) // 2
+#         guess = new_nums[mid]
         
-        left = [e for e in nums if e < pivot]
-        right = [e for e in nums if e > pivot]
+#         if guess == target:
+#             return f"Вы нашли число {target}, под индексом {nums.index(target)}"
         
-        return ( self.quick_sort(left) +
-                [e for e in nums if e == pivot] + 
-                self.quick_sort(right)
-                )
+#         if guess > target:
+#             right = mid - 1
+            
+#         else:
+#             left = mid + 1
+            
+#     return f"Вы не нашли число"
 
 
 if __name__ == "__main__":
-    sol = Solution()
-
-nums = [1, 2, 3, 3]
-count = {}
-n = max(nums)
-for num in nums:
-    count[num] = 1 + count.get(num, 0)
-print(count)
-count.pop(n)
-print(count)
-# for num, ct in count.items():
-#     if ct == 2:
-#         print("found")
-#         print(num)
-#         if len(nums) == num + 1:
-#             print(True)
-# # print(False)
-
-
     
 
+    graph = {
+        1 : {2 : 5, 3 : 1},
+        2 : {4 : 2, 3 : 3}, 
+        3 : {2 : 3, 4 : 6},
+        4 : {2: 2, 3: 6}
+    }
+
+    # print(algorithm(graph, 1, 4))
+    print(find_after_sorting([1, 2, 3, 4, 2], 2))
+    
 
 
         
