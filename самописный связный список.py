@@ -1,11 +1,11 @@
 # Этот список я писал сам, с малейшими подсказками
 # чтобы добавить функционал, нужно просто дописать дандер методы в оба класса(по значению), чтобы сделать список итерируемым нужно создать либо отдельный класс итератор, либо дандер метод __iter__(хотя по сути перебор по списку и так можно сделать, как и почти во всех методах, при помощи while cur_node.next is None: - то есть мы проходим по каждому элементу пока не находим, такой в котором ссылка на следующий None(то есть нет обьекта)), и так далее, например чтобы сравнивать элементы и тд(а все потому что каждый элемент экземляр класса Node, а у него нет такого функционала)
+from collections import deque
 
 class Node:
     def __init__(self, data = None) -> None:
         self.data = data
         self.next = None
-        self.swapped = False
         
 class LinkedList:
     def __init__(self) -> None:
@@ -145,24 +145,47 @@ class LinkedList:
 
         return nums == nums[:: -1]
     
+
+
+    # def sortList(self):
+    #     stack = [self.head]
+    #     swapped = True
+    #     while swapped:
+    #         swapped = False
+    #         while stack:
+    #             cur_node = stack.pop()
+    #             if cur_node.next:
+    #                 if cur_node.data > cur_node.next.data:
+    #                     cur_node.data, cur_node.next.data = cur_node.next.data, cur_node.data
+    #                     swapped = True
+    #             if cur_node.next:
+    #                 stack.append(cur_node.next)
+
     def sortList(self):
         cur_node = self.head
-        swapped = True
-        while swapped:
-            swapped = False
-            while cur_node.next:
-                if cur_node.data > cur_node.next.data:
-                    cur_node.data, cur_node.next.data = cur_node.next.data, cur_node.data
-                    swapped = True
-                cur_node = cur_node.next
+        nums = []
+        while cur_node:
+            nums.append(cur_node.data)
+            cur_node = cur_node.next
+        new_nums = sorted(nums)
+        idx = 0
+        cur_node = self.head
+        while cur_node:
+            cur_node.data = new_nums[idx]
+            idx += 1
+            cur_node = cur_node.next
+
+
             
 if __name__ == "__main__":
     nums = LinkedList()
     
+
+    nums.append(-1)
     nums.append(5)
-    nums.append(9)
-    nums.append(1)
-    nums.append(7)
+    nums.append(3)
+    nums.append(4)
+    nums.append(0)
     
     # nums.extend(20)
     

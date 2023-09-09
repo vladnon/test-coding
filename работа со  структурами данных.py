@@ -679,19 +679,158 @@ class AVLBinaryTree:
             else:
                 cur_node = cur_node.right
         return False
-                
     
-                
+
+class Node:
+    def __init__(self, data) -> None:
+        self.data = data
+        self.right = None
+        self.left = None
+        self.height = 0
+
+class AvlTree:
+    def __init__(self) -> None:
+        self.root = None
     
-                 
+    def update_height(self, node):
+        if node.right is None:
+            node.height = 1 + node.left.height
+        elif node.left and node.right:
+            node.height = 1 + max(node.left.height, node.right.height)
+        else:
+            node.height = 1 + node.right.height
+
+    def check_balance(self, node):
+        if node.left and node.right:
+            return node.left.height - node.right.height 
+        if not node.left:
+            return node.right.height
+        else:
+            return node.left.height
+    
+    def swap(self, node1, node2):
+        node1.data, node2.data = node2.data, node1.data
+
+    def rotate_right(self, node):
+        self.swap(node, node.left)
+        buffer = node.right
+        node.right = node.left
+        node.left = node.right.left
+        node.right.left = node.right.right
+        node.right.right = buffer
+        self.update_height(node.right)
+        self.update_height(node)
+
+    def rotate_left(self, node):
+        self.swap(node, node.right)
+        buffer = node.left
+        node.left = node.right
+        node.right = node.left.right
+        node.left.right = node.left.left
+        node.left.left = buffer
+        self.update_height(node.left)
+        self.update_height(node)
+
+    def balance(self, node):
+        balance = self.check_balance(node)
+
+        if balance == -2:
+            if self.check_balance(node.left) == 1:
+                self.rotate_left(node.left)
+            self.rotate_right(node)
+
+        elif balance == 2:
+            if self.check_balance(node.right) == 1:
+                self.rotate_right(node.right)
+            self.rotate_left(node)
+
+    def append(self, data):
+        cur_node = self.root
+        new_node = Node(data)
+
+        if not self.root:
+            self.root = new_node
+            return
+
+        parent = None
+
+        while cur_node:
+            parent = cur_node
+
+            if data < cur_node.data:
+                if not cur_node.left:
+                    cur_node.left = new_node
+                    self.update_height(parent)
+                    self.balance(parent)
+                    return
+                else:
+                    cur_node = cur_node.left
+            else:
+                if not cur_node.right:
+                    cur_node.right = new_node
+                    return
+                else:
+                    cur_node = cur_node.right
+
+    def print(self):
+        stack = [self.root]
+        result = []
+
+        while stack:
+            cur_node = stack.pop()
+            result.append(cur_node.data)
+            if cur_node.right:
+                stack.append(cur_node.right)
+            if cur_node.left:
+                stack.append(cur_node.left)
+        return result
+    
+    def print_right(self, data):
+        cur_node = self.root
+        while cur_node:
+            if data < cur_node.data:
+                cur_node = cur_node.left
+            elif data == cur_node.data:
+                if cur_node.right:
+                    return cur_node.right.data
+                else:
+                    return None
+            else:
+                cur_node = cur_node.right
+
+    def print_left(self, data):
+        cur_node = self.root
+        while cur_node:
+            if data < cur_node.data:
+                cur_node = cur_node.left
+            elif data == cur_node.data:
+                if cur_node.left:
+                    return cur_node.left.data
+                else:
+                    return None
+            else:
+                cur_node = cur_node.right
+            
 if __name__ == "__main__":
-    AVL_tree = AVLBinaryTree()
-    AVL_tree.append(1)
-    AVL_tree.append(2)
-    AVL_tree.append(3)
-    print(AVL_tree.search(2))
-    print(AVL_tree.get_left(2))
-    print(AVL_tree.get_right(2))
+    # AVL_tree = AVLBinaryTree()
+    # AVL_tree.append(1)
+    # AVL_tree.append(2)
+    # AVL_tree.append(3)
+    # print(AVL_tree.search(2))
+    # print(AVL_tree.get_left(2))
+    # print(AVL_tree.get_right(2))
+
+    avl_tree = AvlTree()
+    avl_tree.append(3)
+    avl_tree.append(2) 
+    avl_tree.append(1)
+    # avl_tree.append(10)
+    print(avl_tree.print())
+    # avl_tree.balance()
+    print(avl_tree.print_left(2))
+    print(avl_tree.print_right(2))
+
+
     
     
     
