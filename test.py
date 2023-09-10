@@ -23,10 +23,3 @@ if __name__ == "__main__":
 
     # print(algorithm(graph, 1, 4))
     print(countTriples(5))
-    
-
-
-        
-
-
-
