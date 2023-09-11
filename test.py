@@ -11,6 +11,18 @@ def countTriples( n: int) -> int:
             right += 1
     return count
 
+def isGood( nums: list[int]) -> bool:
+        num = max(nums)
+        if nums.count(num) == 2 and num == len(nums) - 1:
+            nums.remove(num)
+            count = {}
+            for num in nums:
+                count[num] = 1 + count.get(num, 0)
+            print(count.values())
+            ns =   (2, 3)
+            if ns not in count.values():
+                return True
+        return False
 
 if __name__ == "__main__":
     
@@ -22,4 +34,7 @@ if __name__ == "__main__":
     }
 
     # print(algorithm(graph, 1, 4))
-    print(countTriples(5))
+    # print(countTriples(5))
+    print(isGood([2,1,2,5,2,5]))
+    
+    
