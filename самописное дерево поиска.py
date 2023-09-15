@@ -63,12 +63,10 @@ class BinarySearchTree:
         cur_node = self.root
         if self.root:
             while cur_node:
-                
                 if cur_node.left:
                     cur_node = cur_node.left
-                
                 else:
-                    return cur_node.data
+                    return cur_node
         return None
     
     def left(self, data: int) -> bool:
@@ -283,23 +281,52 @@ class BinarySearchTree:
             if count[key] == 2:
                 max_val.append(key)
         return max_val
-
-
     
+    
+    def minDiffInBST(self) -> int:
+        stack = [self.root]
+        total_diff = 1_000_000
+        queue = deque()
+        queue += [self.root]
+        
+        while queue:
+            node = queue.popleft()
+            while stack:
+                cur_node = stack.pop()
+                if cur_node.left:
+                    if (node.data - cur_node.left.data) < total_diff:
+                        total_diff = abs(node.data - cur_node.left.data)
+                    stack.append(cur_node.left)
+                if cur_node.right:
+                    if abs(cur_node.right.data - node.data) < total_diff:
+                        total_diff = abs(cur_node.right.data - node.data)
+                    stack.append(cur_node.right)
+            stack = [self.root]
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        return total_diff
 
 if __name__ == "__main__":
     tree = BinarySearchTree()
-    tree.append(4)
-    tree.append(2)
-    tree.append(7)
-    tree.append(1)
-    tree.append(3)
-    tree.append(6)
-    tree.append(9)
-    tree.append(2)
+    # tree.append(4)
+    # tree.append(2)
+    # tree.append(7)
+    # tree.append(1)
+    # tree.append(3)
+    # tree.append(6)
+    # tree.append(9)
+    tree.append(27)
+    tree.append(34)
+    tree.append(58)
+    tree.append(50)
+    tree.append(44)
+    # tree.append(2)
     # tree.invertTree()
     # print(tree.pre_order())
-    print(tree.findMode())
+    # print(tree.findMode())
+    print(tree.minDiffInBST())
     # print(tree.findTarget(4))
     # print(tree.max())
     # tree.delete(90)

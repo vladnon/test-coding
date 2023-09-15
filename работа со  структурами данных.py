@@ -753,10 +753,8 @@ class AvlTree:
             return
 
         parent = None
-
         while cur_node:
             parent = cur_node
-
             if data < cur_node.data:
                 if not cur_node.left:
                     cur_node.left = new_node
@@ -822,8 +820,8 @@ if __name__ == "__main__":
 
     avl_tree = AvlTree()
     avl_tree.append(3)
-    avl_tree.append(2) 
-    avl_tree.append(1)
+    avl_tree.append(1) 
+    avl_tree.append(2)
     # avl_tree.append(10)
     print(avl_tree.print())
     # avl_tree.balance()

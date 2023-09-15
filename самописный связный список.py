@@ -147,33 +147,20 @@ class LinkedList:
     
 
 
-    # def sortList(self):
-    #     stack = [self.head]
-    #     swapped = True
-    #     while swapped:
-    #         swapped = False
-    #         while stack:
-    #             cur_node = stack.pop()
-    #             if cur_node.next:
-    #                 if cur_node.data > cur_node.next.data:
-    #                     cur_node.data, cur_node.next.data = cur_node.next.data, cur_node.data
-    #                     swapped = True
-    #             if cur_node.next:
-    #                 stack.append(cur_node.next)
 
     def sortList(self):
         cur_node = self.head
-        nums = []
-        while cur_node:
-            nums.append(cur_node.data)
-            cur_node = cur_node.next
-        new_nums = sorted(nums)
-        idx = 0
-        cur_node = self.head
-        while cur_node:
-            cur_node.data = new_nums[idx]
-            idx += 1
-            cur_node = cur_node.next
+        swapped = True
+        while swapped:
+            swapped = False
+            while cur_node.next:
+                if cur_node.data > cur_node.next.data:
+                    cur_node.data, cur_node.next.data = cur_node.next.data, cur_node.data
+                    swapped = True
+                cur_node = cur_node.next
+            cur_node = self.head
+            
+    
 
 
             

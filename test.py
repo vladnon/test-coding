@@ -19,11 +19,17 @@ def isGood( nums: list[int]) -> bool:
             for num in nums:
                 count[num] = 1 + count.get(num, 0)
             print(count.values())
-            ns =   (2, 3)
-            if ns not in count.values():
+            if 2 not in count.values() and 3 not in count.values():
                 return True
         return False
 
+def checkIfExist( arr: list[int]) -> bool:
+        for num in arr:
+            if (num * 2) in arr and num is  not num:
+                return True
+        return False
+    
+    
 if __name__ == "__main__":
     
     graph = {
@@ -35,6 +41,6 @@ if __name__ == "__main__":
 
     # print(algorithm(graph, 1, 4))
     # print(countTriples(5))
-    print(isGood([2,1,2,5,2,5]))
-    
-    
+    # print(isGood([2,1,2,5,2,5]))
+    print(checkIfExist([-2,0,10,-19,4,6,-8]))
+
