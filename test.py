@@ -30,6 +30,21 @@ def checkIfExist( arr: list[int]) -> bool:
         return False
     
     
+def shell_sort(nums):
+    gap = len(nums) // 2
+    while gap > 0:
+        for idx in range(gap, len(nums)):
+            elem = nums[idx]
+            position = idx
+            
+            while position >= gap and nums[position - gap] > elem:
+                nums[position] = nums[position - gap]
+                position -= gap
+            nums[position] = elem
+        gap //= 2
+    return nums
+    
+    
 if __name__ == "__main__":
     
     graph = {
@@ -43,4 +58,7 @@ if __name__ == "__main__":
     # print(countTriples(5))
     # print(isGood([2,1,2,5,2,5]))
     print(checkIfExist([-2,0,10,-19,4,6,-8]))
+    print(shell_sort([100, 2, -5, 25, -1, -20]))
+
+
 

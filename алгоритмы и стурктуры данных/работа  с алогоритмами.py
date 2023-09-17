@@ -53,6 +53,25 @@ def insertion_sort(nums: list[int]) -> list[int]:
         nums[sorted_idx + 1] = cur_elem
     return nums
 
+# shell sort
+# тоже самое, что и сортировка вставками, только есть сначала соритрует не по всему массиву, а только по интервалам
+# сначала интервал равен половине длины массива, на второй итерации половине половине прошлой половине
+# на последней итерации всегда будет сравниваться весь массив, то есть просто сортировка вставками 
+def shell_sort(nums: list[int]) -> list[int]:
+    gap = len(nums) // 2
+    while gap > 0:
+        for idx in range(gap, len(nums)):
+            cur_value = nums[idx]
+            position = idx
+            
+            while position >= gap and nums[position - gap] > cur_value:
+                nums[position] = nums[position - gap]
+                position -= gap
+            nums[position] = cur_value
+        gap //= 2
+    return nums
+                
+
 
 # Сортировка слиянием
 # Рекурсивно разделяет список, на меньшие списки, пока длина меньшего списка не будет равна 1
@@ -138,17 +157,35 @@ def linear_search(nums: list[int], target) -> str:
 
 def majority_elem(nums: list[int]) -> int:
     count = 0
-    cand = 0
+    cand = None
+    candidates = []
+    
     for num in nums:
-        if num == cand:
+        if count == 0:
+            cand = num
+            count = 1
+        elif num == cand:
             count += 1
         else:
-            if count == 0:
-                cand = num
-                count = 1
-            else:
-                count -= 1
-    return cand
+            count -= 1
+    
+    # Проверяем, что кандидат действительно является мажоритарным элементом
+    if nums.count(cand) > len(nums) // 2:
+        candidates.append(cand)
+    
+    # Ищем другие кандидаты с таким же количеством вхождений
+    for num in nums:
+        if num != cand and nums.count(num) == nums.count(cand):
+            candidates.append(num)
+    
+    return candidates
+
+    
+    # Проверяем, что кандидат действительно является мажоритарным элементом
+    if nums.count(cand) > len(nums) // 2:
+        candidates.append(cand)
+    
+    return candidates
     
 # Рекурсия 
 # По сути это функция, которое в процессе выполнение выполняет себя столько раз, пока не будет собдюдено условие
@@ -273,7 +310,8 @@ if __name__ == "__main__":
     print(insertion_sort([8, 5, 3, 7, 7 ,2]))
     # print(merge_two_lists([2, 8, 8, 16], [3, 4, 5, 5, 10]))
     print(merge_sort([8, 5, 3, 7, 7 ,2]))
-    print(majority_elem([2, 2, 1, 1, 1]))
+    print(majority_elem([1, 2]))
+    print(shell_sort([8, 5, 3, 7, 7 ,2]))
 
     graph = {
         1 : [1, 3],

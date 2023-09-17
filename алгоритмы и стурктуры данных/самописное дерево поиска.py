@@ -307,6 +307,8 @@ class BinarySearchTree:
             if node.right:
                 queue.append(node.right)
         return total_diff
+    
+    
 
 if __name__ == "__main__":
     tree = BinarySearchTree()
@@ -322,11 +324,12 @@ if __name__ == "__main__":
     tree.append(58)
     tree.append(50)
     tree.append(44)
+    tree.append(50)
     # tree.append(2)
     # tree.invertTree()
     # print(tree.pre_order())
-    # print(tree.findMode())
-    print(tree.minDiffInBST())
+    print(tree.findMode())
+    # print(tree.minDiffInBST())
     # print(tree.findTarget(4))
     # print(tree.max())
     # tree.delete(90)
