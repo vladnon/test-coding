@@ -11,29 +11,28 @@
 
 # class Singleton:
 #     instance = None
-    
+
 #     def __new__(cls):
 #         if Singleton.instance == None:
 #             # и так нам надо создать обьект в методе, который создает обьекты, но к нему мы не можем обратиться, т.к. это создаст рекурсия и код упадет
 #             # поэтому нам нужно обратиться к классу-предку object, и уже у него вызвать метод new
 #             Singleton.instance = super().__new__(cls)
 #         return Singleton.instance
-    
-    
+
 #     def _do_work(self):
 #         print("Сделал очень сложную работу")
 #         # парсинг, бд, работа с данными
 #         self.data = 101
-    
+
 # class MonoState:
 #     _shared_states = {}
-    
+
 #     def __init__(self):
 #         self.__dict__ = self._shared_states
 #         if not self._shared_states:
 #             print("Сделал очень тяжелую работу")
 #             self.data = 101
-    
+
 # if __name__ == "__main__":
 #     first = MonoState()
 #     # first._do_work()
@@ -46,8 +45,8 @@
 #     print(second.data)
 #     # ну тоесть обьекты идентичны, если поменять какой либо атрибут у одного, у второго атрибут тоже поменяется
 #     print(MonoState())
-    # теперь обьекты разные, но состояние(данные) у них одно и тоже 
-    
+    # теперь обьекты разные, но состояние(данные) у них одно и тоже
+
 """Фабричный метод"""
 # предположем у тебя есть задача сделать координаты по точке
 from enum import Enum
@@ -73,11 +72,11 @@ class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        
+
     @staticmethod
     def new_cortesian_point(x ,y):
         return Point(x, y)
-    
+
     @staticmethod
     def new_polar_point(rho, theta):
         return Point(rho * cos(theta), rho * sin(theta))
