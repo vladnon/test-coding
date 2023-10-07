@@ -87,4 +87,9 @@ if __name__ == "__main__":
     p = Point(2, 3)
     p2 = Point.new_polar_point(1, 2)
     print(p, p2)
+    
+    
+class Node:
+    def __init__(self, data) -> None:
+        self.data = data
 
