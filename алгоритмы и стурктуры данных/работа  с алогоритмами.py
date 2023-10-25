@@ -2,39 +2,31 @@
 # просто поэтапно сравнивает левый и правый элементы массив, если левый больше, то он их меняет на правый
 # и так несколько итераций пока все элементы массива не встанут на свои места
 def bubble_sort(nums):
-    
     if len(nums) <= 1:
         return nums
-    
     swapped = True
-    
     while swapped:
         swapped = False
-        
         for i in range(len(nums) - 1):
             if nums[i] > nums[i + 1]:
                 nums[i], nums[i + 1] = nums[i+ 1], nums[i]
                 swapped = True
-        
     return nums
          
 
 # Сортировка Хоара(быстрая сортировка)
 # Берется любой элемент(я взял средний, но в целом можно и первый), и методом сравнений получаются два подмассива(выбранный элемент никак трогается) - в одном все элементы меньше выбранного, а вдругом наоборот, и они рекурсивно сортируются этим же алгоритмом(хотя можно и другими, но это уже будут модификации, то есть можно например их отсортировать вставками), а в итоге мы получаем отсортированный массив
 def quick_sort(nums):
-    
     if len(nums) < 2:
         return nums
     
     pivot = nums[len(nums) // 2]
-    
     left = [e for e in nums if e < pivot]
     right = [e for e in nums if e > pivot]
     
     return ( quick_sort(left) +
             [e for e in nums if e == pivot] + 
             quick_sort(right)
-            
             )
     
     
@@ -46,7 +38,7 @@ def insertion_sort(nums: list[int]) -> list[int]:
     for idx in range(len(nums)):
         cur_elem = nums[idx]
         sorted_idx = idx - 1
-
+        
         while sorted_idx >= 0 and cur_elem < nums[sorted_idx]:
             nums[sorted_idx + 1] = nums[sorted_idx]
             sorted_idx -= 1
