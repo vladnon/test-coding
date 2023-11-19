@@ -25,7 +25,7 @@ def isGood( nums: list[int]) -> bool:
 
 def checkIfExist( arr: list[int]) -> bool:
         for num in arr:
-            if (num * 2) in arr and num is  not num:
+            if (num * 2) in arr and num is not num:
                 return True
         return False
     
@@ -33,7 +33,7 @@ def checkIfExist( arr: list[int]) -> bool:
 def shell_sort(nums):
     gap = len(nums) // 2
     while gap > 0:
-        for idx in range(gap, len(nums)):
+        for idx in range(gap, len(nums  )):
             elem = nums[idx]
             position = idx
             
@@ -43,22 +43,27 @@ def shell_sort(nums):
             nums[position] = elem
         gap //= 2
     return nums
+   
+# if __name__ == "__main__":
     
-    
-if __name__ == "__main__":
-    
-    graph = {
-        1 : {2 : 5, 3 : 1},
-        2 : {4 : 2, 3 : 3}, 
-        3 : {2 : 3, 4 : 6},
-        4 : {2: 2, 3: 6}
-    }
+    # graph = {
+    #     1 : {2 : 5, 3 : 1},
+    #     2 : {4 : 2, 3 : 3}, 
+    #     3 : {2 : 3, 4 : 6},
+    #     4 : {2: 2, 3: 6}
+    # }  
 
     # print(algorithm(graph, 1, 4))
     # print(countTriples(5))
     # print(isGood([2,1,2,5,2,5]))
-    print(checkIfExist([-2,0,10,-19,4,6,-8]))
-    print(shell_sort([100, 2, -5, 25, -1, -20]))
-    
+    # print(checkIfExist([-2,0,10,-19,4,6,-8]))
 
+target = 5
+start = 2
+nums = [5,3,6]
+distance = 0
+for idx in range(start, len(nums)):
+    if nums[idx] == target:
+        print(abs(idx - start))
+        break
 
