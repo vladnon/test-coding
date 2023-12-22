@@ -1,6 +1,6 @@
 {
     "window.zoomLevel": 1,
-    "workbench.colorTheme": "Soft Grey Dark",
+    "workbench.colorTheme": "Monokai Night",
     "files.autoSave": "afterDelay",
     "editor.fontLigatures": false,
     "editor.fontVariations": false,

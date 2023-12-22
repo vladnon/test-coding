@@ -57,13 +57,4 @@ def shell_sort(nums):
     # print(countTriples(5))
     # print(isGood([2,1,2,5,2,5]))
     # print(checkIfExist([-2,0,10,-19,4,6,-8]))
-
-target = 5
-start = 2
-nums = [5,3,6]
-distance = 0
-for idx in range(start, len(nums)):
-    if nums[idx] == target:
-        print(abs(idx - start))
-        break
-
+    

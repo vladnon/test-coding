@@ -16,4 +16,13 @@
 # n = len(word) 
 # print("!" + " " * len(word) + "!")
 
-print(("13" * 13) + "щ")             
+string = "leet"
+def palindrom(string: str) -> bool:
+    left, right = 0, len(string) - 1
+    while string[left] != string[right]:
+        if left != right:
+            return False
+        left += 1
+        right -= 1
+    return True
+print(palindrom(string))
