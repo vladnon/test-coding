@@ -43,8 +43,24 @@ def shell_sort(nums):
             nums[position] = elem
         gap //= 2
     return nums
+
+def n_in_arr_and_double(arr):
+    arr = sorted(arr)
+    left, right = 0, len(arr) - 1
+    for num in arr:
+        while left <= right:
+            target = 2*num
+            mid = (left + right) // 2
+            if arr[mid] == target:
+                return True
+            if arr[mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        left, right = 0, len(arr) - 1
+    return False
    
-# if __name__ == "__main__":
+if __name__ == "__main__":
     
     # graph = {
     #     1 : {2 : 5, 3 : 1},
@@ -57,4 +73,17 @@ def shell_sort(nums):
     # print(countTriples(5))
     # print(isGood([2,1,2,5,2,5]))
     # print(checkIfExist([-2,0,10,-19,4,6,-8]))
+    print(n_in_arr_and_double([-2,0,10,-19,4,6,-8]))
     
+x = 1991
+left = 0
+right = str(x)[len(str(x)) - 1]
+
+while left >= int(right):
+    if left != right:
+        print(False)
+    else:
+        left += 1
+        right -= 1
+
+print(True)

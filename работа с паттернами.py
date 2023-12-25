@@ -89,7 +89,7 @@ if __name__ == "__main__":
     print(p, p2)
     
     
-class Node:
-    def __init__(self, data) -> None:
-        self.data = data
 
+    
+    
+    
