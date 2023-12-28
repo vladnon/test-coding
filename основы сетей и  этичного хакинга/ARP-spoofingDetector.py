@@ -13,6 +13,7 @@ def process_Packet(packet):
             except:
                 old_IP = "unknown"
             massage = (f"\n Possible ARP-attack detected \n It is possible that the machine with IP addres \n {str(old_IP)} is pretending to be {str(src_IP)} \n")
+            return massage
     else:
         IP_MAC_Map[src_MAC] = src_IP
 sniff(count = 0, filter="arp", store=0, prn= process_Packet)

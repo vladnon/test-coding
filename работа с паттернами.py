@@ -83,11 +83,12 @@ class Point:
 
 # так теперь стало понятней читающему, атрибуты названы правильно, и менять удобно, в целом только одни плюсы
 
-if __name__ == "__main__":
-    p = Point(2, 3)
-    p2 = Point.new_polar_point(1, 2)
-    print(p, p2)
+# if __name__ == "__main__":
+#     p = Point(2, 3)
+#     p2 = Point.new_polar_point(1, 2)
+#     print(p, p2)
     
+print(9 ** (1/2))
     
 
     

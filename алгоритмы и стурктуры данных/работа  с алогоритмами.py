@@ -282,28 +282,31 @@ def dijkstra(graph: dict[dict], start: int, end: int) -> list[int]:
 
     return path
 
-# Поиск k-ближайших соседей(knn)
-# Его используют в первоначальном ввиде для классификации, а с модификациями уже можно сделать и регрессию(прогназирование)
-# открой рисунок с названием ""
-# кароче это прям алгоритм обучения модели, так что тебе еще рано, плюс я не знаю как его написать, но как он работает могу написать
-# у нас есть график, в котором помечены точки которые отвечают за разные классы(если пандас будешь учить поймешь), и точка, которая обозначает
-# объект, который надо классифицировать, и все просто, первые k-ближайшие точки, и определят, что это за класс, на графике оси являются 
-# признаками, что говорит мне, о том что я не просто страдаю херней, изучая статиску
-
+def find_num_between_target(nums, target):
+    count = 2
+    result = []
+    
+    for num in nums:
+        if count != 2 and count != 0 and num != target:
+            result.append(num)
+        if num == target:
+            count -= 1
+    return result
 
 if __name__ == "__main__":
-    print(bubble_sort([8, 5, 3, 7, 7 ,2]))
-    print(quick_sort([8, 5, 3, 7, 7 ,2]))
+    # print(bubble_sort([8, 5, 3, 7, 7 ,2]))
+    # print(quick_sort([8, 5, 3, 7, 7 ,2]))
     # print(binary_search([90, 150 , 8, 5, 3, 7 , 2], 2))
     # print(linear_search([8, 5, 3, 7, 7 ,2], 8))
     # print(fib(3))
     # print(fact(5))
     # print(sum([2, 4, 6]))
-    print(insertion_sort([8, 5, 3, 7, 7 ,2]))
+    # print(insertion_sort([8, 5, 3, 7, 7 ,2]))
     # print(merge_two_lists([2, 8, 8, 16], [3, 4, 5, 5, 10]))
-    print(merge_sort([8, 5, 3, 7, 7 ,2]))
-    print(majority_elem([1, 2]))
-    print(shell_sort([8, 5, 3, 7, 7 ,2]))
+    # print(merge_sort([8, 5, 3, 7, 7 ,2]))
+    # print(majority_elem([1, 2]))
+    # print(shell_sort([8, 5, 3, 7, 7 ,2]))
+    print(find_num_between_target([1, 2, 3, 1234, "asdfas", 12341234, 4, 5, 2], 2))
 
     graph = {
         1 : [1, 3],

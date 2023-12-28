@@ -60,6 +60,23 @@ def n_in_arr_and_double(arr):
         left, right = 0, len(arr) - 1
     return False
    
+def search_range(nums, target):
+    left, right = 0, len(nums) - 1
+    count = 2
+    result = []
+    while left <= right:
+        if count == 0:
+            return result
+        mid = (left + right) // 2
+        if nums[mid] == target:
+            result.append(mid)
+            count -= 1
+        if nums[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return [-1, -1] if result == [] else sorted(result)
+
 if __name__ == "__main__":
     
     # graph = {
@@ -74,16 +91,6 @@ if __name__ == "__main__":
     # print(isGood([2,1,2,5,2,5]))
     # print(checkIfExist([-2,0,10,-19,4,6,-8]))
     print(n_in_arr_and_double([-2,0,10,-19,4,6,-8]))
+    print(search_range([5,7,7,8,8,10], 8))
+
     
-x = 1991
-left = 0
-right = str(x)[len(str(x)) - 1]
-
-while left >= int(right):
-    if left != right:
-        print(False)
-    else:
-        left += 1
-        right -= 1
-
-print(True)
