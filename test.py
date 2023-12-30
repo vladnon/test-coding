@@ -77,6 +77,21 @@ def search_range(nums, target):
             right = mid - 1
     return [-1, -1] if result == [] else sorted(result)
 
+def smallerNumbersThanCurrent( nums):
+        count = 0
+        idx = 0
+        result = []
+        while idx < len(nums):
+            cur = nums[idx]
+            for num in nums:
+                if cur > num:
+                    count += 1
+            result.append(count)
+            count = 0
+            idx += 1
+        return result
+    
+
 if __name__ == "__main__":
     
     # graph = {
@@ -92,5 +107,6 @@ if __name__ == "__main__":
     # print(checkIfExist([-2,0,10,-19,4,6,-8]))
     print(n_in_arr_and_double([-2,0,10,-19,4,6,-8]))
     print(search_range([5,7,7,8,8,10], 8))
-
+    print(smallerNumbersThanCurrent([8,1,2,2,3]))
+    print(areAlmostEqual("siyolsdcjthwsiplcc j buceoxm p jgrauocx", "siyolsdcjthwsiplcc p buceoxm j jgrauocx"))
     

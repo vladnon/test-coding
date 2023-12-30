@@ -26,3 +26,7 @@ def palindrom(string: str) -> bool:
         right -= 1
     return True
 print(palindrom(string))
+
+
+
+
