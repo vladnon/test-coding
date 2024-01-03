@@ -1,6 +1,6 @@
 {
-    "window.zoomLevel": 1,
-    "workbench.colorTheme": "Monokai Night",
+    "window.zoomLevel": 2,
+    "workbench.colorTheme": "Monokai Pro (Filter Spectrum)",
     "files.autoSave": "afterDelay",
     "editor.fontLigatures": false,
     "editor.fontVariations": false,

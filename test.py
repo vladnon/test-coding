@@ -92,19 +92,24 @@ def smallerNumbersThanCurrent( nums):
         return result
     
 def middle_elem(nums):
-    left, right = 0, len(nums) - 1
-    leftSum = 0
-    rightSum = 0
-    while left <= right:
-        leftSum += nums[left]
-        rightSum += nums[right]
-        if leftSum == rightSum:
-            return left + 1
-        left += 1
-        right -= 1
+    for idx in range(len(nums)):
+        left = sum(nums[:idx])
+        right = sum(nums[idx + 1:])
+        if left == right:
+            return idx
+        left, right = 0, 0
     return -1
-# если у тебя не получается проходиться по сумме чисел, то тогда нужно попытаться рассмотреть предпологаемое среднее число,
-# и сравнать сумму до него и после, если сегодня не решишь, то реши пожалуйста завтра 
+
+def leftRightDifference(nums):
+    left = 0
+    right = sum(nums)
+    for idx in range(len(nums)):
+        nums[idx] = abs(left - (right- nums[idx]))
+        left += nums[idx]
+        right -= nums[idx]
+    return nums
+     
+# вот это реши завтра, сейчас вообще не соображаю
     
 
 if __name__ == "__main__":
@@ -125,3 +130,4 @@ if __name__ == "__main__":
     print(smallerNumbersThanCurrent([8,1,2,2,3]))
     # print(areAlmostEqual("siyolsdcjthwsiplcc j buceoxm p jgrauocx", "siyolsdcjthwsiplcc p buceoxm j jgrauocx"))
     print(middle_elem([2,3,-1,8,4]))
+    print(leftRightDifference([10,4,8,3]))
