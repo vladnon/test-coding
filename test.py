@@ -91,6 +91,21 @@ def smallerNumbersThanCurrent( nums):
             idx += 1
         return result
     
+def middle_elem(nums):
+    left, right = 0, len(nums) - 1
+    leftSum = 0
+    rightSum = 0
+    while left <= right:
+        leftSum += nums[left]
+        rightSum += nums[right]
+        if leftSum == rightSum:
+            return left + 1
+        left += 1
+        right -= 1
+    return -1
+# если у тебя не получается проходиться по сумме чисел, то тогда нужно попытаться рассмотреть предпологаемое среднее число,
+# и сравнать сумму до него и после, если сегодня не решишь, то реши пожалуйста завтра 
+    
 
 if __name__ == "__main__":
     
@@ -108,5 +123,5 @@ if __name__ == "__main__":
     print(n_in_arr_and_double([-2,0,10,-19,4,6,-8]))
     print(search_range([5,7,7,8,8,10], 8))
     print(smallerNumbersThanCurrent([8,1,2,2,3]))
-    print(areAlmostEqual("siyolsdcjthwsiplcc j buceoxm p jgrauocx", "siyolsdcjthwsiplcc p buceoxm j jgrauocx"))
-    
+    # print(areAlmostEqual("siyolsdcjthwsiplcc j buceoxm p jgrauocx", "siyolsdcjthwsiplcc p buceoxm j jgrauocx"))
+    print(middle_elem([2,3,-1,8,4]))
