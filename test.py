@@ -100,17 +100,17 @@ def middle_elem(nums):
         left, right = 0, 0
     return -1
 
-def leftRightDifference(nums):
+def leftRightDifference(nums: list[int]):
     left = 0
     right = sum(nums)
+    new_nums = []
     for idx in range(len(nums)):
-        nums[idx] = abs(left - (right- nums[idx]))
         left += nums[idx]
+        new_nums.append(abs(left - right))
         right -= nums[idx]
-    return nums
+    return new_nums
      
-# вот это реши завтра, сейчас вообще не соображаю
-    
+
 
 if __name__ == "__main__":
     
@@ -131,3 +131,4 @@ if __name__ == "__main__":
     # print(areAlmostEqual("siyolsdcjthwsiplcc j buceoxm p jgrauocx", "siyolsdcjthwsiplcc p buceoxm j jgrauocx"))
     print(middle_elem([2,3,-1,8,4]))
     print(leftRightDifference([10,4,8,3]))
+    print(shortestToChar("loveleetcode", "e"))
