@@ -293,6 +293,62 @@ def find_num_between_target(nums, target):
             count -= 1
     return result
 
+# Метод sliding window
+# Например мне надо посчитать все суммы подмассивов с длиной 3, вместо того, чтобы просто проходиться несколько раз по массиву, я просто
+# передвегать условный блок, на одно вправо и на одно влево, и тогда сложность будет o(n)
+def fixed_sliding_window(arr: list[int], k: int) -> int:
+    # считаю начальную сумму
+    cur_subarr = sum(arr[:k])
+    result = [cur_subarr]
+    
+    # начинаю двигать блок 
+    for i in range(1, len(arr)-k+1):
+        cur_subarr -= arr[i -1]
+        cur_subarr += arr[i+k-1]
+
+        # записываю результат в массив с результатами, и вывожу
+        result.append(cur_subarr)
+    return result
+
+# Это было fixed_sliding_window - когда я знаю размер окна
+# А dinamic sliding window, работает по другому, я сначала иду вправо до результата, а если меня не устраивает результат, то я двигаю левый указатель враво, до тех
+# пор пока меня не устроит результат, а позже делаю тоже самое
+# В этой задаче мне нужно найти минимальный размер подмассива, с суммой больше 7
+def dinamic_sliding_window(arr: list[int], x: int) -> int:
+    # отслеживаю минимальное значение
+    min_length = float("inf")
+    
+    # текущее значение показателей
+    left = 0
+    right = 0
+    curr_sum = 0
+    
+    # движение по блока, до того как критерии будут выполнены
+    while right < len(arr):
+        curr_sum += arr[right]
+        right += 1
+    
+    # уже работа  с нужными значениями
+    while left < right and curr_sum >= x:
+        curr_sum  -= arr[left]
+        left += 1
+        
+        min_length = min(min_length, right -left + 1)
+    return min_length
+
+def max_profit(prices: list[int], x:int) -> int:
+    buy, sell = 0, 1
+    result = 0
+    
+    while sell < len(prices):
+        if prices[buy] < prices[sell]:
+            profit = prices[buy] - prices[sell]
+            result = max(result, profit)
+        else:
+            buy = sell
+        buy += 1
+    return result
+    
 if __name__ == "__main__":
     # print(bubble_sort([8, 5, 3, 7, 7 ,2]))
     # print(quick_sort([8, 5, 3, 7, 7 ,2]))

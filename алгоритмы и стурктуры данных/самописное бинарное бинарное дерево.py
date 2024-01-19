@@ -160,6 +160,7 @@ class BinaryTree:
                 queue.append(cur.left)
             if cur.right:
                 queue.append(cur.right)
+                
         return True
     def min_depth(self):
         queue = deque([self.root])
@@ -177,6 +178,30 @@ class BinaryTree:
             if cur.left:
                 queue.append(cur.left)
             count += 1
+            
+    
+    def is_cousins(self, x, y):
+        queue = deque([self.root])
+        parents = {}
+        levels = {}
+        count = 0
+        
+        while queue:
+            size = len(queue)
+            while size > 0:
+                cur = queue.popleft()
+                levels[cur.data] = count
+                if cur.left:
+                    queue.append(cur.left)
+                    parents[cur.left.data] = cur.data
+                if cur.right:
+                    queue.append(cur.right)
+                    parents[cur.right.data] = cur.data
+                size -= 1
+            count += 1
+        if parents[x] != parents[y] and levels[x] == levels[y]:
+            return True
+        return False
     
 if __name__ == "__main__":
     tree = BinaryTree()
@@ -185,7 +210,7 @@ if __name__ == "__main__":
     tree.append(20)
     tree.append(15)
     tree.append(7)
-    # tree.append()
+    tree.append(21)
     print(tree.print())
     print(tree.average_of_every_level())
     print(tree.max_level_sum_binary_tree())
@@ -193,4 +218,4 @@ if __name__ == "__main__":
     print(tree.return_levels())
     print(tree.is_uni_valued())
     print(tree.min_depth())
-                
+    print(tree.is_cousins(15, 21))
