@@ -329,11 +329,11 @@ def dinamic_sliding_window(arr: list[int], x: int) -> int:
         right += 1
     
     # уже работа  с нужными значениями
-    while left < right and curr_sum >= x:
-        curr_sum  -= arr[left]
-        left += 1
-        
-        min_length = min(min_length, right -left + 1)
+        while left < right and curr_sum >= x:
+            curr_sum  -= arr[left]
+            left += 1
+            
+            min_length = min(min_length, right -left + 1)
     return min_length
 
 def max_profit(prices: list[int], x:int) -> int:
@@ -348,6 +348,102 @@ def max_profit(prices: list[int], x:int) -> int:
             buy = sell
         buy += 1
     return result
+def countGoodSubstrings(s: str) -> int:
+    left, right = 0, 3        
+    count = 0
+    while right < len(s) + 1:
+        visited = {}
+        for char in s[left:right]:
+            visited[char] = 1 + visited.get(char, 0)
+            
+        if len(visited) == 3:
+            count += 1
+
+        left += 1
+        right += 1
+    return count
+
+def lengthOfLongestSubstring(s: str) -> int:
+        left, right = 0, 0
+        res = 0
+
+        while right < len(s) + 1:
+            visited = {}
+            for char in s[left:right]:
+                visited[char] = 1 + visited.get(char, 0)
+
+            if len(s[left:right]) == len(visited):
+                res = max(res, right - left)
+                right += 1
+            else:
+                left = right - 1
+        return res
+
+def longes_substring_of_0(s: str):
+    left, right = 0, 0
+    length = 0
+    visited = {}
+
+    while right < len(s):
+        window = right - left
+        char = s[right]
+        
+        visited[char] = visited.get(char, 0) + 1
+        
+        if len(visited) == 1:
+            length = max(length, window)
+            
+        else:
+            left = right - 1
+            visited[s[left]] -= 1
+        right += 1
+    return length
+
+def minSubArrayLen( target: int, nums: list[int]) -> int:
+        left, right, length = 0, 0, float("inf")
+        cur_sum = 0
+
+        while right < len(nums):
+            cur_sum += nums[right]
+
+            while cur_sum > target and left <= right:
+                length = min(length, right - left + 1)
+                cur_sum -= nums[left]
+                left += 1
+                
+            right += 1
+            
+        return length if length is not float("inf") else 0
+    
+def maximumSubarraySum(nums: list[int], k: int) -> int:
+    # left, right = 0, k
+    # result = 0
+
+    # while right < len(nums) + 1:
+    #     visited = {}
+    #     window = nums[left:right]
+
+    #     for num in window:
+    #         visited[num] = 1 + visited.get(num, 0)
+
+    #     if len(visited) == k:
+    #         result = max(result, sum(window))
+        
+    #     left += 1
+    #     right += 1
+
+    # return result
+    # cur_sum = sum(nums[:k])        
+    # result = 0
+
+    # for i in range(1, len(nums) - k + 1):
+    #     result = max(result, cur_sum)
+    #     cur_sum -= nums[i - 1]
+    #     cur_sum += nums[i + k - 1]
+    # return result
+    pass
+# идея в том, что я добавляю правый новый элемент в словарь, если его там нет, если он там есть, то сразу удалять его
+# из суммы и из словаря, если равен 0, то удалять, и если длинна этого валидного подмассива равна 3, записать его сумму как результат
     
 if __name__ == "__main__":
     # print(bubble_sort([8, 5, 3, 7, 7 ,2]))
@@ -381,6 +477,10 @@ if __name__ == "__main__":
     # print(bfs(graph, 1, 2))
     # print(dfs(1, 3, graph, visited = []))
     # print(dijkstra(graph_for_algorithm, 1, 4))
-    
+    print(countGoodSubstrings("xyzzaz"))
+    print(lengthOfLongestSubstring('abcabcbb'))
+    print(longes_substring_of_0("0010001"))
+    print(minSubArrayLen(7, [2,3,1,2,4,3]))
+    print(maximumSubarraySum([1,5,4,2,9,9,9], 3))
     
     
