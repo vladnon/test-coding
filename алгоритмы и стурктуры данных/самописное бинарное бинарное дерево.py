@@ -203,6 +203,23 @@ class BinaryTree:
             return True
         return False
     
+    
+    def second_min_val(self) -> int:
+        queue = deque([self.root])
+        result = set()
+
+        while queue:
+            cur = queue.popleft()
+            result.add(cur.data)
+            if cur.left:
+                queue.append(cur.left)
+            if cur.right:
+                queue.append(cur.right)
+        result.remove(3)
+        if result == set():
+            return -1
+        return min(result)
+    
 if __name__ == "__main__":
     tree = BinaryTree()
     tree.append(3)
@@ -218,4 +235,8 @@ if __name__ == "__main__":
     print(tree.return_levels())
     print(tree.is_uni_valued())
     print(tree.min_depth())
-    print(tree.is_cousins(15, 21))
+    # print(tree.is_cousins(15, 21))
+    print(tree.second_min_val())
+    
+nums = set()
+min(nums)

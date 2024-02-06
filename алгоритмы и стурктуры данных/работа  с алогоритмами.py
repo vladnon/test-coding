@@ -416,32 +416,33 @@ def minSubArrayLen( target: int, nums: list[int]) -> int:
         return length if length is not float("inf") else 0
     
 def maximumSubarraySum(nums: list[int], k: int) -> int:
-    # left, right = 0, k
-    # result = 0
+    left, right, res = 0, 0, 0
+    n = len(nums)
+    window = 0
 
-    # while right < len(nums) + 1:
-    #     visited = {}
-    #     window = nums[left:right]
+    visited = {}
 
-    #     for num in window:
-    #         visited[num] = 1 + visited.get(num, 0)
-
-    #     if len(visited) == k:
-    #         result = max(result, sum(window))
+    while right < n:
+        char = nums[right]
+        visited[char] = 1 + visited.get(char, 0)
+        window += char
         
-    #     left += 1
-    #     right += 1
+        if right - left + 1 == k:
+            if len(visited) == k:
+                res = max(res, window)
 
-    # return result
-    # cur_sum = sum(nums[:k])        
-    # result = 0
+            if visited[nums[left]] > 1:
+                visited[nums[left]] -= 1
 
-    # for i in range(1, len(nums) - k + 1):
-    #     result = max(result, cur_sum)
-    #     cur_sum -= nums[i - 1]
-    #     cur_sum += nums[i + k - 1]
-    # return result
-    pass
+            else:
+                del visited[nums[left]]
+
+            window -= nums[left]
+            left += 1
+            
+        right += 1
+    return res
+        
 # идея в том, что я добавляю правый новый элемент в словарь, если его там нет, если он там есть, то сразу удалять его
 # из суммы и из словаря, если равен 0, то удалять, и если длинна этого валидного подмассива равна 3, записать его сумму как результат
     

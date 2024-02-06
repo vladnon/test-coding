@@ -109,6 +109,30 @@ def leftRightDifference(nums: list[int]):
         new_nums.append(abs(left - right))
         right -= nums[idx]
     return new_nums
+
+def replaceElements(arr: list[int]) -> list[int]:
+        left, right = 0, 0
+        
+
+        while right < len(arr):
+            midx = 0
+            for i in range(len(arr[right + 1:])):
+                if arr[i] > arr[midx]:
+                    midx = i
+            if midx == 0:
+                arr[left] = -1
+            else:
+                arr[left] = arr[midx]
+            left += 1
+            right += 1
+        return arr
+
+def restoreString( s: str, indices: list[int]) -> str:
+        new_str = ""
+        
+        for idx in range(len(s)):
+            new_str += s[indices[idx]]
+        return new_str
      
 
 
@@ -131,4 +155,6 @@ if __name__ == "__main__":
     # print(areAlmostEqual("siyolsdcjthwsiplcc j buceoxm p jgrauocx", "siyolsdcjthwsiplcc p buceoxm j jgrauocx"))
     print(middle_elem([2,3,-1,8,4]))
     print(leftRightDifference([10,4,8,3]))
-    print(shortestToChar("loveleetcode", "e"))
+    # print(shortestToChar("loveleetcode", "e"))
+    print(replaceElements([17,18,5,4,6,1]))
+    print(restoreString("codeleet", [4,5,6,7,0,2,1,3]))

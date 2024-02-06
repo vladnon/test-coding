@@ -15,7 +15,6 @@ class BinarySearchTree:
         
         if not self.root:
             self.root = new_node
-           
         else: 
             cur_node = self.root
             while True:
@@ -25,7 +24,7 @@ class BinarySearchTree:
                         break
                     else:
                         cur_node = cur_node.left
-                        
+    
                 else:
                     if not cur_node.right:
                         cur_node.right = new_node
