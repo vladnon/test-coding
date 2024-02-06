@@ -19,7 +19,7 @@ coin = 10
     
 def main(user):
     if user not in SIGNS:
-        raise AttributeError("Недопустимое значение")
+        return True
     
     enemy = random.choice(SIGNS)
     
@@ -32,7 +32,7 @@ def rebalance(user, enemy, cost):
         coin -= cost
         
 
-def check( user, enemy):
+def check(user, enemy):
     if user == enemy:
         return "Ничья"
     
@@ -45,8 +45,8 @@ def check( user, enemy):
     
     if ( 
         enemy == 'ножницы' and  user == 'бумага' or
-        enemy == 'ножницы' and  user == 'бумага'or 
-        enemy == 'ножницы' and  user == 'бумага'
+        enemy == 'камень' and  user == 'ножницы'or 
+        enemy == 'бумага' and  user == 'камень'
     ):
         return 'Пользователь проиграл'
 
