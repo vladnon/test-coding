@@ -19,15 +19,16 @@ def scissors(event):
     result = main('ножницы')
     res['text'] = result
 
+# stone_img = PhotoImage("C:/Users/213-4/Documents/test-python-main/типо игра/img/png-transparent-video-game-stones-and-rocks-miscellaneous-game-video-game.png")
 
 paper_b = Button(text="Бумага", font=10)
 stone_b = Button(text="Камень", font=10)
 scissors_b = Button(text="Ножницы", font=10)
 
 
-paper_b.grid(sticky=S, row=5, column=10)
-stone_b.grid(sticky=S, row=6, column=15)
-scissors_b.grid(sticky=S, row=7, column=20)
+paper_b.grid()
+stone_b.grid()
+scissors_b.grid()
 
 res = Label(text=value, font=100000, border=10)
 # enemy = Label(text='----', font=100000)
