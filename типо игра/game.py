@@ -19,7 +19,7 @@ coin = 10
     
 def main(user):
     if user not in SIGNS:
-        return True
+        raise AttributeError('Недопустимый знак')
     
     enemy = random.choice(SIGNS)
     
@@ -52,4 +52,4 @@ def check(user, enemy):
 
 if __name__ == "__main__":
     # print(main('бумага', 10))
-    print(main('бумага'))
+    print(main('бумаг'))
