@@ -9,12 +9,11 @@ class Game:
 # короче я не хочу использовать global, но похоже придется, тк я вроде не могу обернуть это все в класс, потому что мне надо будет передавать self
 
     def main(self, user, cost):
-        if user not in self.SIGNS:
-            raise AttributeError('Недопустимый знак')
-        
+        if self.coins == 0:
+            return '0'
         enemy = random.choice(self.SIGNS)
         self.rebalance( user, enemy, cost)
-        return self.check(user, enemy), self.coins
+        return self.check(user, enemy), self.coins, enemy
 
     def rebalance(self, user, enemy, cost):
         if self.check(user, enemy) == 'Пользователь победил':
@@ -27,7 +26,6 @@ class Game:
     def check(self, user, enemy):
         if user == enemy:
             return "Ничья"
-        
         if ( 
             user == 'ножницы' and enemy == 'бумага' or
             user == 'камень' and enemy == 'ножницы'or 
