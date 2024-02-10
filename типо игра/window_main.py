@@ -1,7 +1,7 @@
 from customtkinter import *
-import window_game
+from window_game import WindowGame
 from window_settings import Settings
-from PIL import *
+from PIL import Image
 
 class Main:
     def __init__(self) -> None:
@@ -22,7 +22,8 @@ class Main:
         self.count_win_game += 1
         if self.count_win_game > 1:
             return
-        self.windowgame = window_game.WindowGame()
+        
+        self.windowgame = WindowGame()
         self.windowgame.run()
         
         
