@@ -3,7 +3,7 @@ from customtkinter import *
 
 class Settings:
     def __init__(self) -> None:
-        self.window = CTk()
+        self.window = CTkToplevel()
         self.window.geometry('300x300')
         self.window.title("Настройки")
         self.window.resizable(width=False, height=False)

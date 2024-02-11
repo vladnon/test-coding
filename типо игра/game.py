@@ -8,18 +8,19 @@ class Game:
 
 # короче я не хочу использовать global, но похоже придется, тк я вроде не могу обернуть это все в класс, потому что мне надо будет передавать self
 
-    def main(self, user, cost):
-        if self.coins == 0:
-            return '0'
+    def main(self, user, bet):
         enemy = random.choice(self.SIGNS)
-        self.rebalance( user, enemy, cost)
-        return self.check(user, enemy), self.coins, enemy
+        if self.coins < bet:
+            return 'Ты проиграл все коины', self.coins, enemy
+        self.rebalance( user, enemy, bet)
+        return self.check(user, enemy), self.coins, enemy, user
 
-    def rebalance(self, user, enemy, cost):
+
+    def rebalance(self, user, enemy, bet):
         if self.check(user, enemy) == 'Пользователь победил':
-            self.coins += cost
+            self.coins += bet
         if self.check(user, enemy) == 'Компьютер победил':
-            self.coins -= cost
+            self.coins -= bet
         return self.coins
             
 

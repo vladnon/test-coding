@@ -272,6 +272,8 @@ def dijkstra(graph: dict[dict], start: int, end: int) -> list[int]:
                 parents[neighbor] = node
                 queue.append((new_cost, neighbor))
 
+    
+    print(parents)
     path = []
     cur_node = end
     while cur_node != -1:
@@ -477,7 +479,7 @@ if __name__ == "__main__":
 
     # print(bfs(graph, 1, 2))
     # print(dfs(1, 3, graph, visited = []))
-    # print(dijkstra(graph_for_algorithm, 1, 4))
+    print(dijkstra(graph_for_algorithm, 1, 4))
     print(countGoodSubstrings("xyzzaz"))
     print(lengthOfLongestSubstring('abcabcbb'))
     print(longes_substring_of_0("0010001"))
