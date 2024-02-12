@@ -11,15 +11,15 @@ class Game:
     def main(self, user, bet):
         enemy = random.choice(self.SIGNS)
         if self.coins < bet:
-            return 'Ты проиграл все коины', self.coins, enemy
+            return 'Нет коинов', self.coins, enemy
         self.rebalance( user, enemy, bet)
         return self.check(user, enemy), self.coins, enemy, user
 
 
     def rebalance(self, user, enemy, bet):
-        if self.check(user, enemy) == 'Пользователь победил':
+        if self.check(user, enemy) == 'Победа':
             self.coins += bet
-        if self.check(user, enemy) == 'Компьютер победил':
+        if self.check(user, enemy) == 'Поражение':
             self.coins -= bet
         return self.coins
             
@@ -32,14 +32,14 @@ class Game:
             user == 'камень' and enemy == 'ножницы'or 
             user == 'бумага' and enemy == 'камень'
         ):
-            return 'Пользователь победил'
+            return 'Победа'
         
         if ( 
             enemy == 'ножницы' and  user == 'бумага' or
             enemy == 'камень' and  user == 'ножницы'or 
             enemy == 'бумага' and  user == 'камень'
         ):
-            return 'Компьютер победил'
+            return 'Поражение'
 
 if __name__ == "__main__":
     # print(main('бумага', 10))

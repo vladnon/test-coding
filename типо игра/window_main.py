@@ -26,6 +26,7 @@ class Main:
         self.count_win_settings = 0
             
 
+    # открываются окна максимально примитивно, нельзя открыть окно 2 раза
     def start_game(self):
         self.count_win_game += 1
         if self.count_win_game > 1:
@@ -40,7 +41,6 @@ class Main:
             return
         self.windowsettings = Settings()
         self.windowsettings.run()
-        
         
     def close(self):
         try:

@@ -20,17 +20,24 @@ class WindowGame:
         self.scissors_img = CTkImage(light_image = Image.open('./типо игра/img//scissors.png'), size=(126, 188))
         
         # создание кнопок
-        self.paper_b = CTkButton(self.window, image=self.paper_img,  command=self.paper, text=None, fg_color="transparent", hover=False, bg_color="transparent")
-        self.stone_b = CTkButton(self.window, text=None,  command=self.stone, fg_color='transparent', image=self.stone_img, hover=False)
-        self.scissors_b = CTkButton(self.window, text=None,  command=self.scissors, image=self.scissors_img, fg_color='transparent', hover=False)
+        # self.paper_b = CTkButton(self.window, image=self.paper_img,  command=self.paper, text=None, fg_color="transparent", hover=False, bg_color="transparent")
+        # self.stone_b = CTkButton(self.window, text=None,  command=self.stone, fg_color='transparent', image=self.stone_img, hover=False)
+        # self.scissors_b = CTkButton(self.window, text=None,  command=self.scissors, image=self.scissors_img, fg_color='transparent', hover=False)
+        self.paper_b = CTkButton(self.window, text='Бумага', font=CTkFont(family='Benzin-Bold', size=20),  command=self.paper, fg_color="transparent", hover=False, bg_color="transparent")
+        self.stone_b = CTkButton(self.window, font=CTkFont(family='Benzin-Bold', size=20), text='Камень',command=self.stone, fg_color='transparent', hover=False)
+        self.scissors_b = CTkButton(self.window, text= 'Ножницы',font=CTkFont(family='Benzin-Bold', size=20),  command=self.scissors, fg_color='transparent', hover=False)
+        
         
         # создание заголовков и прочего
         self.balance = CTkLabel(self.window, text=f'Баланс: {self.user.coins}', font=CTkFont(family='FiraCode-medium', size=15), corner_radius=10, fg_color= 'white', text_color='black', bg_color='transparent', height=40, width=20)
         self.entry_bet = CTkEntry(self.window)
-        self.user_sign = CTkLabel(self.window ,image=self.paper_img, text=None)
-        self.enemy_sign= CTkLabel(self.window ,image=self.paper_img, text=None)
-        self.res = CTkLabel(self.window, text= 'Результат игры: Недостаточно данных', font=CTkFont(family='FiraCode-medium', size=15), corner_radius=10, fg_color= 'white', text_color='black', height=40, width=40)
+        # self.user_sign = CTkLabel(self.window ,image=self.paper_img, text=None)
+        # self.enemy_sign= CTkLabel(self.window ,image=self.paper_img, text=None)
+        self.user_sign = CTkLabel(self.window, text="Нет", font=CTkFont(family='Benzin-Bold', size=20))
+        self.enemy_sign= CTkLabel(self.window, text='Нет', font=CTkFont(family='Benzin-Bold', size=20))
+        self.res = CTkLabel(self.window, text= 'Нет',  font=CTkFont(family='Benzin-Bold', size=15))
         self.bet = 5
+        
     # вот это полное дерьмо типо, ну просто шлак реально
     def list_int(self, nums) -> int:
         result = 0
@@ -47,7 +54,6 @@ class WindowGame:
         if enemy == "ножницы":
             self.enemy_sign.configure(image=self.scissors_img)
        
-    #  эти методы одинаковые, типо я уверен есть какое-то решение, которое позволит их в один объединить, ну вот, вот так лучше
     def paper(self):
         self.main(self.user.main('бумага', self.bet))
         
@@ -58,22 +64,32 @@ class WindowGame:
         
     def scissors(self):
         self.main(self.user.main('ножницы', self.bet))
-
+        
     def main(self, result):
-        if result[0] == 'Ты проиграл все коины':
-            self.res.configure(text = f'Результат игры: {result[0]}')
+        if result[0] == 'Нет коинов':
+            self.res.configure(text = 'Нет коинов')
             return 
         sign = result[3]
-        self.res.configure(text = f'Результат игры: {result[0]}')
+        self.res.configure(text = f'{result[0]}')
         self.balance.configure(text = f'Баланс: {self.list_int([result[1]])}')
-        if sign == 'бумага':
-            self.user_sign.configure(image=self.paper_img)
-        if sign == 'ножницы':
-            self.user_sign.configure(image=self.scissors_img)
-        else:
-            self.user_sign.configure(image=self.stone_img)
-        self.choose_enemy_sign(result[2])
-        
+        self.user_sign.configure(text=result[3], font=CTkFont(family='Benzin-Bold', size=15))
+        self.enemy_sign.configure(text=result[2], font=CTkFont(family='Benzin-Bold', size=15))
+
+    # def main(self, result):
+    #     if result[0] == 'Ты проиграл все коины':
+    #         self.res.configure(text = f'Результат игры: {result[0]}')
+    #         return 
+    #     sign = result[3]
+    #     self.res.configure(text = f'Результат игры: {result[0]}')
+    #     self.balance.configure(text = f'Баланс: {self.list_int([result[1]])}')
+    #     if sign == 'бумага':
+    #         self.user_sign.configure(image=self.paper_img)
+    #     if sign == 'ножницы':
+    #         self.user_sign.configure(image=self.scissors_img)
+    #     else:
+    #         self.user_sign.configure(image=self.stone_img)
+    #     self.choose_enemy_sign(result[2])
+    
         
         
     def destroy(self):
@@ -87,11 +103,11 @@ class WindowGame:
         
         self.scissors_b.place(x= 293, y= 324)
         
-        self.res.place(x=148, y=261)
+        self.res.place(x=301, y=95)
         
         self.balance.place(x=450, y=261)
         
-        self.user_sign.place(x=151, y=95)
+        self.user_sign.place(x=160, y=95)
         
         self.enemy_sign.place(x=428, y=95)
         self.window.mainloop()
