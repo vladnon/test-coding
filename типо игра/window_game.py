@@ -4,15 +4,18 @@ from PIL import Image
 
 
 
+from window_settings import *
+
 class WindowGame:
     def __init__(self) -> None:
         # настройка окна
-        self.window = CTkToplevel()
+        self.window = CTk()
         self.window.geometry('700x500')
         self.window.title("Игра")
         self.window._set_appearance_mode('dark')
         self.window.resizable(width=False, height=False)
         self.user = Game()
+        self.settings = Settings()
         
         # создание изображение
         self.paper_img = CTkImage(light_image = Image.open('./типо игра/img/paper.png'), size=(120, 123))
@@ -23,20 +26,21 @@ class WindowGame:
         # self.paper_b = CTkButton(self.window, image=self.paper_img,  command=self.paper, text=None, fg_color="transparent", hover=False, bg_color="transparent")
         # self.stone_b = CTkButton(self.window, text=None,  command=self.stone, fg_color='transparent', image=self.stone_img, hover=False)
         # self.scissors_b = CTkButton(self.window, text=None,  command=self.scissors, image=self.scissors_img, fg_color='transparent', hover=False)
-        self.paper_b = CTkButton(self.window, text='Бумага', font=CTkFont(family='Benzin-Bold', size=20),  command=self.paper, fg_color="transparent", hover=False, bg_color="transparent")
-        self.stone_b = CTkButton(self.window, font=CTkFont(family='Benzin-Bold', size=20), text='Камень',command=self.stone, fg_color='transparent', hover=False)
-        self.scissors_b = CTkButton(self.window, text= 'Ножницы',font=CTkFont(family='Benzin-Bold', size=20),  command=self.scissors, fg_color='transparent', hover=False)
+        self.paper_b = CTkButton(self.window, text='Бумага', font=CTkFont(family='Benzin-Bold', size=20),  command=self.paper, fg_color="transparent", hover=False, bg_color="transparent", text_color='black')
+        self.stone_b = CTkButton(self.window, font=CTkFont(family='Benzin-Bold', size=20), text='Камень',command=self.stone, fg_color='transparent', hover=False, text_color='black')
+        self.scissors_b = CTkButton(self.window, text= 'Ножницы',font=CTkFont(family='Benzin-Bold', size=20),  command=self.scissors, fg_color='transparent', hover=False, text_color='black')
         
         
         # создание заголовков и прочего
-        self.balance = CTkLabel(self.window, text=f'Баланс: {self.user.coins}', font=CTkFont(family='FiraCode-medium', size=15), corner_radius=10, fg_color= 'white', text_color='black', bg_color='transparent', height=40, width=20)
+        self.balance = CTkLabel(self.window, text=self.user.coins, font=CTkFont(family='FiraCode-medium', size=15), corner_radius=10, fg_color= 'white', text_color='black', bg_color='transparent', height=40, width=20)
         self.entry_bet = CTkEntry(self.window)
         # self.user_sign = CTkLabel(self.window ,image=self.paper_img, text=None)
         # self.enemy_sign= CTkLabel(self.window ,image=self.paper_img, text=None)
-        self.user_sign = CTkLabel(self.window, text="Нет", font=CTkFont(family='Benzin-Bold', size=20))
+        self.user_sign = self.balance.configure(text=self.settings.choose_level)
         self.enemy_sign= CTkLabel(self.window, text='Нет', font=CTkFont(family='Benzin-Bold', size=20))
         self.res = CTkLabel(self.window, text= 'Нет',  font=CTkFont(family='Benzin-Bold', size=15))
         self.bet = 5
+
         
     # вот это полное дерьмо типо, ну просто шлак реально
     def list_int(self, nums) -> int:
@@ -71,7 +75,7 @@ class WindowGame:
             return 
         sign = result[3]
         self.res.configure(text = f'{result[0]}')
-        self.balance.configure(text = f'Баланс: {self.list_int([result[1]])}')
+        self.balance.configure(text = self.list_int([result[1]]))
         self.user_sign.configure(text=result[3], font=CTkFont(family='Benzin-Bold', size=15))
         self.enemy_sign.configure(text=result[2], font=CTkFont(family='Benzin-Bold', size=15))
 
