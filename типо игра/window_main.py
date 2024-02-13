@@ -27,31 +27,21 @@ class Main:
             
     # открываются окна максимально примитивно, нельзя открыть окно 2 раза
     def start_game(self):
-        self.count_win_game += 1
-        if self.count_win_game > 1:
-            return
         self.windowgame = WindowGame()
         self.windowgame.run()
 
+
     def settings(self):
-        self.count_win_settings += 1
-        if self.count_win_settings > 1:
-            return
         self.windowsettings = Settings()
         self.windowsettings.run()
         
     def close(self):
-        try:
-            self.windowgame.destroy()
-            self.count_win_game -= 1
-        except:
-            pass
-        try:
-            self.windowsettings.destroy()
-            self.count_win_settings -= 1
-        except:
-            pass
         self.window.destroy()
+        if self.windowgame.window_exist() == True:
+            self.windowgame.destroy()
+        if self.windowsettings.window_exist() == True:
+            self.windowsettings.destroy()
+        
     
     
     def run(self):

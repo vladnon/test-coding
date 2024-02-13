@@ -1,6 +1,7 @@
 from customtkinter import *
 from game import *
 from PIL import Image
+from  window_settings import *
 
 
 
@@ -17,6 +18,7 @@ class WindowGame:
         self.user = Game()
         self.settings = Settings()
         
+        
         # создание изображение
         self.paper_img = CTkImage(light_image = Image.open('./типо игра/img/paper.png'), size=(120, 123))
         self.stone_img = CTkImage(light_image = Image.open('./типо игра/img/stone.png'), size=(156, 234))
@@ -32,15 +34,18 @@ class WindowGame:
         
         
         # создание заголовков и прочего
-        self.balance = CTkLabel(self.window, text=self.user.coins, font=CTkFont(family='FiraCode-medium', size=15), corner_radius=10, fg_color= 'white', text_color='black', bg_color='transparent', height=40, width=20)
-        self.entry_bet = CTkEntry(self.window)
+        # self.balance = self.settings.balance.configure(text=self.settings.choose_level)
+        self.balance = CTkLabel(self.window, text=10)
         # self.user_sign = CTkLabel(self.window ,image=self.paper_img, text=None)
         # self.enemy_sign= CTkLabel(self.window ,image=self.paper_img, text=None)
-        self.user_sign = self.balance.configure(text=self.settings.choose_level)
+        self.user_sign =  CTkLabel(self.window, text='Нет', font=CTkFont(family='Benzin-Bold', size=20))
         self.enemy_sign= CTkLabel(self.window, text='Нет', font=CTkFont(family='Benzin-Bold', size=20))
         self.res = CTkLabel(self.window, text= 'Нет',  font=CTkFont(family='Benzin-Bold', size=15))
         self.bet = 5
 
+
+    def window_exist(self):
+        return self.window._window_exists()
         
     # вот это полное дерьмо типо, ну просто шлак реально
     def list_int(self, nums) -> int:
@@ -65,7 +70,8 @@ class WindowGame:
     def stone(self):
         self.main(self.user.main('камень', self.bet))
         
-        
+    
+
     def scissors(self):
         self.main(self.user.main('ножницы', self.bet))
         
@@ -73,11 +79,11 @@ class WindowGame:
         if result[0] == 'Нет коинов':
             self.res.configure(text = 'Нет коинов')
             return 
-        sign = result[3]
+        sign = f"{result[3]}"
         self.res.configure(text = f'{result[0]}')
-        self.balance.configure(text = self.list_int([result[1]]))
-        self.user_sign.configure(text=result[3], font=CTkFont(family='Benzin-Bold', size=15))
-        self.enemy_sign.configure(text=result[2], font=CTkFont(family='Benzin-Bold', size=15))
+        self.balance.configure(text = f'{self.list_int([result[1]])}')
+        self.user_sign.configure(text=f'{result[3]}', font=CTkFont(family='Benzin-Bold', size=15))
+        self.enemy_sign.configure(text=f'{result[2]}', font=CTkFont(family='Benzin-Bold', size=15))
 
     # def main(self, result):
     #     if result[0] == 'Ты проиграл все коины':
