@@ -10,13 +10,12 @@ from window_settings import *
 class WindowGame:
     def __init__(self) -> None:
         # настройка окна
-        self.window = CTk()
+        self.window = CTkToplevel()
         self.window.geometry('700x500')
         self.window.title("Игра")
         self.window._set_appearance_mode('dark')
         self.window.resizable(width=False, height=False)
         self.user = Game()
-        self.settings = Settings()
         
         
         # создание изображение

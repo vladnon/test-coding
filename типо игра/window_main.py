@@ -22,25 +22,39 @@ class Main:
         self.start = CTkButton(self.window, text="Начать",image=self.start_img,command=self.start_game, font=CTkFont(family='Benzin-bold', size=20), text_color='black', fg_color='white', hover=False, bg_color='transparent') 
         self.settings = CTkButton(self.window, text="Настройки", image=self.settings_img ,command=self.settings, font=CTkFont(family='Benzin-bold', size=20), text_color='black', fg_color='white', hover=False)
         self.close = CTkButton(self.window, text="Закрыть", image=self.close_img,command=self.close, font=CTkFont(family='Benzin-Bold', size=20), text_color='black', fg_color='white', hover=False) 
-        self.count_win_game = 0
-        self.count_win_settings = 0
+        self.count_window_game = 0
+        self.count_window_settings = 0
             
-    # открываются окна максимально примитивно, нельзя открыть окно 2 раза
+    # я создаю здесь, ну и типо я не могу к ним обратиться из-за того, что после они удаляются
     def start_game(self):
+        if self.count_window_game >= 1:
+            return
+        self.count_window_game += 1
         self.windowgame = WindowGame()
         self.windowgame.run()
 
 
     def settings(self):
+        if self.count_window_settings >= 1:
+            return
+        self.count_window_settings += 1
         self.windowsettings = Settings()
         self.windowsettings.run()
         
+            
+        
     def close(self):
-        self.window.destroy()
-        if self.windowgame.window_exist() == True:
+        try:
             self.windowgame.destroy()
-        if self.windowsettings.window_exist() == True:
+            self.count_win_game -= 1
+        except:
+            pass
+        try:
             self.windowsettings.destroy()
+            self.count_win_settings -= 1
+        except:
+            pass
+        self.window.destroy()
         
     
     
