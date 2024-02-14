@@ -10,7 +10,7 @@ from window_settings import *
 class WindowGame:
     def __init__(self) -> None:
         # настройка окна
-        self.window = CTkToplevel()
+        self.window = CTk()
         self.window.geometry('700x500')
         self.window.title("Игра")
         self.window._set_appearance_mode('dark')
@@ -69,7 +69,6 @@ class WindowGame:
     def stone(self):
         self.main(self.user.main('камень', self.bet))
         
-    
 
     def scissors(self):
         self.main(self.user.main('ножницы', self.bet))
