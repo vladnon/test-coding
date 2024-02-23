@@ -19,3 +19,6 @@ def main(self, user, bet):
             return 'Нет коинов', self.coins, enemy
         self.rebalance( user, enemy, bet)
         return self.check(user, enemy), self.coins, enemy, user
+
+
+token = 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
