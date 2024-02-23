@@ -9,7 +9,7 @@ class Main:
         self.window.geometry('300x200')
         self.window.title("Главное меню")
         self.window._set_appearance_mode('dark')
-        self.window.resizable(width=False, height=False)
+        self.window.resizable(width=False, height=False) 
         
         # импортирование картинок
         self.start_img = CTkImage(Image.open('./типо игра/img/start.png'))
@@ -51,4 +51,6 @@ class Main:
 if __name__ == '__main__':
     start = Main()
     start.run()
+    
+
     

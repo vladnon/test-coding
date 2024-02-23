@@ -1,5 +1,4 @@
 from customtkinter import *
-import tkinter
 from game import *
 from PIL import Image
 
@@ -8,16 +7,18 @@ class WindowGame:
     def __init__(self) -> None:
         # настройка окна
         self.window = CTkToplevel()
-        self.window.geometry('700x500')
+        self.window.geometry('650x400')
         self.window.title("Игра")
         self.window._set_appearance_mode('dark')
         self.window.resizable(width=False, height=False)
         self.user = Game()
         
         # создание изображение
+
         self.paper_img = CTkImage(light_image = Image.open('./типо игра/img/paper.png'), size=(125, 91))
         self.stone_img = CTkImage(light_image = Image.open('./типо игра/img/stone.png'), size=(130, 91))
         self.scissors_img = CTkImage(light_image = Image.open('./типо игра/img//scissors.png'), size=(87, 91))
+        
         
         # создание кнопок
         self.paper_b = CTkButton(self.window, image=self.paper_img,  command=self.paper, text=None, fg_color="transparent", hover=False, bg_color="transparent")
@@ -30,9 +31,10 @@ class WindowGame:
         self.enemy_sign= CTkLabel(self.window ,image=self.paper_img, text=None)
         self.res = CTkLabel(self.window, text= 'Нет',  font=CTkFont(family='Benzin-Bold', size=15), anchor=CENTER)
         self.bet_entry = CTkEntry(self.window, placeholder_text='Ставка', font=CTkFont(family='Benzin-Bold', size=10), text_color='white', width=80)
+        self.max = CTkLabel(self.window, text=10, font=CTkFont(family='Benzin-Bold', size=15))
 
-
-        
+    
+            
     # вот это полное дерьмо типо, ну просто шлак реально
     def list_int(self, nums) -> int:
         result = 0
@@ -40,6 +42,7 @@ class WindowGame:
             result += num
         return result
     
+  
     # выглядит, как костыль серьезно
     def choose_enemy_sign(self, enemy):
         if enemy == 'бумага':
@@ -51,13 +54,11 @@ class WindowGame:
        
     def paper(self):
         bet = int(self.bet_entry.get())
-
         self.main(self.user.main('бумага', bet))
         
             
     def stone(self):
         bet = int(self.bet_entry.get())
-
         self.main(self.user.main('камень', bet))
         
 
@@ -69,15 +70,17 @@ class WindowGame:
 
     def main(self, result):
         if result[0] == 'Недостаточно коинов':
-            self.res.configure(text = f'Недостаточно коинов')
+            self.res.configure(text = f'Не хватает')
             return
+        
         if result[0] == 'Нет коинов':
-            self.res.configure(text='Нет коинов')
             self.destroy()
 
         sign = result[3]
         self.res.configure(text = f'{result[0]}')
         self.balance.configure(text = f'Баланс: {self.list_int([result[1]])}')
+        if int(self.max._text) < result[1]:
+            self.max.configure(text=result[1])
         if sign == 'бумага':
             self.user_sign.configure(image=self.paper_img)
         if sign == 'ножницы':
@@ -93,21 +96,23 @@ class WindowGame:
 
 
     def run(self):
-        self.stone_b.place(x=108, y=324)
+        self.stone_b.place(x=55, y=259)
         
-        self.paper_b.place(x= 469, y= 324)
+        self.paper_b.place(x= 429, y= 259)
         
-        self.scissors_b.place(x= 293, y= 324)
+        self.scissors_b.place(x=245, y=259)
         
-        self.res.place(x=340, y=260)
+        self.res.place(x=282, y=125)
         
-        self.balance.place(x=500, y=20)
+        self.balance.place(x=128, y=201)
         
-        self.user_sign.place(x=165, y=150)
+        self.user_sign.place(x=77, y=93)
         
-        self.enemy_sign.place(x=432, y=150)
+        self.enemy_sign.place(x=446, y=93)
         
-        self.bet_entry.place(x=320, y=180)
+        self.bet_entry.place(x=285, y=200)
+        
+        self.max.place(x=446, y=200)
         
         self.window.mainloop()
         
