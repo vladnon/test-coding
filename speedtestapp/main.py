@@ -1,6 +1,7 @@
 from speedtest import *
 
 test = Speedtest()
+test.get_closest_servers()
 download_result = test.download()
 upload_result = test.upload()
 ping_result = test.results.ping

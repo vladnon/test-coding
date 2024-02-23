@@ -6,7 +6,6 @@ class Game:
         self.coins = 10
         self.SIGNS = ('камень', 'ножницы', 'бумага')
 
-# короче я не хочу использовать global, но похоже придется, тк я вроде не могу обернуть это все в класс, потому что мне надо будет передавать self
 
     def main(self, user, bet):
         enemy = random.choice(self.SIGNS)

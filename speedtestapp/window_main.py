@@ -1,5 +1,5 @@
 from customtkinter import *
-from main import *
+import main
 
 
 class Window:
@@ -17,7 +17,7 @@ class Window:
 
 
     def main(self):
-        result = main()
+        result = main.main()
         self.download_speed.configure(text=f"Ваша скорость установки {result[0] / 1024 / 1024:.2f}")
         self.upload_speed.configure(text=f"Ваша скорость загрузки {result[1] / 1024 / 1024:.2f}")
 
