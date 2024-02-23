@@ -1,6 +1,7 @@
 import random
 
 
+
 class Game:
     def __init__(self) -> None:
         self.coins = 10
@@ -9,8 +10,10 @@ class Game:
 
     def main(self, user, bet):
         enemy = random.choice(self.SIGNS)
-        if self.coins < bet:
+        if self.coins == 0:
             return 'Нет коинов', self.coins, enemy
+        if self.coins < bet:
+            return 'Недостаточно коинов', self.coins, enemy
         self.rebalance( user, enemy, bet)
         return self.check(user, enemy), self.coins, enemy, user
 

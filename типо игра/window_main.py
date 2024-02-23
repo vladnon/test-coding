@@ -1,39 +1,32 @@
 from customtkinter import *
 from window_game import WindowGame
-from window_settings import Settings
 from PIL import Image
 
 class Main:
     def __init__(self) -> None:
+        # настройка окна
         self.window = CTk()
         self.window.geometry('300x200')
         self.window.title("Главное меню")
-        self.count_win_game = 0
-        self.count_win_settings = 0
         self.window._set_appearance_mode('dark')
         self.window.resizable(width=False, height=False)
-        self.start = CTkButton(self.window, text="Начать", anchor=CENTER, command=self.start_game, font=CTkFont(family='FiraCode-Medium', size=20), text_color='black', fg_color='grey', hover_color='white') 
-        self.settings = CTkButton(self.window, text="Настройки", anchor=CENTER, command=self.settings, font=CTkFont(family='FiraCode-Medium', size=20), text_color='black', fg_color='grey', hover_color='white')
-        self.close = CTkButton(self.window, text="Закрыть", anchor=CENTER, command=self.close, font=CTkFont(family='FiraCode-Medium', size=20), text_color='black', fg_color='grey', hover_color='white') 
+        
+        # импортирование картинок
+        self.start_img = CTkImage(Image.open('./типо игра/img/start.png'))
+        self.close_img = CTkImage(Image.open('./типо игра/img/close_.jpg'), size=(20, 25))
+        
+        
+        # создание кнопок
+        self.start = CTkButton(self.window, text="Начать",image=self.start_img,command=self.start_game, font=CTkFont(family='Benzin-bold', size=20), text_color='black', fg_color='white', hover=False, bg_color='transparent') 
+        self.close = CTkButton(self.window, text="Закрыть", image=self.close_img,command=self.close, font=CTkFont(family='Benzin-Bold', size=20), text_color='black', fg_color='white', hover=False) 
+
         
             
     # я создаю здесь, ну и типо я не могу к ним обратиться из-за того, что после они удаляются
     def start_game(self):
-        if self.count_window_game >= 1:
-            return
-        
         self.windowgame = WindowGame()
         self.windowgame.run()
 
-
-    def settings(self):
-        if self.count_window_settings >= 1:
-            return
-        self.count_window_settings += 1
-        self.windowsettings = Settings()
-        self.windowsettings.run()
-        
-            
         
     def close(self):
         try:
@@ -51,9 +44,8 @@ class Main:
     
     
     def run(self):
-        self.start.pack(pady=25)
-        self.settings.pack(pady=5)
-        self.close.pack(pady=25)
+        self.start.pack(pady=40)
+        self.close.pack(pady=5)
         self.window.mainloop()
         
 if __name__ == '__main__':
