@@ -6,7 +6,7 @@ class Main:
     def __init__(self) -> None:
         # настройка окна
         self.window = CTk()
-        self.window.geometry('300x200')
+        self.window.geometry('300x150')
         self.window.title("Главное меню")
         self.window._set_appearance_mode('dark')
         self.window.resizable(width=False, height=False) 
@@ -18,7 +18,7 @@ class Main:
         
         # создание кнопок
         self.start = CTkButton(self.window, text="Начать",image=self.start_img,command=self.start_game, font=CTkFont(family='Benzin-bold', size=20), text_color='black', fg_color='white', hover=False, bg_color='transparent') 
-        self.close = CTkButton(self.window, text="Закрыть", image=self.close_img,command=self.close, font=CTkFont(family='Benzin-Bold', size=20), text_color='black', fg_color='white', hover=False) 
+        self.close = CTkButton(self.window, text="Закрыть", image=self.close_img,command=self.close, font=CTkFont(family='Benzin-Bold', size=20), text_color='black', fg_color='white', hover=False, bg_color='transparent') 
 
         
             
@@ -34,18 +34,13 @@ class Main:
             self.count_win_game -= 1
         except:
             pass
-        try:
-            self.windowsettings.destroy()
-            self.count_win_settings -= 1
-        except:
-            pass
         self.window.destroy()
         
     
     
     def run(self):
-        self.start.pack(pady=40)
-        self.close.pack(pady=5)
+        self.start.pack(pady=25)
+        self.close.pack()
         self.window.mainloop()
         
 if __name__ == '__main__':

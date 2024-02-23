@@ -22,16 +22,16 @@ class WindowGame:
         
         # создание кнопок
         self.paper_b = CTkButton(self.window, image=self.paper_img,  command=self.paper, text=None, fg_color="transparent", hover=False, bg_color="transparent")
-        self.stone_b = CTkButton(self.window, text=None,  command=self.stone, fg_color='transparent', image=self.stone_img, hover=False)
-        self.scissors_b = CTkButton(self.window, text=None,  command=self.scissors, image=self.scissors_img, fg_color='transparent', hover=False)
+        self.stone_b = CTkButton(self.window, text=None,  command=self.stone, fg_color='transparent', image=self.stone_img, hover=False, bg_color="transparent")
+        self.scissors_b = CTkButton(self.window, text=None,  command=self.scissors, image=self.scissors_img, fg_color='transparent', hover=False, bg_color="transparent")
 
         # создание заголовков и прочего
         self.balance = CTkLabel(self.window, font=CTkFont(family='Benzin-Bold', size=15), text=f'Баланс: {self.user.coins}')
         self.user_sign = CTkLabel(self.window ,image=self.paper_img, text=None)
         self.enemy_sign= CTkLabel(self.window ,image=self.paper_img, text=None)
-        self.res = CTkLabel(self.window, text= 'Нет',  font=CTkFont(family='Benzin-Bold', size=15), anchor=CENTER)
-        self.bet_entry = CTkEntry(self.window, placeholder_text='Ставка', font=CTkFont(family='Benzin-Bold', size=10), text_color='white', width=80)
-        self.max = CTkLabel(self.window, text=10, font=CTkFont(family='Benzin-Bold', size=15))
+        self.res = CTkLabel(self.window, text= 'Нет',  font=CTkFont(family='Benzin-Bold', size=15), anchor=CENTER, fg_color="transparent", bg_color="transparent")
+        self.bet_entry = CTkEntry(self.window, placeholder_text='Ставка', font=CTkFont(family='Benzin-Bold', size=10), text_color='white', width=80, fg_color="transparent", bg_color="transparent")
+        self.max = CTkLabel(self.window, text=10, font=CTkFont(family='Benzin-Bold', size=15), fg_color="transparent", bg_color="transparent")
 
     
             
@@ -64,7 +64,6 @@ class WindowGame:
 
     def scissors(self):
         bet = int(self.bet_entry.get())
-
         self.main(self.user.main('ножницы', bet))
         
 
