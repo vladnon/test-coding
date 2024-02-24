@@ -110,22 +110,8 @@ def leftRightDifference(nums: list[int]):
         right -= nums[idx]
     return new_nums
 
-def replaceElements(arr: list[int]) -> list[int]:
-        left, right = 0, 0
-        
-
-        while right < len(arr):
-            midx = 0
-            for i in range(len(arr[right + 1:])):
-                if arr[i] > arr[midx]:
-                    midx = i
-            if midx == 0:
-                arr[left] = -1
-            else:
-                arr[left] = arr[midx]
-            left += 1
-            right += 1
-        return arr
+1
+#         return arr
 
 def restoreString( s: str, indices: list[int]) -> str:
         new_str = ""
@@ -134,6 +120,49 @@ def restoreString( s: str, indices: list[int]) -> str:
             new_str += s[indices[idx]]
         return new_str
      
+# тоже самое только с индексом, и тогда не может быть повторений в хеш мапепншпншп, бля гений реально
+def maxSum( nums: list[int]) -> int:
+    hashmap = {}
+    sums = set()
+    max_pair = -1
+    for idx in range(len(nums)):
+        res = list(map(int, str(nums[idx])))
+        hashmap[idx] = max(res)
+
+    for key1, value in hashmap.items():
+            sums.add(value)
+            for key in hashmap.keys():
+                if  hashmap[key] == value and key1 != key:
+                    if max_pair < nums[key1] + nums[key]:
+                        max_pair = nums[key1] + nums[key]
+    return max_pair
+
+# прально, но медленно, надо реально было бинариу серчем захерачить, ну ладно
+# def replaceElements(arr: list[int]) -> list[int]:
+#     for idx in range(len(arr)):
+#         if idx == len(arr) -1 :
+#             arr[idx] = -1
+#         else:
+#             max_after = max(arr[idx + 1:])
+#             arr[idx], max_after = max_after, arr[idx]
+#     return arr
+
+def replaceElements(arr: list[int]) -> list[int]:
+        left, right = 0, 0
+        
+
+        while right < len(arr):
+         midx = 0
+        for i in range(len(arr[right + 1:])):
+            if arr[i] > arr[midx]:
+                midx = i
+            if midx == 0:
+                arr[left] = -1
+            else:
+                arr[left] = arr[midx]
+            left += 1
+            right += 1
+        return arr
 
 
 if __name__ == "__main__":
@@ -156,5 +185,9 @@ if __name__ == "__main__":
     print(middle_elem([2,3,-1,8,4]))
     print(leftRightDifference([10,4,8,3]))
     # print(shortestToChar("loveleetcode", "e"))
-    print(replaceElements([17,18,5,4,6,1]))
+    # print(replaceElements([17,18,5,4,6,1]))
     print(restoreString("codeleet", [4,5,6,7,0,2,1,3]))
+    print(maxSum([8,75,28,35,21,13,21]))
+    print(replaceElements([17,18,5,4,6,1]))
+
+        
