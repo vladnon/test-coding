@@ -147,22 +147,27 @@ def maxSum( nums: list[int]) -> int:
 #             arr[idx], max_after = max_after, arr[idx]
 #     return arr
 
+# что пока я могу сказать, right не сбрасывается после второго цикла, так что надо что-то придумать
 def replaceElements(arr: list[int]) -> list[int]:
-        left, right = 0, 0
+        left, right = 0, 1
+        max_right_pointer = 1
         
-
-        while right < len(arr):
-         midx = 0
-        for i in range(len(arr[right + 1:])):
-            if arr[i] > arr[midx]:
-                midx = i
-            if midx == 0:
+        while left <= len(arr):
+            max_right = 0
+            
+            if left == len(arr) -1:
                 arr[left] = -1
-            else:
-                arr[left] = arr[midx]
+            while right <= len(arr) -1:
+                if max_right < arr[right]:
+                    max_right = arr[right]
+                    max_right_pointer = right
+                right += 1
+            arr[left], arr[max_right_pointer] = arr[max_right_pointer], arr[left]
             left += 1
             right += 1
+            max_right_pointer += 1
         return arr
+            
 
 
 if __name__ == "__main__":
