@@ -20,7 +20,7 @@ class Main:
         self.start = CTkButton(self.window, text="Начать",image=self.start_img,command=self.start_game, font=CTkFont(family='Benzin-bold', size=20), text_color='black', fg_color='white', hover=False, bg_color='transparent') 
         self.close = CTkButton(self.window, text="Закрыть", image=self.close_img,command=self.close, font=CTkFont(family='Benzin-Bold', size=20), text_color='black', fg_color='white', hover=False, bg_color='transparent') 
 
-        
+    
             
     # я создаю здесь, ну и типо я не могу к ним обратиться из-за того, что после они удаляются
     def start_game(self):

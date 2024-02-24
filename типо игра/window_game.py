@@ -53,16 +53,22 @@ class WindowGame:
             self.enemy_sign.configure(image=self.scissors_img)
        
     def paper(self):
+        if self.bet_entry.get() == '':
+            return
         bet = int(self.bet_entry.get())
         self.main(self.user.main('бумага', bet))
         
             
     def stone(self):
+        if self.bet_entry.get() == '':
+            return
         bet = int(self.bet_entry.get())
         self.main(self.user.main('камень', bet))
         
 
     def scissors(self):
+        if self.bet_entry.get() == '':
+            return
         bet = int(self.bet_entry.get())
         self.main(self.user.main('ножницы', bet))
         
@@ -99,7 +105,7 @@ class WindowGame:
         
         self.paper_b.place(x= 429, y= 259)
         
-        self.scissors_b.place(x=245, y=259)
+        self.scissors_b.place(x=240, y=259)
         
         self.res.place(x=282, y=125)
         
