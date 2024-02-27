@@ -76,8 +76,31 @@ class WindowGame:
     
     def focus(self):
         self.window.focus()
-
-    def main(self, result):
+        
+        
+    def update_balance(self, result):
+        self.balance.configure(text = f'Баланс: {self.list_int([result[1]])}')
+        
+        
+    def update_res(self, result):
+        self.res.configure(text = f'{result[0]}')
+        
+        
+    def update_user(self, sign):
+        if sign == 'бумага':
+            self.user_sign.configure(image=self.paper_img)
+        if sign == 'ножницы':
+            self.user_sign.configure(image=self.scissors_img)
+        else:
+            self.user_sign.configure(image=self.stone_img)
+            
+            
+    def update_max(self, result):
+        if int(self.max._text) < result[1]:
+            self.max.configure(text=result[1])
+           
+            
+    def not_enough_coins(self, result):
         if result[0] == 'Недостаточно коинов':
             self.res.configure(text = f'Не хватает')
             return
@@ -85,17 +108,13 @@ class WindowGame:
         if result[0] == 'Нет коинов':
             self.destroy()
 
+    def main(self, result):
+        self.not_enough_coins(result)
         sign = result[3]
-        self.res.configure(text = f'{result[0]}')
-        self.balance.configure(text = f'Баланс: {self.list_int([result[1]])}')
-        if int(self.max._text) < result[1]:
-            self.max.configure(text=result[1])
-        if sign == 'бумага':
-            self.user_sign.configure(image=self.paper_img)
-        if sign == 'ножницы':
-            self.user_sign.configure(image=self.scissors_img)
-        else:
-            self.user_sign.configure(image=self.stone_img)
+        self.update_user(sign)
+        self.update_res(result)
+        self.update_balance(result)
+        self.update_max(result)
         self.choose_enemy_sign(result[2])
     
         

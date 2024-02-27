@@ -167,6 +167,29 @@ def replaceElements(arr: list[int]) -> list[int]:
             right += 1
             max_right_pointer += 1
         return arr
+    
+# короче завтра доделай какая-то хуета, теперь просто добавляются какие-значения хз почему
+def shortestToChar( s: str, c: str) -> list[int]:
+        dists = []
+        for idx in range(len(s)):
+            left, right = idx, idx
+            min_dist = 0
+            if left == 0:
+                while s[right] != c or right > len(s) - 1:
+                    right += 1
+                dists.append(abs(idx - right))
+            if right == len(s) -1 :
+                while s[left] != c or left > len(s) - 1:
+                    left -= 1
+                dists.append(abs(idx - left))
+            else:
+                while s[left] != c or left > len(s) - 1:
+                    left -= 1
+                while s[right] != c or right > len(s) - 1:
+                    right += 1
+                min_dist = min(abs(idx - right), abs(idx - left))
+                dists.append(min_dist)
+        return dists
             
 
 
@@ -193,6 +216,7 @@ if __name__ == "__main__":
     # print(replaceElements([17,18,5,4,6,1]))
     print(restoreString("codeleet", [4,5,6,7,0,2,1,3]))
     print(maxSum([8,75,28,35,21,13,21]))
-    print(replaceElements([17,18,5,4,6,1]))
-
+    # print(replaceElements([17,18,5,4,6,1]))
+    # print(frequencySort("tree"))
+    print(shortestToChar("aaba", "b"))
         
