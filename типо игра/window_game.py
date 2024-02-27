@@ -1,6 +1,7 @@
 from customtkinter import *
 from game import *
 from PIL import Image
+import tkinter
 
 
 class WindowGame:
@@ -72,6 +73,9 @@ class WindowGame:
         bet = int(self.bet_entry.get())
         self.main(self.user.main('ножницы', bet))
         
+    
+    def focus(self):
+        self.window.focus()
 
     def main(self, result):
         if result[0] == 'Недостаточно коинов':
