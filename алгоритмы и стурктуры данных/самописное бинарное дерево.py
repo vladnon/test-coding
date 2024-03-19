@@ -220,14 +220,53 @@ class BinaryTree:
             return -1
         return min(result)
     
+    def isEvenOddTree(self) -> bool:
+        queue = deque([self.root])
+        count = 0
+        
+
+        while queue:
+            size = len(queue)
+            level = []
+            while size > 0:
+                cur = queue.popleft()
+                level.append(cur.data)
+                if cur.left:
+                    queue.append(cur.left)
+                if cur.right:
+                    queue.append(cur.right)
+                size -= 1
+            if len(level) != 1:
+                if count % 2 == 0:
+                    if level == sorted(level):
+                        for num in level:
+                            if num % 2 == 0:
+                                return False
+                    else:
+                        return False
+                else:
+                    if level == sorted(level, reverse=True):
+                        for num  in level:
+                            if num % 2 != 0:
+                                return False
+                    else:
+                        return False
+            count += 1
+            print(level)
+        return True
+    
 if __name__ == "__main__":
     tree = BinaryTree()
+    tree.append(1)
+    tree.append(10)
+    tree.append(4)
     tree.append(3)
-    tree.append(9)
-    tree.append(20)
-    tree.append(15)
     tree.append(7)
-    tree.append(21)
+    tree.append(9)
+    tree.append(12)
+    tree.append(8)
+    tree.append(6)
+    tree.append(2)
     print(tree.print())
     print(tree.average_of_every_level())
     print(tree.max_level_sum_binary_tree())
@@ -237,6 +276,5 @@ if __name__ == "__main__":
     print(tree.min_depth())
     # print(tree.is_cousins(15, 21))
     print(tree.second_min_val())
+    print(tree.isEvenOddTree())
     
-nums = set()
-min(nums)

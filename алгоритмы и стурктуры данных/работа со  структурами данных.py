@@ -833,45 +833,45 @@ if __name__ == "__main__":
     
     
     
-    # my_tree = BinarySearchTree()
-    # my_tree.add(50)
-    # my_tree.add(45)
-    # my_tree.add(49)
-    # my_tree.add(47)
-    # my_tree.add(90)
-    # my_tree.add(20)
-    # my_tree.add(37)
-    # print(my_tree.search(90))
-    # print(my_tree.max())
-    # print(my_tree.min())
-    # print(my_tree.hasnext(90))
+    my_tree = BinarySearchTree()
+    my_tree.add(50)
+    my_tree.add(45)
+    my_tree.add(49)
+    my_tree.add(47)
+    my_tree.add(90)
+    my_tree.add(20)
+    my_tree.add(37)
+    print(my_tree.search(90))
+    print(my_tree.max())
+    print(my_tree.min())
+    print(my_tree.hasnext(90))
     # print(my_tree.ok(1))
-    # print(my_tree.hasright(45))
-    # print(my_tree.len())
-    # print(my_tree.delete(45))
-    # print(my_tree.len())
-    # print(my_tree.search(45))
-    # print(my_tree.pre_order())
-    # print(my_tree.in_order())
-    # print(my_tree.post_order())
+    print(my_tree.hasright(45))
+    print(my_tree.len())
+    print(my_tree.delete(45))
+    print(my_tree.len())
+    print(my_tree.search(45))
+    print(my_tree.pre_order())
+    print(my_tree.in_order())
+    print(my_tree.post_order())
     
     
     # my_list = Linked_list()
     
     # my_list.append(8)
-    # my_list.append(156)
-    # my_list.append(79)
-    # my_list.append(5)
-    # my_list.append(27)
-    # my_list.append(4)
+    # # my_list.append(156)
+    # # my_list.append(79)
+    # # my_list.append(5)
+    # # my_list.append(27)
+    # # my_list.append(4)
     
     # my_list.extend(20)
     
-    # my_list.remove_back()
+    # # my_list.remove_back()
     
     # my_list.remove_front()
     
-    # my_list.insert(2, 17)
+    # # my_list.insert(2, 17)
     
     # my_list.remove(0)
     
@@ -883,8 +883,7 @@ if __name__ == "__main__":
 
     # print(my_list.value(2))
     
-    # for e in my_list:
-    #     print(e)
+
         
     # nums = dbLinkedList()
     
@@ -901,5 +900,5 @@ if __name__ == "__main__":
     
     # nums.print()
     
-    # print(majority_element([1, 2, 3, 3]))
-    # print(two_sum([1, 2, 4], 6))    
+    print(majority_element([1, 2, 3, 3]))
+    print(two_sum([1, 2, 4], 6))    

@@ -191,7 +191,124 @@ def shortestToChar( s: str, c: str) -> list[int]:
                 dists.append(min_dist)
         return dists
             
+            
+def smting(s):
+    count = 0
+    new_str = ''
+    valid = ['c', 'a', 't']
+    for idx in range(len(s)):
+        if s[idx] in valid and count != 3:
+            if s[idx] == 'c' and count == 0:
+                new_str += 'C'
+                count += 1
+            if s[idx] == "a" and count == 1:
+                new_str += 'A'
+                count += 1
+            if s[idx] == 't' and count == 2:
+                new_str += 'T'
+                count += 1
+        else:
+            new_str += s[idx]
+    return new_str
 
+# короче, если сумма этих двух чисел в отсортированном массиве меньше чем цель, то автоматически можно не проходить по всем остальным числам, потому и так понятно, что их сумма будет меньше =>
+# можно изменить левый указаталь и исказть новую пару, 
+def countPairs( nums: list[int], target: int) -> int:
+        nums.sort()
+        left, right = 0, len(nums) - 1
+        count = 0
+        while left < right:
+            sum_values = nums[left] + nums[right]
+            if sum_values < target:
+                count += right - left
+                left += 1
+            else:
+                right -= 1
+        return count
+        
+def twoSum( nums: list[int], target: int) -> list[int]:
+        left, right = 0, len(nums) - 1
+        nums = sorted(nums)
+        while left <= right:
+            sum_values = nums[left] + nums[right]
+            print(nums[right], nums[left])
+            if sum_values == target:
+                return [left, right]
+                left += 1
+            else:
+                right -= 1
+        return -1
+
+# норм идея, но нужно во-первых оптимизировать, во-вторых нужны поинтеры, так как .index берешь возвращает индекс ближайщего испокомого элемента, 
+# ну типо не файт, что это именно тот, который тебе нужен, ну например в случае с 266 
+def largestInteger( num: int) -> int:
+    nums = list(map(str, str(num)))
+    nums = [int(num) for num in nums]
+    
+    even = [num for num in nums if num % 2 == 0]
+    odd = [num for num in nums if num % 2 != 0]
+    
+    left, right = 0, len(nums) - 1
+    
+    while left < len(nums) and right >= 0:
+        max_even = max(even) if len(even) > 1 else 0
+        max_odd = max(odd) if len(odd) > 1 else 0
+        
+        
+        if nums[left] % 2 == 0:
+            if max_even != 0:
+                same = max_even
+            else:
+                left += 1
+                continue
+        else:
+            if max_odd != 0:
+                same = max_odd
+            else:
+                left += 1
+                continue
+        
+        if right != 0:
+            if nums[right] == same and left < right:
+                nums[left], nums[right] = nums[right], nums[left]
+                left += 1
+                right = len(nums) -1
+                if same in odd:
+                    odd.remove(same)
+                else:
+                    even.remove(same)
+            else:
+                right -= 1
+        else:
+            left += 1
+            right = len(nums) - 1
+            if same in odd:
+                odd.remove(same)
+            else:
+                even.remove(same)
+                
+    new = ''
+    for num in nums:
+        new += str(num)
+    return int(new)
+
+def sortcolors(nums: list[int]) -> list[int]:
+    new = [0] * len(nums)
+    left, right = 0, len(nums) - 1
+    for num in nums:
+        if num == 0:
+            left += 1
+        if num == 1:
+            new[left] = 1
+            left += 1
+        if num == 2:
+            new[right] = 2
+            right -= 1
+    return new
+
+
+# брат, запомни ты должен на ближайщих выходных изучить heap, потому что largest integer, хоть и круто, типо сделал сам жесткий алгоритм,
+# но все равно при помощи heap было бы намного быстрее по сложности
 
 if __name__ == "__main__":
     
@@ -219,4 +336,10 @@ if __name__ == "__main__":
     # print(replaceElements([17,18,5,4,6,1]))
     # print(frequencySort("tree"))
     print(shortestToChar("aaba", "b"))
-        
+    print(smting('catcatcat'))
+    # print(smting2([8, 7, 20, 5, 17, 40], 5))
+    print(twoSum([3,2,4], 6))
+    print(countPairs([-1,1,2,3,1], 2))
+    print(largestInteger(1234))
+    print(countPairs([-1, 1, 2 , 3, 1], target=2))
+    print(sortcolors([2,0,1]))

@@ -97,7 +97,9 @@ class BinarySearchTree:
         return False
 
 
-    # этот метод не правильный, нужно доделать
+    # этот метод не правильный, нужно доделать, ну если тебе уже сейчас будет не лень, после удаления, надо циклом, проходиться до конца
+    #  ветки если ты в левой ветке, тебе нужно брать правого сына как родителя, как левого ребенка левого, ну и наоборт в правой, но это не точно, потому что я еще не писал, и не думал как это будет.
+      
     
     def delete(self, data: int):
         cur_node = self.root
@@ -344,5 +346,5 @@ if __name__ == "__main__":
     # print(tree.right(97))
     # print(tree.left_sum())
     # print(tree.min_diff())
-    # print(tree.pre_order())
+    print(tree.pre_order())
     # print(tree.iin_order())

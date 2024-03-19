@@ -4,14 +4,14 @@ from PIL import Image
 
 
 
-class WindowGame(CTkToplevel):
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
+class WindowGame():
+    def __init__(self) -> None:
         # настройка окна
-        self.geometry('650x400')
-        self.title("Игра")
-        self._set_appearance_mode('dark')
-        self.resizable(width=False, height=False)
+        self.window = CTkToplevel()
+        self.window.geometry('650x400')
+        self.window.title("Игра")
+        self.window._set_appearance_mode('dark')
+        self.window.resizable(width=False, height=False)
         
         
         # создание изображение
@@ -22,37 +22,21 @@ class WindowGame(CTkToplevel):
         
         
         # создание кнопок
-        self.paper_b = CTkButton(self, image=self.paper_img,  command=self.paper, text=None, fg_color="transparent", hover=False, bg_color="transparent")
-        self.stone_b = CTkButton(self, text=None,  command=self.stone, fg_color='transparent', image=self.stone_img, hover=False, bg_color="transparent")
-        self.scissors_b = CTkButton(self, text=None,  command=self.scissors, image=self.scissors_img, fg_color='transparent', hover=False, bg_color="transparent")
+        self.paper_b = CTkButton(self.window, image=self.paper_img,  command=self.paper, text=None, fg_color="transparent", hover=False, bg_color="transparent")
+        self.stone_b = CTkButton(self.window, text=None,  command=self.stone, fg_color='transparent', image=self.stone_img, hover=False, bg_color="transparent")
+        self.scissors_b = CTkButton(self.window, text=None,  command=self.scissors, image=self.scissors_img, fg_color='transparent', hover=False, bg_color="transparent")
 
         # создание заголовков и прочего
         self.user = Game()
-        self.balance = CTkLabel(self, font=CTkFont(family='Benzin-Bold', size=15), text=f'Баланс: {self.user.coins}')
-        self.user_sign = CTkLabel(self ,image=self.paper_img, text=None)
-        self.enemy_sign= CTkLabel(self, image=self.paper_img, text=None)
-        self.res = CTkLabel(self, text= 'Нет',  font=CTkFont(family='Benzin-Bold', size=15), anchor=CENTER, fg_color="transparent", bg_color="transparent")
-        self.bet_entry = CTkEntry(self, placeholder_text='Ставка', font=CTkFont(family='Benzin-Bold', size=10), text_color='white', width=80, fg_color="transparent", bg_color="transparent")
-        self.max = CTkLabel(self, text=10, font=CTkFont(family='Benzin-Bold', size=15), fg_color="transparent", bg_color="transparent")
+        self.balance = CTkLabel(self.window, font=CTkFont(family='Benzin-Bold', size=15), text=f'Баланс: {self.user.coins}')
+        self.user_sign = CTkLabel(self.window ,image=self.paper_img, text=None)
+        self.enemy_sign= CTkLabel(self.window, image=self.paper_img, text=None)
+        self.res = CTkLabel(self.window, text= 'Нет',  font=CTkFont(family='Benzin-Bold', size=15), anchor=CENTER, fg_color="transparent", bg_color="transparent")
+        self.bet_entry = CTkEntry(self.window, placeholder_text='Ставка', font=CTkFont(family='Benzin-Bold', size=10), text_color='white', width=80, fg_color="transparent", bg_color="transparent")
+        self.max = CTkLabel(self.window, text=10, font=CTkFont(family='Benzin-Bold', size=15), fg_color="transparent", bg_color="transparent")
         
         
-        self.stone_b.place(x=55, y=259)
         
-        self.paper_b.place(x= 429, y= 259)
-        
-        self.scissors_b.place(x=240, y=259)
-        
-        self.res.place(x=282, y=125)
-        
-        self.balance.place(x=128, y=201)
-        
-        self.user_sign.place(x=77, y=93)
-        
-        self.enemy_sign.place(x=446, y=93)
-        
-        self.bet_entry.place(x=285, y=200)
-        
-        self.max.place(x=446, y=200)
             
     # вот это полное дерьмо типо, ну просто шлак реально
     def list_int(self, nums) -> int:
@@ -132,9 +116,32 @@ class WindowGame(CTkToplevel):
         self.update_balance(result)
         self.update_max(result)
         self.choose_enemy_sign(result[2])
+        
+    def destroy(self):
+        self.window.destroy()
     
         
         
+    def run(self):
+        self.stone_b.place(x=55, y=259)
+        
+        self.paper_b.place(x= 429, y= 259)
+        
+        self.scissors_b.place(x=240, y=259)
+        
+        self.res.place(x=282, y=125)
+        
+        self.balance.place(x=128, y=201)
+        
+        self.user_sign.place(x=77, y=93)
+        
+        self.enemy_sign.place(x=446, y=93)
+        
+        self.bet_entry.place(x=285, y=200)
+        
+        self.max.place(x=446, y=200)
+        self.window.mainloop()
         
 if __name__ == "__main__":
     main = WindowGame()
+    main.run()
