@@ -29,19 +29,14 @@ class Main(CTk):
             
     
     def start_game(self):
-        if not self.windowgame:
-            self.windowgame = WindowGame()
-            self.windowgame.run()
-        else:
-            self.windowgame.focus()
+        self.windowgame = WindowGame()
+        self.windowgame.run()
+        
     
     # я создаю здесь, ну и типо я не могу к ним обратиться из-за того, что после они удаляются
     def secret_func(self):
-        if not self.windowsec :
-            self.windowsec = Secret()
-            self.windowsec.run()
-        else:
-            self.windowsec.focus()
+        self.windowsec = Secret()
+        self.windowsec.run()
 
 
         

@@ -7,10 +7,10 @@ from PIL import Image
 class WindowGame():
     def __init__(self) -> None:
         # настройка окна
-        self.window = CTkToplevel()
+        self.window = CTkToplevel(fg_color='#242424')
         self.window.geometry('650x400')
         self.window.title("Игра")
-        self.window._set_appearance_mode('dark')
+        
         self.window.resizable(width=False, height=False)
         
         
@@ -28,13 +28,12 @@ class WindowGame():
 
         # создание заголовков и прочего
         self.user = Game()
-        self.balance = CTkLabel(self.window, font=CTkFont(family='Benzin-Bold', size=15), text=f'Баланс: {self.user.coins}')
+        self.balance = CTkLabel(self.window, font=CTkFont(family='Benzin-Bold', size=15), text=f'Баланс: {self.user.coins}', text_color='white')
         self.user_sign = CTkLabel(self.window ,image=self.paper_img, text=None)
         self.enemy_sign= CTkLabel(self.window, image=self.paper_img, text=None)
-        self.res = CTkLabel(self.window, text= 'Нет',  font=CTkFont(family='Benzin-Bold', size=15), anchor=CENTER, fg_color="transparent", bg_color="transparent")
+        self.res = CTkLabel(self.window, text= 'Нет',  font=CTkFont(family='Benzin-Bold', size=15), anchor=CENTER, fg_color="transparent", bg_color="transparent", text_color='white')
         self.bet_entry = CTkEntry(self.window, placeholder_text='Ставка', font=CTkFont(family='Benzin-Bold', size=10), text_color='white', width=80, fg_color="transparent", bg_color="transparent")
-        self.max = CTkLabel(self.window, text=10, font=CTkFont(family='Benzin-Bold', size=15), fg_color="transparent", bg_color="transparent")
-        
+        self.max = CTkLabel(self.window, text=10, font=CTkFont(family='Benzin-Bold', size=15), fg_color="transparent", bg_color="transparent", text_color='white')
         
         
             
@@ -45,6 +44,9 @@ class WindowGame():
             result += num
         return result
     
+
+    def focus(self):
+        self.window.focus()
   
     # выглядит, как костыль серьезно
     def choose_enemy_sign(self, enemy):
@@ -103,19 +105,21 @@ class WindowGame():
     def not_enough_coins(self, result):
         if result[0] == 'Недостаточно коинов':
             self.res.configure(text = f'Не хватает')
-            return
+            return 'Недостаточно коинов'
         
         if result[0] == 'Нет коинов':
-            self.destroy()
+            self.window.destroy()
+            return 'Нет коинов'
 
     def main(self, result):
-        self.not_enough_coins(result)
-        sign = result[3]
-        self.update_user(sign)
-        self.update_res(result)
-        self.update_balance(result)
-        self.update_max(result)
-        self.choose_enemy_sign(result[2])
+        if self.not_enough_coins(result) != 'Недостаточно коинов' and self.not_enough_coins(result) != 'Нет коинов':
+            self.not_enough_coins(result)
+            sign = result[3]
+            self.update_user(sign)
+            self.update_res(result)
+            self.update_balance(result)
+            self.update_max(result)
+            self.choose_enemy_sign(result[2])
         
     def destroy(self):
         self.window.destroy()
