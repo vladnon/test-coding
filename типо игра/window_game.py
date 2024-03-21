@@ -58,24 +58,29 @@ class WindowGame():
             self.enemy_sign.configure(image=self.scissors_img)
        
     def paper(self):
-        if self.bet_entry.get() == '':
-            return
-        bet = int(self.bet_entry.get())
-        self.main(self.user.main('бумага', bet))
+        return self.sign_main(1)
         
             
     def stone(self):
-        if self.bet_entry.get() == '':
-            return
-        bet = int(self.bet_entry.get())
-        self.main(self.user.main('камень', bet))
+        return self.sign_main(2)
         
 
     def scissors(self):
+        return self.sign_main(3)
+        
+    def sign_main(self, num):
         if self.bet_entry.get() == '':
             return
-        bet = int(self.bet_entry.get())
-        self.main(self.user.main('ножницы', bet))
+        if str(self.bet_entry.get()).isdigit():
+            bet = int(self.bet_entry.get())
+        else:
+            return self.main('Недопустимое значение')
+        if num == 1:
+            self.main(self.user.main('бумага', bet))
+        if num == 2:
+            self.main(self.user.main('камень', bet))
+        else:
+            self.main(self.user.main('ножницы', bet))
         
     
         
@@ -110,8 +115,14 @@ class WindowGame():
         if result[0] == 'Нет коинов':
             self.window.destroy()
             return 'Нет коинов'
+        
+    def invalid_value(self):
+        self.res.configure(text='Недопустимое значение')
 
     def main(self, result):
+        if result == 'Недопустимое значение':
+            self.invalid_value()
+            return
         if self.not_enough_coins(result) != 'Недостаточно коинов' and self.not_enough_coins(result) != 'Нет коинов':
             self.not_enough_coins(result)
             sign = result[3]
