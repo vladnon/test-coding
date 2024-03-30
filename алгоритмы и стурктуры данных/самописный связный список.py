@@ -23,14 +23,15 @@ class LinkedList:
         
     def print(self):
         cur_node = self.head
-        output = []
+        values = 'HEAD'
         while cur_node is not None:
-            output.append(cur_node.data)
+            values += f' -> {cur_node.data}'
             cur_node = cur_node.next
-        print(output)
+        values += f' -> NONE'
+        return values
             
             
-    def extend(self, data):
+    def preappend(self, data):
         cur_node = self.head
         new_node  = Node(data)
         new_node.next = cur_node
@@ -61,7 +62,7 @@ class LinkedList:
         count = 0
         while cur_node.next is not None:
             if count == index:
-                self.extend(data)
+                self.preappend(data)
                 return
             
             if count  + 1 == index:
@@ -75,12 +76,12 @@ class LinkedList:
         
         raise IndexError("Вы вышли за поля списка")
     
-    def remove(self, index):
+    def remove_idx(self, index):
         cur_node = self.head
         count = 0
         while cur_node.next is not None:
             if count == index:
-                self.extend()
+                self.remove_first()
                 return
             if count  + 1 == index:
                 the_node_to_remove = cur_node.next
@@ -92,6 +93,18 @@ class LinkedList:
             count += 1
         
         raise IndexError("Вы вышли за поля списка")
+    
+    def remove_value(self, value):
+        cur = self.head
+        
+        if cur.data == value:
+            self.remove_first()
+        
+        while cur.next:
+            if cur.next.data == value:
+                cur.next = cur.next.next
+                return
+            cur = cur.next
     
     
     def value(self, index):
@@ -106,7 +119,17 @@ class LinkedList:
             count += 1
         
         raise IndexError("Вы вышли за поля списка")
-            
+    
+    def index(self, value):
+        cur = self.head
+        index = 0
+        
+        while cur:
+            if cur.data == value:
+                return index
+            cur = cur.next
+            index += 1
+        return index 
             
         
     def removenthfromthend(self, n ):
@@ -118,7 +141,7 @@ class LinkedList:
             count = 0
             while cur_node.next is not None:
                 if count == 1:
-                    self.extend()
+                    self.remove_first()
             return True
         
         while cur_node.next is not None:
@@ -190,9 +213,13 @@ if __name__ == "__main__":
     
     # nums.removenthfromthend(1)
 
-    nums.sortList()
+    print(nums.index(5))
     
-    nums.print()
+    # nums.remove_value(-1)
+    
+    print(nums.print())
+    
+    
     
     # nums.len()
     

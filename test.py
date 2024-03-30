@@ -293,20 +293,52 @@ def largestInteger( num: int) -> int:
     return int(new)
 
 def sortcolors(nums: list[int]) -> list[int]:
-    new = [0] * len(nums)
-    left, right = 0, len(nums) - 1
+    count = {}
     for num in nums:
-        if num == 0:
-            left += 1
-        if num == 1:
-            new[left] = 1
-            left += 1
-        if num == 2:
-            new[right] = 2
-            right -= 1
-    return new
+        count[num] = 1 + count.get(num, 0)
+    idx = 0
+    while count[0] > 0:
+        nums[idx] = 0
+        count[0] -= 1
+        idx += 1
+    while count[1] > 0:
+        nums[idx] = 1
+        count[1] -= 1
+        idx += 1
+    while count[2] > 0:
+        nums[idx] = 2
+        count[2] -= 1
+        idx += 1
+    return nums
+
+def thirdMax(nums: list[int]) -> int:
+    first = 0
+    second = 0
+    third = 0
+    
+    nums = list(set())
+    
+    for num in nums:
+        if num > first:
+            third, second, first = second, first, num
+        else:
+            if num > second:
+                third, second = second, num
+            else:
+                third = num
+    return third
 
 
+def sortSentence(s: str) -> str:
+    words = s.split()
+    new_s = [''] * len(words)
+    
+    for word in words:
+        idx = int(word[-1]) - 1
+        new_s[idx] = word[:-1]
+
+    return ' '.join(new_s)
+    
 # брат, запомни ты должен на ближайщих выходных изучить heap, потому что largest integer, хоть и круто, типо сделал сам жесткий алгоритм,
 # но все равно при помощи heap было бы намного быстрее по сложности
 
@@ -342,4 +374,6 @@ if __name__ == "__main__":
     print(countPairs([-1,1,2,3,1], 2))
     print(largestInteger(1234))
     print(countPairs([-1, 1, 2 , 3, 1], target=2))
-    print(sortcolors([2,0,1]))
+    print(sortcolors([2,0,2,1,1,0]))
+    print(thirdMax([1,2,-2147483648]))
+    print(sortSentence("z1 z2 z3"))

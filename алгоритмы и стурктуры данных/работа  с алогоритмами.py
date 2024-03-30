@@ -78,6 +78,49 @@ def merge_sort(nums: list[int]) -> list[int]:
     return merge_two_lists(merge_sort(left), merge_sort(right))
 
 
+# Сортировка подсчетом
+# Единственная сортировка со сложностью O(n), однако лучше на массивах, элементы которых находятся в маленьком диапозоне
+# Сначала создаю новый массив с длинной max(num) - min(nums) + 1 с нулями, далее нужно пройтись по данному массиву, и записать, сколько раз 
+# появляется данный элемент, и это количество в новый массив по индексу cur_num - min(nums) + 1, наконец нужно совершить проход по новому массиву,
+# и добавлять элемент idx_nums + min(nums), до тех пор пока в текущей ячейке не будет 0
+# в этой сортировке не используется сравнение ключей, что делает ее уникальной.
+def count_sort(nums: list[int]) -> list[int]:
+    max_val = max(nums)
+    min_val = min(nums)
+    idx = 0
+    
+    new = [0] * ((max_val - min_val) + 1)
+
+    for num in nums:
+        new[num - min_val] += 1
+    
+    
+    for index in range(len(new)):
+        for elem in range(new[index]):
+            nums[idx] = index + min_val
+            idx += 1
+    return nums
+
+
+# def count_sort_odd_even(nums: list[int]) -> list[int]:
+#     max_val = max(nums)
+#     min_val = min(nums)
+#     idx = 0
+    
+#     odd = [0] * ((max_val - min_val) + 1)
+#     even = [0] * ((max_val - min_val) + 1)
+
+#     for num in nums:
+        
+#         odd[num - min_val] += 1
+    
+    
+#     for index in range(len(odd)):
+#         for elem in range(odd[index]):
+#             nums[idx] = index + min_val
+#             idx += 1
+#     return nums
+
 # Слияние двух списков
 # Алгоритм двух указателей, двигаем указатели в двух списках сначала, если первый поинтер меньше, то добавляем элемент в массив, который потом будет 
 # возвращен, и двигаем указатель право на один, и так в друг списках пока поинтеры не дайдут до конца списка
@@ -172,13 +215,7 @@ def majority_elem(nums: list[int]) -> int:
     
     return candidates
 
-    
-    # Проверяем, что кандидат действительно является мажоритарным элементом
-    if nums.count(cand) > len(nums) // 2:
-        candidates.append(cand)
-    
-    return candidates
-    
+
 # Рекурсия 
 # По сути это функция, которое в процессе выполнение выполняет себя столько раз, пока не будет собдюдено условие
 # Я рассматрю на примере числа Фибоначчи
@@ -283,15 +320,12 @@ def dijkstra(graph: dict[dict], start: int, end: int) -> list[int]:
     return path
 
 def find_num_between_target(nums, target):
-    count = 2
-    result = []
-    
-    for num in nums:
-        if count != 2 and count != 0 and num != target:
-            result.append(num)
-        if num == target:
-            count -= 1
-    return result
+    left, right = 0, len(nums) - 1
+    while nums[left] != target:
+        left += 1
+    while nums[right] != target:
+        right -= 1
+    return nums[left + 1:right]
 
 # Метод sliding window
 # Например мне надо посчитать все суммы подмассивов с длиной 3, вместо того, чтобы просто проходиться несколько раз по массиву, я просто
@@ -472,7 +506,8 @@ if __name__ == "__main__":
     # print(fib(3))
     # print(fact(5))
     # print(sum([2, 4, 6]))
-    # print(insertion_sort([8, 5, 3, 7, 7 ,2]))
+    print(insertion_sort([8, 5, 3, 7, 7 ,2]))
+    print(count_sort([8, 5, 3, 7, 7 ,2]))
     # print(merge_two_lists([2, 8, 8, 16], [3, 4, 5, 5, 10]))
     # print(merge_sort([8, 5, 3, 7, 7 ,2]))
     # print(majority_elem([1, 2]))

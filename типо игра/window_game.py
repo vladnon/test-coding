@@ -30,12 +30,23 @@ class WindowGame():
         self.user = Game()
         self.balance = CTkLabel(self.window, font=CTkFont(family='Benzin-Bold', size=15), text=f'Баланс: {self.user.coins}', text_color='white')
         self.user_sign = CTkLabel(self.window ,image=self.paper_img, text=None)
-        self.enemy_sign= CTkLabel(self.window, image=self.paper_img, text=None)
+        self.enemy_sign = CTkLabel(self.window, image=self.paper_img, text=None)
         self.res = CTkLabel(self.window, text= 'Нет',  font=CTkFont(family='Benzin-Bold', size=15), anchor=CENTER, fg_color="transparent", bg_color="transparent", text_color='white')
         self.bet_entry = CTkEntry(self.window, placeholder_text='Ставка', font=CTkFont(family='Benzin-Bold', size=10), text_color='white', width=80, fg_color="transparent", bg_color="transparent")
         self.max = CTkLabel(self.window, text=10, font=CTkFont(family='Benzin-Bold', size=15), fg_color="transparent", bg_color="transparent", text_color='white')
         
         
+        
+    def paper(self):
+        return self.sign_main(1)
+        
+            
+    def stone(self):
+        return self.sign_main(2)
+        
+
+    def scissors(self):
+        return self.sign_main(3)
             
     # вот это полное дерьмо типо, ну просто шлак реально
     def list_int(self, nums) -> int:
@@ -57,16 +68,7 @@ class WindowGame():
         if enemy == "ножницы":
             self.enemy_sign.configure(image=self.scissors_img)
        
-    def paper(self):
-        return self.sign_main(1)
-        
-            
-    def stone(self):
-        return self.sign_main(2)
-        
-
-    def scissors(self):
-        return self.sign_main(3)
+    
         
     def sign_main(self, num):
         if self.bet_entry.get() == '':
@@ -126,17 +128,17 @@ class WindowGame():
         if self.not_enough_coins(result) != 'Недостаточно коинов' and self.not_enough_coins(result) != 'Нет коинов':
             self.not_enough_coins(result)
             sign = result[3]
+            enemy = result[2]
             self.update_user(sign)
             self.update_res(result)
             self.update_balance(result)
             self.update_max(result)
-            self.choose_enemy_sign(result[2])
+            self.choose_enemy_sign(enemy)
         
     def destroy(self):
         self.window.destroy()
     
-        
-        
+
     def run(self):
         self.stone_b.place(x=55, y=259)
         
