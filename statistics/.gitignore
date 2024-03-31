@@ -1,0 +1,5 @@
+<<<<<<< Updated upstream:основы статистики/.gitignore
+ipynb_checkpoints/
+=======
+ipynb_checkpoints
+>>>>>>> Stashed changes:statistics/.gitignore
