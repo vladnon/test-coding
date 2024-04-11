@@ -1,15 +1,3 @@
-def countTriples( n: int) -> int:
-    left, right = 0, n - 1
-    count = 0
-    while left <= right:
-        cur_sum_squares = (left ** 2 + right ** 2) 
-        if cur_sum_squares > n * n: 
-            left += 1
-        elif cur_sum_squares == n * n:
-            count += 1
-        else:
-            right += 1
-    return count
 
 def isGood( nums: list[int]) -> bool:
         num = max(nums)
