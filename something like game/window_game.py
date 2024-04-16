@@ -16,9 +16,9 @@ class WindowGame():
         
         # создание изображение
 
-        self.paper_img = CTkImage(light_image = Image.open('./типо игра/img/paper.png'), size=(125, 91))
-        self.stone_img = CTkImage(light_image = Image.open('./типо игра/img/stone.png'), size=(130, 91))
-        self.scissors_img = CTkImage(light_image = Image.open('./типо игра/img//scissors.png'), size=(87, 91))
+        self.paper_img = CTkImage(light_image = Image.open('./something like game/img/paper.png'), size=(125, 91))
+        self.stone_img = CTkImage(light_image = Image.open('./something like game/img/stone.png'), size=(130, 91))
+        self.scissors_img = CTkImage(light_image = Image.open('./something like game/img//scissors.png'), size=(87, 91))
         
         
         # создание кнопок

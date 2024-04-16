@@ -227,8 +227,7 @@ def twoSum( nums: list[int], target: int) -> list[int]:
                 right -= 1
         return -1
 
-# норм идея, но нужно во-первых оптимизировать, во-вторых нужны поинтеры, так как .index берешь возвращает индекс ближайщего испокомого элемента, 
-# ну типо не файт, что это именно тот, который тебе нужен, ну например в случае с 266 
+
 def largestInteger( num: int) -> int:
     nums = list(map(str, str(num)))
     nums = [int(num) for num in nums]

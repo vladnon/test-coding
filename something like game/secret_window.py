@@ -10,7 +10,7 @@ class Secret(CTkToplevel):
         self.secretwin.title("Секрет")
         self.secretwin.geometry('1820x980')
         
-        self.image = CTkImage(light_image = Image.open('./типо игра/img/ok.jpg'), size=(1820, 980))
+        self.image = CTkImage(light_image = Image.open('./something like game/img/ok.jpg'), size=(1820, 980))
         
         self.label = CTkLabel(self.secretwin, text=None, image=self.image)   
         

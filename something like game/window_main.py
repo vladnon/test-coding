@@ -13,8 +13,8 @@ class Main(CTk):
         self.window.resizable(width=False, height=False) 
         
         # импортирование картинок
-        self.start_img = CTkImage(Image.open('./типо игра/img/start.png'))
-        self.close_img = CTkImage(Image.open('./типо игра/img/close_.jpg'), size=(20, 25))
+        self.start_img = CTkImage(Image.open('./something like game/img/start.png'))
+        self.close_img = CTkImage(Image.open('./something like game/img/close_.jpg'), size=(20, 25))
         
         # инициилизация перменных для экземпляров классов
         self.windowsec = None
