@@ -128,6 +128,7 @@ class BinaryTree:
                 queue.append(cur.left)
             count += 1
         return cur.data
+    
     def return_levels(self):
         queue = deque([self.root])
         level = []

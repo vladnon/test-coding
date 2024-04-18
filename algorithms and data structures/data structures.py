@@ -856,17 +856,6 @@ if __name__ == "__main__":
     print(my_tree.post_order())
     
     
-    # my_list = Linked_list()
-    
-    # my_list.append(8)
-    # # my_list.append(156)
-    # # my_list.append(79)
-    # # my_list.append(5)
-    # # my_list.append(27)
-    # # my_list.append(4)
-    
-    # my_list.extend(20)
-    
     # # my_list.remove_back()
     
     # my_list.remove_front()

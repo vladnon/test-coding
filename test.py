@@ -135,26 +135,6 @@ def maxSum( nums: list[int]) -> int:
 #             arr[idx], max_after = max_after, arr[idx]
 #     return arr
 
-# что пока я могу сказать, right не сбрасывается после второго цикла, так что надо что-то придумать
-def replaceElements(arr: list[int]) -> list[int]:
-        left, right = 0, 1
-        max_right_pointer = 1
-        
-        while left <= len(arr):
-            max_right = 0
-            
-            if left == len(arr) -1:
-                arr[left] = -1
-            while right <= len(arr) -1:
-                if max_right < arr[right]:
-                    max_right = arr[right]
-                    max_right_pointer = right
-                right += 1
-            arr[left], arr[max_right_pointer] = arr[max_right_pointer], arr[left]
-            left += 1
-            right += 1
-            max_right_pointer += 1
-        return arr
     
 # короче завтра доделай какая-то хуета, теперь просто добавляются какие-значения хз почему
 def shortestToChar( s: str, c: str) -> list[int]:
@@ -328,8 +308,58 @@ def sortSentence(s: str) -> str:
     
 # брат, запомни ты должен на ближайщих выходных изучить heap, потому что largest integer, хоть и круто, типо сделал сам жесткий алгоритм,
 # но все равно при помощи heap было бы намного быстрее по сложности
+def mostWordsFound( sentences: list[str]) -> int:
+    max_lenght = 0
+    for sentence in sentences:
+        lenght = 0
+        for char in sentence:
+            if char == ' ':
+                lenght += 1
+
+        max_lenght = max(max_lenght, lenght+1)
+    return max_lenght
+
+def replaceElements(arr: list[int]) -> list[int]:
+    left, right = 0, len(arr) - 1
+    while left <= right:
+        maxi = arr.index(min(arr))
+        while right != left:
+            if arr[right] > arr[maxi]:
+                maxi = right
+            right -= 1
+        arr[left], arr[maxi] = arr[maxi], arr[left]
+        left += 1
+        right = len(arr) - 1
+    return arr
+
+# мне кажется я уже близко, но в целом я могу быть прав
+def maxSum(nums: list[int], m: int, k: int) -> int:
+    left, right = 0, 0
+    count = {}
+    maxs = 0
+    while right < len(nums):
+        if right not in count:
+
+            count[right] = 1
+            
+            if count[left] == 0:
+                del count[left]
+
+            if right - left == k:
+                if len(count) >= m:
+                    maxs = max(maxs, sum(nums[left, right]))
+                    count[left] -= 1
+                    left += 1
+ 
+        else:
+            count[right] += 1
+
+        right += 1
+        
+    return maxs
 
 if __name__ == "__main__":
+
     
     # graph = {
     #     1 : {2 : 5, 3 : 1},
@@ -342,25 +372,28 @@ if __name__ == "__main__":
     # print(countTriples(5))
     # print(isGood([2,1,2,5,2,5]))
     # print(checkIfExist([-2,0,10,-19,4,6,-8]))
-    print(n_in_arr_and_double([-2,0,10,-19,4,6,-8]))
-    print(search_range([5,7,7,8,8,10], 8))
-    print(smallerNumbersThanCurrent([8,1,2,2,3]))
-    # print(areAlmostEqual("siyolsdcjthwsiplcc j buceoxm p jgrauocx", "siyolsdcjthwsiplcc p buceoxm j jgrauocx"))
-    print(middle_elem([2,3,-1,8,4]))
-    print(leftRightDifference([10,4,8,3]))
-    # print(shortestToChar("loveleetcode", "e"))
+    # print(n_in_arr_and_double([-2,0,10,-19,4,6,-8]))
+    # print(search_range([5,7,7,8,8,10], 8))
+    # print(smallerNumbersThanCurrent([8,1,2,2,3]))
+    # # print(areAlmostEqual("siyolsdcjthwsiplcc j buceoxm p jgrauocx", "siyolsdcjthwsiplcc p buceoxm j jgrauocx"))
+    # print(middle_elem([2,3,-1,8,4]))
+    # print(leftRightDifference([10,4,8,3]))
+    # # print(shortestToChar("loveleetcode", "e"))
+    # # print(replaceElements([17,18,5,4,6,1]))
+    # print(restoreString("codeleet", [4,5,6,7,0,2,1,3]))
+    # # print(maxSum([8,75,28,35,21,13,21]))
     # print(replaceElements([17,18,5,4,6,1]))
-    print(restoreString("codeleet", [4,5,6,7,0,2,1,3]))
-    print(maxSum([8,75,28,35,21,13,21]))
-    # print(replaceElements([17,18,5,4,6,1]))
-    # print(frequencySort("tree"))
-    print(shortestToChar("aaba", "b"))
-    print(smting('catcatcat'))
-    # print(smting2([8, 7, 20, 5, 17, 40], 5))
-    print(twoSum([3,2,4], 6))
-    print(countPairs([-1,1,2,3,1], 2))
-    print(largestInteger(1234))
-    print(countPairs([-1, 1, 2 , 3, 1], target=2))
-    print(sortcolors([2,0,2,1,1,0]))
-    print(thirdMax([1,2,-2147483648]))
-    print(sortSentence("z1 z2 z3"))
+    # # print(frequencySort("tree"))
+    # print(shortestToChar("aaba", "b"))
+    # print(smting('catcatcat'))
+    # # print(smting2([8, 7, 20, 5, 17, 40], 5))
+    # print(twoSum([3,2,4], 6))
+    # print(countPairs([-1,1,2,3,1], 2))
+    # print(largestInteger(1234))
+    # print(countPairs([-1, 1, 2 , 3, 1], target=2))
+    # print(sortcolors([2,0,2,1,1,0]))
+    # print(thirdMax([1,2,-2147483648]))
+    # print(sortSentence("z1 z2 z3"))
+    # print(mostWordsFound(["alice and bob love leetcode","i think so too","this is great thanks very much"]))
+    # print(replaceElements())
+    print(maxSum([2,6,7,3,1,7], 3, 4))
