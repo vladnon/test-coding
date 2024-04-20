@@ -294,7 +294,7 @@ class BinarySearchTree:
         # если нет корня, то есть дерево пустое, то новый узел будет корнем
         if not self.root:
             self.root = node
-        # если нет, то сосдает нынешний узел(изначально равен корню), и запускает бесконечный цикл
+        # если нет, то создает нынешний узел(изначально равен корню), и запускает бесконечный цикл
         else:
             cur_node = self.root
             while True:
@@ -680,214 +680,194 @@ class AVLBinaryTree:
                 cur_node = cur_node.right
         return False
     
+                
+# Бинарная куча
+# Дочерние элементы должны быть не больше чем родительский. Все слои заполнены узлами, кроме последнего, в нем могут быть листья.
+# На последнем слою все узлы также должны быть упорядочены. Просеивание вверх - равнивается этот ключ нового узла и ключ его родителя,
+# и если он больше, то меняется с ключом с родителем и тд. Просеиванием вниз -  на место ключа нового корня встает 
+# наибольший дочерний ключ и так пок не останется дочерних узлов.
+# Используется для эффективной реализации очереди с приоритетом, а также для сортировки.  
 
-class Node:
+# Изменение ключа прозвольного узла, тут тоже самое или просевание вверх или вниз.
+
+# Эту стурктуру данных можно сделать на основе массива, ну 0 элемент будет являться корнем, а дальше дочерних элемент расчитывается по формуле
+# [2i + 1] для первого ну и [2i + 2] для второго дочернего элемента. Родительский узел, логично, будет вычисляться [i -1] // 2
+
+class Nodebh:
     def __init__(self, data) -> None:
         self.data = data
-        self.right = None
-        self.left = None
-        self.height = 0
-
-class AvlTree:
+        
+class BinaryHeap:
     def __init__(self) -> None:
-        self.root = None
-    
-    def update_height(self, node):
-        if node.right is None:
-            node.height = 1 + node.left.height
-        elif node.left and node.right:
-            node.height = 1 + max(node.left.height, node.right.height)
-        else:
-            node.height = 1 + node.right.height
-
-    def check_balance(self, node):
-        if node.left and node.right:
-            return node.left.height - node.right.height 
-        if not node.left:
-            return node.right.height
-        else:
-            return node.left.height
-    
-    def swap(self, node1, node2):
-        node1.data, node2.data = node2.data, node1.data
-
-    def rotate_right(self, node):
-        self.swap(node, node.left)
-        buffer = node.right
-        node.right = node.left
-        node.left = node.right.left
-        node.right.left = node.right.right
-        node.right.right = buffer
-        self.update_height(node.right)
-        self.update_height(node)
-
-    def rotate_left(self, node):
-        self.swap(node, node.right)
-        buffer = node.left
-        node.left = node.right
-        node.right = node.left.right
-        node.left.right = node.left.left
-        node.left.left = buffer
-        self.update_height(node.left)
-        self.update_height(node)
-
-    def balance(self, node):
-        balance = self.check_balance(node)
-
-        if balance == -2:
-            if self.check_balance(node.left) == 1:
-                self.rotate_left(node.left)
-            self.rotate_right(node)
-
-        elif balance == 2:
-            if self.check_balance(node.right) == 1:
-                self.rotate_right(node.right)
-            self.rotate_left(node)
-
-    def append(self, data):
-        cur_node = self.root
-        new_node = Node(data)
-
-        if not self.root:
-            self.root = new_node
-            return
-
-        parent = None
-        while cur_node:
-            parent = cur_node
-            if data < cur_node.data:
-                if not cur_node.left:
-                    cur_node.left = new_node
-                    self.update_height(parent)
-                    self.balance(parent)
-                    return
-                else:
-                    cur_node = cur_node.left
+        # логично, изначально куча пустая
+        self.nodes = []
+        
+    # идем до корня или до того как порядок в куче не будет налажен. Проверяем больше ли значение текущего элемента чем его родителя,
+    # дальше меняяем если да и меняям ноду на родительскую, если нет, то и так порядок соблюден.
+    def sift_up(self, idx):
+        while idx > 0:
+            if self.nodes[(idx - 1) // 2].data < self.nodes[idx].data:
+                self.nodes[idx], self.nodes[(idx - 1) // 2] = self.nodes[(idx - 1) // 2], self.nodes[idx]
             else:
-                if not cur_node.right:
-                    cur_node.right = new_node
-                    return
-                else:
-                    cur_node = cur_node.right
-
-    def print(self):
-        stack = [self.root]
-        result = []
-
-        while stack:
-            cur_node = stack.pop()
-            result.append(cur_node.data)
-            if cur_node.right:
-                stack.append(cur_node.right)
-            if cur_node.left:
-                stack.append(cur_node.left)
+                break
+            idx = (idx - 1) // 2
+    
+    # если левый и правый вообще существуют, то находим максимальный ключ из них(дочерних узлов), если макс элемент не остался прежним
+    # то меняем текущий на макс, а потом меняем индекс текущего на макс дочерний, если нет то порядок восстановлен
+    def sift_down(self, idx):
+        n = len(self.nodes)
+        while idx < n:
+            left =  2 * idx + 1
+            right = 2 * idx + 2
+            largest = idx
+            if left <= n - 1 and self.nodes[left].data > self.nodes[largest].data:
+                largest = left
+            if right <= n - 1 and self.nodes[right].data > self.nodes[largest].data:        
+                largest = right
+            if largest != idx:
+                self.nodes[idx], self.nodes[largest] = self.nodes[largest], self.nodes[idx]
+                idx = largest
+            else:
+                break
+                 
+    # Вставка проиходит в последний слой, а потом идет просеивание вверх. 
+    def append(self, data):
+        self.nodes.append(Nodebh(data))
+        idx = len(self.nodes) - 1
+        self.sift_up(idx)
+    
+    # Получение максимального элемента. С первым действием все просто - корень будет самым большим числом в кучи, но после он удаляется.
+    # Тогда на место корня встает самый последний добавленный элемент в кучу, но опять же упорядоченность кучи будет нарушена.
+    # Дальше идет происвание вниз.
+    def extract_max(self):
+        if len(self.nodes) == 0:
+            return
+        result = self.nodes[0].data
+        self.nodes[0] = self.nodes.pop()
+        self.sift_down(0)
         return result
     
-    def print_right(self, data):
-        cur_node = self.root
-        while cur_node:
-            if data < cur_node.data:
-                cur_node = cur_node.left
-            elif data == cur_node.data:
-                if cur_node.right:
-                    return cur_node.right.data
-                else:
-                    return None
-            else:
-                cur_node = cur_node.right
+    def print(self):
+        result = [node.data for node in self.nodes]
+        return result
+    
+    # Ну почти тоже самое, только добавляет новый элемент на первое место
+    def append_and_extract_max(self, data):
+        result = self.nodes[0]
+        self.nodes[0] = Nodebh(data)
+        self.sift_down()
+        return result
+    
+    def found_by_data(self, data):
+        for idx in range(len(self.nodes)):
+            if self.nodes[idx].data == data:
+                return idx
+        return None
+    
+    # Удаление произвольного узла, на место текущего ставится последний добавленный узел, после чего выполняется или просевание вверх или вниз,
+    # смотря какое свойство было нарушено.
+    def remove(self, data):
+        idx = self.found_by_data(data)
+        if idx is None:
+            return
+        self.nodes[idx] = self.nodes.pop()
+        self.heap_recovery(idx)
+        
+    # Смотрит есть ли родитель и его ключ меньше чем ключ текущего, нужно делать просеивание вверх, если наоборот вниз
+    def heap_recovery(self, idx):
+        n = len(self.nodes)
+        if (idx -1) // 2 >= 0 and self.nodes[idx].data > self.nodes[(idx - 1) // 2].data:
+            self.sift_up(idx)
+            return
+        self.sift_down(idx)
+    
+    # ну тут просто меняется ключ и идет восставление порядка кучи
+    def change_data(self, old, new):
+        idx = self.found_by_data(old)
+        if idx is None:
+            return
+        self.nodes[idx].data = new
+        self.heap_recovery(idx)
 
-    def print_left(self, data):
-        cur_node = self.root
-        while cur_node:
-            if data < cur_node.data:
-                cur_node = cur_node.left
-            elif data == cur_node.data:
-                if cur_node.left:
-                    return cur_node.left.data
-                else:
-                    return None
-            else:
-                cur_node = cur_node.right
             
 if __name__ == "__main__":
-    # AVL_tree = AVLBinaryTree()
-    # AVL_tree.append(1)
-    # AVL_tree.append(2)
-    # AVL_tree.append(3)
-    # print(AVL_tree.search(2))
-    # print(AVL_tree.get_left(2))
-    # print(AVL_tree.get_right(2))
-
-    avl_tree = AvlTree()
-    avl_tree.append(3)
-    avl_tree.append(1) 
-    avl_tree.append(2)
-    # avl_tree.append(10)
-    print(avl_tree.print())
-    # avl_tree.balance()
-    print(avl_tree.print_left(2))
-    print(avl_tree.print_right(2))
+    heap = BinaryHeap()
+    heap.append(10)
+    heap.append(2)
+    heap.append(7)
+    heap.append(12)
+    heap.append(5)
+    print(heap.print())
+    heap.extract_max()
+    print(heap.print())
+    heap.append(20)
+    heap.append(3)
+    print(heap.print())
+    heap.change_data(20, 1)
+    heap.remove(10)
+    print(heap.print())
 
 
-    
-    
-    
-    
-    my_tree = BinarySearchTree()
-    my_tree.add(50)
-    my_tree.add(45)
-    my_tree.add(49)
-    my_tree.add(47)
-    my_tree.add(90)
-    my_tree.add(20)
-    my_tree.add(37)
-    print(my_tree.search(90))
-    print(my_tree.max())
-    print(my_tree.min())
-    print(my_tree.hasnext(90))
-    # print(my_tree.ok(1))
-    print(my_tree.hasright(45))
-    print(my_tree.len())
-    print(my_tree.delete(45))
-    print(my_tree.len())
-    print(my_tree.search(45))
-    print(my_tree.pre_order())
-    print(my_tree.in_order())
-    print(my_tree.post_order())
-    
-    
-    # # my_list.remove_back()
-    
-    # my_list.remove_front()
-    
-    # # my_list.insert(2, 17)
-    
-    # my_list.remove(0)
-    
-    # #  my_list.reverse()
-    
-    # my_list.print()
-    
-    # print(my_list.len())
 
-    # print(my_list.value(2))
+    
+    
+    
+    
+    # my_tree = BinarySearchTree()
+    # my_tree.add(50)
+    # my_tree.add(45)
+    # my_tree.add(49)
+    # my_tree.add(47)
+    # my_tree.add(90)
+    # my_tree.add(20)
+    # my_tree.add(37)
+    # print(my_tree.search(90))
+    # print(my_tree.max())
+    # print(my_tree.min())
+    # print(my_tree.hasnext(90))
+    # # print(my_tree.ok(1))
+    # print(my_tree.hasright(45))
+    # print(my_tree.len())
+    # print(my_tree.delete(45))
+    # print(my_tree.len())
+    # print(my_tree.search(45))
+    # print(my_tree.pre_order())
+    # print(my_tree.in_order())
+    # print(my_tree.post_order())
+    
+    
+    # # # my_list.remove_back()
+    
+    # # my_list.remove_front()
+    
+    # # # my_list.insert(2, 17)
+    
+    # # my_list.remove(0)
+    
+    # # #  my_list.reverse()
+    
+    # # my_list.print()
+    
+    # # print(my_list.len())
+
+    # # print(my_list.value(2))
     
 
         
-    # nums = dbLinkedList()
+    # # nums = dbLinkedList()
     
     
     
-    # nums.append(1)
-    # nums.append(45)
-    # nums.append(754)
+    # # nums.append(1)
+    # # nums.append(45)
+    # # nums.append(754)
     
-    # nums.extend(54)
+    # # nums.extend(54)
     
     
-    # nums.len()
+    # # nums.len()
     
-    # nums.print()
+    # # nums.print()
     
-    print(majority_element([1, 2, 3, 3]))
-    print(two_sum([1, 2, 4], 6))    
+    # print(majority_element([1, 2, 3, 3]))
+    # print(two_sum([1, 2, 4], 6))    

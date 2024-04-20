@@ -1,13 +1,11 @@
 import random
 
-
-
 class Game:
     def __init__(self) -> None:
         self.coins = 10
         self.SIGNS = ('камень', 'ножницы', 'бумага')
-
-
+        
+        
     def main(self, user, bet):
         enemy = random.choice(self.SIGNS)
         if self.coins == 0:

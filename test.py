@@ -135,29 +135,52 @@ def maxSum( nums: list[int]) -> int:
 #             arr[idx], max_after = max_after, arr[idx]
 #     return arr
 
-    
-# короче завтра доделай какая-то хуета, теперь просто добавляются какие-значения хз почему
+# что пока я могу сказать, right не сбрасывается после второго цикла, так что надо что-то придумать
+def replaceElements(arr: list[int]) -> list[int]:
+        left, right = 0, 1
+        max_right_pointer = 1
+        
+        while left <= len(arr):
+            max_right = 0
+            
+            if left == len(arr) -1:
+                arr[left] = -1
+            while right <= len(arr) -1:
+                if max_right < arr[right]:
+                    max_right = arr[right]
+                    max_right_pointer = right
+                right += 1
+            arr[left], arr[max_right_pointer] = arr[max_right_pointer], arr[left]
+            left += 1
+            right += 1
+            max_right_pointer += 1
+        return arr
+
 def shortestToChar( s: str, c: str) -> list[int]:
-        dists = []
-        for idx in range(len(s)):
+    dists = []
+    for idx in range(len(s)):
+        if s[idx] != c:
             left, right = idx, idx
-            min_dist = 0
-            if left == 0:
-                while s[right] != c or right > len(s) - 1:
-                    right += 1
+            lflag = False
+            rflag = False
+            while s[right] != c and right < len(s) - 1:
+                right += 1
+            if s[right] == c:
+                rflag = True
+            while s[left] != c and left > 0:
+                left -= 1
+            if s[left] == c:
+                lflag = True
+            if lflag == False:
                 dists.append(abs(idx - right))
-            if right == len(s) -1 :
-                while s[left] != c or left > len(s) - 1:
-                    left -= 1
+            elif rflag == False:
                 dists.append(abs(idx - left))
             else:
-                while s[left] != c or left > len(s) - 1:
-                    left -= 1
-                while s[right] != c or right > len(s) - 1:
-                    right += 1
-                min_dist = min(abs(idx - right), abs(idx - left))
-                dists.append(min_dist)
-        return dists
+                dists.append(min(abs(idx - right), (abs(idx - left))))
+
+        else:
+            dists.append(0)
+    return dists
             
             
 def smting(s):

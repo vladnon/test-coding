@@ -62,6 +62,5 @@ class Main(CTk):
 if __name__ == '__main__':
     start = Main()
     start.run()
-    
 
     

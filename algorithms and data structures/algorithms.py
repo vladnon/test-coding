@@ -339,7 +339,6 @@ def dfs(start: int, target: int, graph: dict[int], visited: list[int]):
     
     if start in visited:
         return False
-    
     visited += [start]
     for neighbor in graph[start]:
         if neighbor not in visited:
