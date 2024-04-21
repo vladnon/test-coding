@@ -360,26 +360,104 @@ def maxSum(nums: list[int], m: int, k: int) -> int:
     left, right = 0, 0
     count = {}
     maxs = 0
-    while right < len(nums):
-        if right not in count:
 
-            count[right] = 1
+    if k == 1:
+        for num in nums:
+            maxs = max(maxs, num)
+        return maxs
             
-            if count[left] == 0:
-                del count[left]
+    while right < len(nums):
+        if nums[right] not in count:
 
-            if right - left == k:
+            count[nums[right]] = 133
+            
+            if count[nums[left]] == 0:
+                del count[nums[left]]
+
+            if right - left  + 1 == k:
                 if len(count) >= m:
-                    maxs = max(maxs, sum(nums[left, right]))
-                    count[left] -= 1
+                    maxs = max(maxs, sum(nums[left: right]))
                     left += 1
- 
+                count[nums[left]] -= 1
+
         else:
-            count[right] += 1
+            count[nums[right]] += 1
 
         right += 1
-        
+    
     return maxs
+
+def topKFrequent(nums: list[int], k: int) -> list[int]:
+
+        if len(nums) == 1:
+            return nums
+
+
+        heap = BinaryHeap()
+        heap.k_freq_elem(nums, k)
+
+class Node:
+    def __init__(self, data, freq) -> None:
+        self.data = data
+        self.freq = freq
+        
+class BinaryHeap:
+    def __init__(self) -> None:
+        self.nodes = []
+
+    def sift_up(self, idx):
+        while idx > 0:
+            parent = (idx - 1) // 2
+            if self.nodes[idx].freq > self.nodes[parent].freq:
+                self.nodes[idx], self.nodes[parent] = self.nodes[parent], self.nodes[idx]
+                idx = parent
+            else:
+                break
+
+    def sift_down(self, idx):
+        n = len(self.nodes)
+        while True:
+            left = 2 * idx + 1
+            right = 2 * idx + 2
+            largest = idx
+            if left <= n - 1 and self.nodes[left].freq > self.nodes[largest].freq:
+                largest = left
+            if right <= n - 1 and self.nodes[right].freq > self.nodes[largest].freq:
+                largest = right
+            if largest != idx:
+                self.nodes[idx], self.nodes[largest] = self.nodes[largest], self.nodes[idx]
+                idx = largest
+            else:
+                break
+
+    def append(self, data, freq):
+        self.nodes.append(Node(data, freq))
+        idx = len(self.nodes) - 1
+        self.sift_up(idx)
+
+    def extract_max(self):
+        
+        if len(self.nodes) == 0:
+            return
+        
+        result = self.nodes[0].data
+        self.nodes[0] = self.nodes.pop()
+        self.sift_down(0)
+        return result
+
+
+    def k_freq_elem(self, array, k):
+        count = {}
+        for num in array:
+            count[num] = 1 + count.get(num, 0)
+        self.nodes = [Node(num, freq) for num, freq in count.items()]
+        result = []
+        while k > 0:
+            res = self.extract_max()
+            result.append(res)
+            k -= 1
+        return result
+
 
 if __name__ == "__main__":
 
@@ -397,26 +475,12 @@ if __name__ == "__main__":
     # print(checkIfExist([-2,0,10,-19,4,6,-8]))
     # print(n_in_arr_and_double([-2,0,10,-19,4,6,-8]))
     # print(search_range([5,7,7,8,8,10], 8))
-    # print(smallerNumbersThanCurrent([8,1,2,2,3]))
-    # # print(areAlmostEqual("siyolsdcjthwsiplcc j buceoxm p jgrauocx", "siyolsdcjthwsiplcc p buceoxm j jgrauocx"))
-    # print(middle_elem([2,3,-1,8,4]))
-    # print(leftRightDifference([10,4,8,3]))
-    # # print(shortestToChar("loveleetcode", "e"))
-    # # print(replaceElements([17,18,5,4,6,1]))
-    # print(restoreString("codeleet", [4,5,6,7,0,2,1,3]))
-    # # print(maxSum([8,75,28,35,21,13,21]))
-    # print(replaceElements([17,18,5,4,6,1]))
-    # # print(frequencySort("tree"))
-    # print(shortestToChar("aaba", "b"))
-    # print(smting('catcatcat'))
-    # # print(smting2([8, 7, 20, 5, 17, 40], 5))
-    # print(twoSum([3,2,4], 6))
-    # print(countPairs([-1,1,2,3,1], 2))
-    # print(largestInteger(1234))
+    # print(smallerNumbersThanC[2,6,7,3,1,7])
     # print(countPairs([-1, 1, 2 , 3, 1], target=2))
     # print(sortcolors([2,0,2,1,1,0]))
     # print(thirdMax([1,2,-2147483648]))
     # print(sortSentence("z1 z2 z3"))
     # print(mostWordsFound(["alice and bob love leetcode","i think so too","this is great thanks very much"]))
     # print(replaceElements())
-    print(maxSum([2,6,7,3,1,7], 3, 4))
+    # print(maxSum([1,1,1,2], 2, 4))
+    print(topKFrequent([-1, -1], 1))
