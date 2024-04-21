@@ -1,3 +1,5 @@
+from binary_heap import *
+from heapq import *
 # Арифметические алгоритмы
 
 # Нахождение всех делителей
@@ -62,6 +64,8 @@ def gcd(a, b):
 #  lcm * gcd = a * b => lcm = a * b // gcd
 def lcm(a, b):
     return (a * b) // gcd(a, b)
+
+# Сортировки
 
 # Сортировка пузырьком
 # просто поэтапно сравнивает левый и правый элементы массив, если левый больше, то он их меняет на правый
@@ -128,6 +132,41 @@ def shell_sort(nums: list[int]) -> list[int]:
         gap //= 2
     return nums
                 
+# Сортировка бинарной кучей
+# Работает просто: по массиву создает кучу, далее вытаскиваем из нее максимальное значение, на его место встает последний элемент,
+# далее совершается просивание вниз, и так пока куча не будет пустой
+
+# Из своего модуля
+
+class Node(Node):
+    def __init__(self, data) -> None:
+        super().__init__(data)
+
+class BinaryHeap(BinaryHeap):
+    def __init__(self) -> None:
+        super().__init__()
+        self.nodes = []
+
+    def heap_sort(self, nums):
+        self.nodes = []
+        for num in nums:
+            self.append(num)
+        idx = len(self.nodes) - 1
+        result = [0] * len(self.nodes)
+        while idx > 0:
+            result[idx] = self.extract_max()
+            idx -= 1
+        result[0] = self.nodes[0].data
+        return result
+    
+# Из встроенного модуля
+def heap_sort(nums):
+    heapify(nums)
+    result = []
+    while nums:
+        result.append(heappop(nums))
+    return result
+        
 
 
 # Сортировка слиянием
@@ -207,6 +246,7 @@ def merge_two_lists(list1: list[int], list2: list[int]) -> list[int]:
         result.append(list2[p2])
         p2 += 1
     return result
+# Поиски
 
 # Бинарный поиск
 # Берется среднее число, если оно равно числу, которое мы ищем, то алгоритм выполнился, т.к. мы нашли число, если число меньше, то мы отрезаем от массива все правые числа от этого элемента, и находим средний элемент уже нового массива, и так далее пока не найдем элемент
@@ -576,6 +616,9 @@ if __name__ == "__main__":
     # print(merge_sort([8, 5, 3, 7, 7 ,2]))
     # print(majority_elem([1, 2]))
     # print(shell_sort([8, 5, 3, 7, 7 ,2]))
+    heap = BinaryHeap()
+    print(heap.heap_sort([8, 5, 3, 7, 7 ,2]))
+    print(heap_sort([8, 5, 3, 7, 7 ,2]))
     print(find_num_between_target([1, 2, 3, 1234, "asdfas", 12341234, 4, 5, 2], 2))
 
     graph = {
