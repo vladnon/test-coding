@@ -776,7 +776,7 @@ class BinaryHeap:
     # Смотрит есть ли родитель и его ключ меньше чем ключ текущего, нужно делать просеивание вверх, если наоборот вниз
     def heap_recovery(self, idx):
         n = len(self.nodes)
-        if (idx -1) // 2 >= 0 and self.nodes[idx].data > self.nodes[(idx - 1) // 2].data:
+        if (idx -1) // 2 >= 0  and self.nodes[idx].data > self.nodes[(idx - 1) // 2].data:
             self.sift_up(idx)
             return
         self.sift_down(idx)

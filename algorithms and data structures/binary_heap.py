@@ -59,6 +59,16 @@ class BinaryHeap:
             return
         self.nodes[idx] = self.nodes.pop()
         self.heap_recovery(idx)
+        
+    def pop(self):
+        result = self.nodes.pop()
+        
+        if len(self.nodes) == 0:
+            return
+        
+        n = len(self.nodes)
+        self.heap_recovery(n - 1)
+        return result
     
     def found_by_data(self, data):
         for idx in range(len(self.nodes)):
@@ -85,6 +95,8 @@ class BinaryHeap:
         result = [node.data for node in self.nodes]
         return result
     
+    
+    
 
 if __name__ == "__main__":
     heap = BinaryHeap()
@@ -101,5 +113,4 @@ if __name__ == "__main__":
     heap.change_data(12, 0)
     heap.sift_up(-1)
     print(heap.print())
-    print(heap.heap_sort([12, 1, 5, -2, 8, 2]))
     
