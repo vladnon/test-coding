@@ -581,6 +581,15 @@ def maximumSubarraySum(nums: list[int], k: int) -> int:
         right += 1
     return res
 
+# Prefix sum
+# Задача состояла в том, чтобы посчитать сумму всех чисел от 0-индекса до i, 1
+def runningSum(nums: list[int]) -> list[int]:
+    result = [0] * len(nums)
+    result[0] = nums[0]
+    for right in range(1, len(nums)):
+        result[right] = result[right - 1] + nums[right]
+    return result
+
 
 # также два поинтера можно использовать не как то, что ты двигаешь сравниваешь, а как рамки, например есть задача, even odd sort,
 # где есть число четное нужно переместить в начало, а если нет в конец, тогда left и right будут выступать исключительно как рамки,
