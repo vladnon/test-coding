@@ -53,13 +53,24 @@ class BinaryHeap:
                 return idx  
             
     def heap_recovery(self, idx):
-        if (idx - 1) // 2 > 0 and self.nodes[(idx - 1) // 2] > self.nodes
+        if (idx - 1) // 2 >= 0 and self.nodes[(idx - 1) // 2] > self.nodes[idx].key:
+            self.sift_up(idx)
+        self.sift_down()
     
-    def remove(self):
-        pass
+    def remove(self, key):
+        idx = self.found_by_idx(key)
+        self.nodes[idx] = self.nodes.pop()
+        self.heap_recovery(idx)
 
-    def __str__(self):
+    
+    def retur(self):
         return f"{(self.name ,[(node.key, node.value) for node in self.nodes])}"
+    
+    def heapify(self, array):
+        self.nodes = []
+        for num in array:
+            self.nodes.append(Node(num))
+        
         
     
 if __name__ == "__main__":
