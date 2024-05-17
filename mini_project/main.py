@@ -13,7 +13,7 @@ class BinaryHeap:
     def sift_up(self, idx):
         while idx > 0:
             parent = (idx - 1) // 2
-            if self.nodes[parent].key < self.nodes[idx].key:
+            if self.nodes[parent].key > self.nodes[idx].key:
                 self.nodes[parent], self.nodes[idx] = self.nodes[idx], self.nodes[parent]
                 idx = parent
             else:
@@ -25,9 +25,9 @@ class BinaryHeap:
             left = 2 * idx + 1
             right = 2 * idx + 2
             largest = idx
-            if left <= n - 1 and self.nodes[left].key > self.nodes[largest].key:
+            if left <= n - 1 and self.nodes[left].key < self.nodes[largest].key:
                 largest = left
-            if right <= n - 1 and self.nodes[right].key > self.nodes[largest].key:
+            if right <= n - 1 and self.nodes[right].key < self.nodes[largest].key:
                 largest = right 
             if largest != idx:
                 self.nodes[idx], self.nodes[largest] = self.nodes[largest], self.nodes[idx]
@@ -53,7 +53,7 @@ class BinaryHeap:
                 return idx  
             
     def heap_recovery(self, idx):
-        if (idx - 1) // 2 >= 0 and self.nodes[(idx - 1) // 2] > self.nodes[idx].key:
+        if (idx - 1) // 2 >= 0 and self.nodes[(idx - 1) // 2] < self.nodes[idx].key:
             self.sift_up(idx)
         self.sift_down()
     
@@ -75,7 +75,7 @@ class BinaryHeap:
     
 if __name__ == "__main__":
     heap = BinaryHeap('Сделать этот проект')
-    heap.append(5, "написать версию для терминала")
-    heap.append(3, "Написать визуал")
-    heap.append(10, "соединить все части проекта")
-    print(heap)
+    heap.append(1, "написать версию для терминала")
+    heap.append(2, "Написать визуал")
+    heap.append(3, "соединить все части проекта")
+    print(heap.retur())
