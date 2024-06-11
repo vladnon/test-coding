@@ -1,0 +1,12 @@
+##[pylyzer] failed /home/vlad/Documents/test-python-main/mini_project/BinaryHeap.py 1716058859 129
+.___v_desugar_1: Never
+.dataclass: Never
+.field: Never
+.___v_desugar_2: Never
+.List: {<failure>}
+.Optional: {<failure>}
+.Node: ClassType
+.Node.key: Int
+.Node.value: Str
+.Node.__call__: () -> .Node
+

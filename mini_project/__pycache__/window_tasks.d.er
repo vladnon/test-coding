@@ -1,0 +1,15 @@
+##[pylyzer] failed /home/vlad/Documents/test-python-main/mini_project/window_tasks.py 1716050586 708
+.___v_desugar_1: Never
+.*: Never
+.___v_desugar_2: Never
+.*: Never
+.Task: ClassType
+.Task <: Failure
+.Task.label: Never
+.Task.window: Never
+.Task.__call__: (window: Obj, label: Obj) -> .Task
+.Task.push_in_heap: (self: .Task, key: Obj, node: Obj) -> Never
+.Task.run: (self: .Task) -> Never
+.Task.prt: (self: Never) -> Never
+
+
