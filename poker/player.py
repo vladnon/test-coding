@@ -2,18 +2,15 @@
 
 from dataclasses import dataclass, field
 from card import Card
-from main import Game
+# from game import Game
 
 
 @dataclass
 class Player:
     hand: list[Card] = field(default_factory=list)
+    stack: int = 100
     # combo: str
     # equity: int
-
-    def __post_init__(self):
-        game = Game()
-        self.hand = game.give_hand()
 
 
 if __name__ == "__main__":
