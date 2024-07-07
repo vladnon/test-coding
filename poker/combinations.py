@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from card import Card
 # need to make all tuples to lists
+# in some combination, like pair and two pairs, i need to return max card, because players may have same pair
 
 
 @dataclass
@@ -66,6 +67,8 @@ class Combinations:
 
     def straight_check(self, nums):
         nums = sorted(nums)
+        if [2, 3, 4, 5, 13] in nums:
+            return [2, 13]
         count = 0
         k = 1
         left, right = 0, 1
@@ -101,7 +104,7 @@ class Combinations:
         res1 = self.pair_check(counter)
         res2 = self.three_of_a_kind_check(counter)
         if res1 and res2:
-            return res1, res2
+            return [res1, res2]
         else:
             return False
 
@@ -128,6 +131,78 @@ class Combinations:
         else:
             return False
 
+    def add_pair_to_combination(self, cards, comb):
+        combination = []
+        for _ in range(2):
+            combination.append(comb[1])
+        for card in cards:
+            if card.value == comb[1]:
+                card.value = -1
+        nums = self.from_cards_to_nums(cards)
+        for _ in range(3):
+            combination.append(max(nums))
+            nums.remove(max(nums))
+        return combination
+
+    def add_full_house_to_combination(self, cards, comb):
+        combination = []
+        for _ in range(2):
+            combination.append(comb[1][0])
+        for _ in range(3):
+            combination.append(comb[1][1])
+        return combination
+
+    def add_two_pais_two_combination(self, cards, comb):
+        combination = []
+        for _ in range(2):
+            combination.append(comb[1][0])
+        for _ in range(2):
+            combination.append(comb[1][1])
+        for card in cards:
+            if card.value == comb[1][0] or card.value == comb[1][1]:
+                card.value = -1
+        nums = self.from_cards_to_nums(cards)
+        combination.append(max(nums))
+        nums.remove(max(nums))
+        return combination
+
+    def add_three_of_a_kind_to_combination(self, cards, comb):
+        combination = []
+        for _ in range(3):
+            combination.append(comb[1])
+        for card in cards:
+            if card.value == comb[1]:
+                card.value = -1
+        nums = self.from_cards_to_nums(cards)
+        for _ in range(2):
+            combination.append(max(nums))
+        return combination
+
+    def add_high_card_to_combination(self, cards, comb):
+        combination = [comb[1]]
+        for _ in range(4):
+            card = max([card.value for card in cards])
+            if card == comb[1]:
+                continue
+            combination.append(card)
+        return combination
+
+    def create_combination(self, cards, comb, hand):
+        new = cards.copy() + hand
+        if comb[0] == "high card":
+            return self.add_high_card_to_combination(new, comb)
+        if comb[0] == "pair":
+            return self.add_pair_to_combination(new, comb)
+        if comb[0] == "two pairs":
+            return self.add_two_pais_two_combination(new, comb)
+        if comb[0] == "three of a kind":
+            return self.add_three_of_a_kind_to_combination(new, comb)
+        if comb[0] == "full house":
+            return self.add_full_house_to_combination(new, comb)
+
+    def combination_rating(self, combination):
+        return self.COMBINATIONS[combination[0]]
+
     def define_combination(self, hand, cards):
         new_cards = cards.copy()
         new_cards.extend(hand)
@@ -136,22 +211,22 @@ class Combinations:
         suits_of_cards = self.make_hashmap_of_cards(new_cards)[1]
         cards = self.make_hashmap_of_cards(new_cards)
 
-        result = ["High card", max(self.from_cards_to_nums(hand))]
+        result = ["high card", [max(self.from_cards_to_nums(new_cards))]]
         res = self.pair_check(values_of_cards)
         if res:
-            result = ["pair", res]
+            result = ["pair", [res]]
         res = self.two_pairs_check(values_of_cards)
         if res:
             result = ["two pairs", res]
         res = self.three_of_a_kind_check(values_of_cards)
         if res:
-            result = ["three of a kind", res]
+            result = ["three of a kind", [res]]
         res = self.straight_check(nums)
         if res:
             result = ["staight", res]
         res = self.flush_check(suits_of_cards, new_cards)
         if res:
-            result = ["flush", res]
+            result = ["flush", [res]]
         res = self.full_house_check(values_of_cards)
         if res:
             result = ["full_house", res]
@@ -171,16 +246,9 @@ if __name__ == "__main__":
     combo = Combinations()
     cards = [
         Card(9, "diamonds"),
-        Card(9, "diamonds"),
-        Card(6, "clubs"),
+        Card(9, "hearts"),
+        Card(12, "spades"),
     ]
-    print(
-        combo.define_combination(
-            [Card(value=10, suit="diamonds"), Card(value=8, suit="diamonds")], cards
-        )
-    )
-    print(
-        combo.define_combination(
-            [Card(value=5, suit="spades"), Card(value=11, suit="diamonds")], cards
-        )
-    )
+    print(combo.define_combination([Card(value=10, suit="diamonds"), Card(value=8, suit="diamonds")], cards))
+    print(combo.define_combination([Card(value=5, suit="spades"), Card(value=11, suit="diamonds")], cards))
+    print(combo.create_combination(cards, combo.define_combination([Card(value=13, suit="diamonds"), Card(value=8, suit="diamonds")], cards), [Card(value=13, suit="diamonds"), Card(value=8, suit="diamonds")]))
