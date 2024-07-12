@@ -37,6 +37,12 @@ class Combinations:
                     result = max(result, value)
         return result if result != 0 else False
 
+
+    def sort_res(self, res):
+        if res[0] < res[1]:
+            res[0], res[1] = res[1], res[0]
+        return res
+
     def two_pairs_check(self, counter):
         result = []
         for value, key in counter.items():
@@ -44,10 +50,10 @@ class Combinations:
                 if key == 2:
                     result.append(value)
         if len(result) == 2:
-            return result
+            return self.sort_res(list(result))
         if len(result) == 3:
             result.remove(min(result))
-            return result
+            return self.sort_res(list(result))
         else:
             return False
 
@@ -104,7 +110,7 @@ class Combinations:
         res1 = self.pair_check(counter)
         res2 = self.three_of_a_kind_check(counter)
         if res1 and res2:
-            return [res1, res2]
+            return self.sort_res(list([res1, res2]))
         else:
             return False
 
@@ -132,16 +138,13 @@ class Combinations:
             return False
 
     def add_pair_to_combination(self, cards, comb):
-        combination = []
-        for _ in range(2):
-            combination.append(comb[1])
-        for card in cards:
-            if card.value == comb[1]:
-                card.value = -1
-        nums = self.from_cards_to_nums(cards)
+        combination = [comb[1], comb[1]]
+        cards_copy = [card for card in cards if card.value != comb[1]]
+        nums = self.from_cards_to_nums(cards_copy)
         for _ in range(3):
-            combination.append(max(nums))
-            nums.remove(max(nums))
+            max_num = max(nums)
+            combination.append(max_num)
+            nums.remove(max_num)
         return combination
 
     def add_full_house_to_combination(self, cards, comb):
@@ -152,18 +155,11 @@ class Combinations:
             combination.append(comb[1][1])
         return combination
 
-    def add_two_pais_two_combination(self, cards, comb):
-        combination = []
-        for _ in range(2):
-            combination.append(comb[1][0])
-        for _ in range(2):
-            combination.append(comb[1][1])
-        for card in cards:
-            if card.value == comb[1][0] or card.value == comb[1][1]:
-                card.value = -1
-        nums = self.from_cards_to_nums(cards)
+    def add_two_pairs_to_combination(self, cards, comb):
+        combination = [comb[1][0], comb[1][0], comb[1][1], comb[1][1]]
+        cards_copy = [card for card in cards if card.value not in (comb[1][0], comb[1][1])]
+        nums = self.from_cards_to_nums(cards_copy)
         combination.append(max(nums))
-        nums.remove(max(nums))
         return combination
 
     def add_three_of_a_kind_to_combination(self, cards, comb):
@@ -194,7 +190,7 @@ class Combinations:
         if comb[0] == "pair":
             return self.add_pair_to_combination(new, comb)
         if comb[0] == "two pairs":
-            return self.add_two_pais_two_combination(new, comb)
+            return self.add_two_pairs_to_combination(new, comb)
         if comb[0] == "three of a kind":
             return self.add_three_of_a_kind_to_combination(new, comb)
         if comb[0] == "full house":
@@ -223,7 +219,7 @@ class Combinations:
             result = ["three of a kind", [res]]
         res = self.straight_check(nums)
         if res:
-            result = ["staight", res]
+            result = ["straight", res]
         res = self.flush_check(suits_of_cards, new_cards)
         if res:
             result = ["flush", [res]]
@@ -232,7 +228,7 @@ class Combinations:
             result = ["full_house", res]
         res = self.four_of_a_kind_check(values_of_cards)
         if res:
-            result = ["four of a kind", res]
+            result = ["four of a kind", [res]]
         res = self.straight_flush_check(cards, new_cards)
         if res:
             result = ["straight flush", res]
@@ -246,9 +242,10 @@ if __name__ == "__main__":
     combo = Combinations()
     cards = [
         Card(9, "diamonds"),
-        Card(9, "hearts"),
+        Card(5, "hearts"),
+        Card(12, "spades"),
         Card(12, "spades"),
     ]
-    print(combo.define_combination([Card(value=10, suit="diamonds"), Card(value=8, suit="diamonds")], cards))
+    print(combo.define_combination([Card(value=9, suit="diamonds"), Card(value=12, suit="diamonds")], cards))
     print(combo.define_combination([Card(value=5, suit="spades"), Card(value=11, suit="diamonds")], cards))
     print(combo.create_combination(cards, combo.define_combination([Card(value=13, suit="diamonds"), Card(value=8, suit="diamonds")], cards), [Card(value=13, suit="diamonds"), Card(value=8, suit="diamonds")]))

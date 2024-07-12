@@ -452,3 +452,5 @@ if __name__ == "__main__":
     # print(maxSum([1,1,1,2], 2, 4))
     # print(topKFrequent([-1, -1], 1))
     print(eazy("aac", "abca", 3))
+    nums = [1000, 20]
+    print(sorted(nums))
