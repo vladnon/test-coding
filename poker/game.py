@@ -18,7 +18,7 @@ class Game:
     hands: list[Card] = field(default_factory=list)
     pot: int = 0
     sb: int = 5
-    bb: int = 10
+    bb: int = 5
     action = Action()
 
     def __post_init__(self):
@@ -28,14 +28,18 @@ class Game:
         if self.who_need_to_pay_bblind == self.enemy:
             self.enemy.stack -= self.bb
             self.player.stack -= self.sb
-            self.player.need_to_call = self.sb
+            if self.bb != self.sb:
+                self.player.need_to_call += self.sb
+
         else:
             self.enemy.stack -= self.sb
             self.player.stack -= self.bb
-            self.enemy.need_to_call = self.sb
+            if self.bb != self.sb:
+                self.enemy.need_to_call += self.sb
         self.pot += self.sb + self.bb
 
     def preflop(self):
+        print("preflop \n")
         self.enemy.hand = self.hand()
         self.player.hand = self.hand()
         self.pay_blind()
@@ -49,6 +53,7 @@ class Game:
         return hand
 
     def flop(self):
+        print("postflop \n")
         for _ in range(3):
             self.cards.append(self.make_card())
 
@@ -67,7 +72,6 @@ class Game:
             card = self.make_card()
         return card
 
-    # for normal printing card, like without Card(), and numbers after 10
     def print_cards(self, cards):
         new_cards = []
         for card in cards:
@@ -109,12 +113,8 @@ class Game:
             return "Draw"
 
     def combinations_that_need_full_versions_check(self, combo1, combo2):
-        players_full_combo = self.combination.create_combination(
-            self.cards, combo1, self.player.hand
-        )
-        enemys_full_combo = self.combination.create_combination(
-            self.cards, combo2, self.enemy.hand
-        )
+        players_full_combo = self.combination.create_combination(self.cards, combo1, self.player.hand)
+        enemys_full_combo = self.combination.create_combination(self.cards, combo2, self.enemy.hand)
 
         for idx in range(5):
             if players_full_combo[idx] > enemys_full_combo[idx]:
@@ -148,9 +148,7 @@ class Game:
         enemys_combo_rate = self.combination.combination_rating(combo2)
 
         if players_combo_rate == 9 or enemys_combo_rate == 9:
-            return self.check_when_combo_is_royal_flush(
-                players_combo_rate, enemys_combo_rate
-            )
+            return self.check_when_combo_is_royal_flush(players_combo_rate, enemys_combo_rate)
 
         res = self.simple_combos(players_combo_rate, enemys_combo_rate)
         if res:
@@ -170,15 +168,15 @@ class Game:
 
     def whoes_move(self):
         if self.who_need_to_pay_bblind == self.player:
-            return self.player, self.enemy
-        else:
             return self.enemy, self.player
+        else:
+            return self.player, self.enemy
 
     def barganing(self, player, enemy):
-        print(f"enemy, this is your turn, you need to call {player.need_to_call}, your stack is {player.stack}, the pot is {game.pot}")
-        return self.action.choose_action(player, game.pot, enemy)
-        
-    
+        print(f"{player.name}, this is your turn, you need to call {player.need_to_call}, your stack is {player.stack}, the pot is {game.pot}")
+        res, game.pot = self.action.choose_action(player, game.pot, enemy, self.bb)
+        return res
+
     def loop_barganing(self):
         player, enemy = self.whoes_move()
         count = 0
@@ -191,8 +189,16 @@ class Game:
                 return res
             else:
                 print(res)
-            player = self.enemy if player == self.player else self.player
+            if player == self.player:
+                player = self.enemy
+                enemy = self.player
+            else:
+                player = self.player
+                enemy = self.enemy
             count += 1
+
+    def final_win(self):
+        pass
 
     def spaces(self):
         print("                              ")
@@ -200,37 +206,39 @@ class Game:
         print("                              ")
 
     def run_game(self):
+        self.spaces()
         self.preflop()
         print(f"your hand is {self.print_cards(self.player.hand)}")
         print(f"enemy hand is {self.print_cards(self.enemy.hand)}\n")
+
         res = self.loop_barganing()
         if "winner" in res:
             print(res)
             return res
-        self.flop()
+
         self.spaces()
+        self.flop()
         print(f"the flop is {self.print_cards(self.cards)}\n")
-        print(
-            f"yours combination is {self.print_combination(self.combination.define_combination(self.player.hand, self.cards))}"
-        )
-        print(
-            f"enemys combination is {self.print_combination(self.combination.define_combination(self.enemy.hand, self.cards))}"
-        )
-        print(self.who_wins(self.combination.define_combination(self.player.hand, self.cards), self.combination.define_combination(self.enemy.hand, self.cards)), end='\n')
+        print(f"yours combination is {self.print_combination(self.combination.define_combination(self.player.hand, self.cards))}")
+        print(f"enemys combination is {self.print_combination(self.combination.define_combination(self.enemy.hand, self.cards))}")
+        print(self.who_wins(
+            self.combination.define_combination(self.player.hand, self.cards), 
+            self.combination.define_combination(self.enemy.hand, self.cards),),end="\n\n")
+
         res = self.loop_barganing()
         if "winner" in res:
             print(res)
             return res
         self.turn()
         self.spaces()
-        print(
-            f"yours combination is {self.print_combination(self.combination.define_combination(self.player.hand, self.cards))}"
-        )
-        print(
-            f"enemy combination is {self.print_combination(self.combination.define_combination(self.enemy.hand, self.cards))}"
-        )
+        print(f"yours combination is {self.print_combination(self.combination.define_combination(self.player.hand, self.cards))}")
+        print(f"enemy combination is {self.print_combination(self.combination.define_combination(self.enemy.hand, self.cards))}")
         print(f"the cards are {self.print_cards(self.cards)}")
-        print(self.who_wins(self.combination.define_combination(self.player.hand, self.cards), self.combination.define_combination(self.enemy.hand, self.cards)), end='\n')
+        print(self.who_wins(
+            self.combination.define_combination(self.player.hand, self.cards), 
+            self.combination.define_combination(self.enemy.hand, self.cards),),end="\n\n")
+
+
         res = self.loop_barganing()
         if "winner" in res:
             print(res)
@@ -242,15 +250,14 @@ class Game:
         if "winner" in res:
             print(res)
             return res
-        print(
-            f"yours combination is {self.print_combination(self.combination.define_combination(self.player.hand, self.cards))}"
-        )
-        print(
-            f"enemys combination is {self.print_combination(self.combination.define_combination(self.enemy.hand, self.cards))}"
-        )
-        print(self.who_wins(self.combination.define_combination(self.player.hand, self.cards), self.combination.define_combination(self.enemy.hand, self.cards)), end='\n')
+        print(f"yours combination is {self.print_combination(self.combination.define_combination(self.player.hand, self.cards))}")
+        print(f"enemys combination is {self.print_combination(self.combination.define_combination(self.enemy.hand, self.cards))}")
+
+        print(self.who_wins(
+            self.combination.define_combination(self.player.hand, self.cards), 
+            self.combination.define_combination(self.enemy.hand, self.cards),),end="\n\n")
+
         self.spaces()
-        print(self.cards)
         self.change_blinds()
 
 
