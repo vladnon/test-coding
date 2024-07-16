@@ -1,7 +1,7 @@
 # in this class all methods from class main will be organised in main method, and the game will start in this module
 from card import Card
 from player import Player
-from action import Action
+from option import Option
 from combinations import Combinations
 from dataclasses import dataclass, field
 import random
@@ -13,13 +13,13 @@ class Game:
     SUITS: tuple[str] = ("hearts", "spades", "clubs", "diamonds")
     cards: list[Card] = field(default_factory=list)
     combination = Combinations()
-    enemy = Player([], 100, "player", 0)
-    player = Player([], 100, "enemy", 0)
+    player = Player([], 100, "player", 0)
+    enemy = Player([], 100, "enemy", 0)
     hands: list[Card] = field(default_factory=list)
     pot: int = 0
     sb: int = 5
-    bb: int = 5
-    action = Action()
+    bb: int = 10
+    option = Option()
 
     def __post_init__(self):
         self.who_need_to_pay_bblind = self.enemy
@@ -58,9 +58,12 @@ class Game:
             self.cards.append(self.make_card())
 
     def turn(self):
+        print("turn \n")
+        print("turn \n")
         self.cards.append(self.make_card())
 
     def river(self):
+        print("river \n")
         self.cards.append(self.make_card())
 
     def make_card(self):
@@ -71,23 +74,41 @@ class Game:
         if card in all_cards:
             card = self.make_card()
         return card
+    
+    def print_value(self, card):
+        new_card = ""
+
+        if card.value < 10:
+            new_card += str(card.value)
+        else:
+            if card.value == 10:
+                new_card += "J"
+            elif card.value == 11:
+                new_card += "Q"
+            elif card.value == 12:
+                new_card += "K"
+            else:
+                new_card += "A"
+        return new_card
+    
+    def print_suit(self, card):
+        suit = ""
+        match card.suit: 
+            case "clubs":
+                suit += "♣"
+            case "diamonds":
+                suit += "♦"
+            case "spades":
+                suit += "♠"
+            case _:
+                suit += "♥"
+        return suit
 
     def print_cards(self, cards):
         new_cards = []
         for card in cards:
-            new_card = []
-            if card.value < 10:
-                new_card.append(card.value)
-            else:
-                if card.value == 10:
-                    new_card.append("jack")
-                elif card.value == 11:
-                    new_card.append("queen")
-                elif card.value == 12:
-                    new_card.append("king")
-                else:
-                    new_card.append("ace")
-            new_card.append(card.suit)
+            new_card = self.print_value(card)
+            new_card += self.print_suit(card)
             new_cards.append(new_card)
         return new_cards
 
@@ -95,13 +116,13 @@ class Game:
         for i in range(len(combination[1])):
             if combination[1][i] >= 10:
                 if combination[1][i] == 10:
-                    combination[1][i] = "jack"
+                    combination[1][i] = "J"
                 elif combination[1][i] == 11:
-                    combination[1][i] = "queen"
+                    combination[1][i] = "Q"
                 elif combination[1][i] == 12:
-                    combination[1][i] = "king"
+                    combination[1][i] = "K"
                 else:
-                    combination[1][i] = "ace"
+                    combination[1][i] = "A"
         return combination
 
     def return_winner(self, winner):
@@ -161,7 +182,7 @@ class Game:
                 return self.straights(combo1, combo2)
 
     def change_blinds(self):
-        if self.who_need_to_pay_bblind == "enemy":
+        if self.who_need_to_pay_bblind == self.enemy:
             self.who_need_to_pay_bblind = self.player
         else:
             self.who_need_to_pay_bblind = self.enemy
@@ -173,11 +194,22 @@ class Game:
             return self.player, self.enemy
 
     def barganing(self, player, enemy):
-        print(f"{player.name}, this is your turn, you need to call {player.need_to_call}, your stack is {player.stack}, the pot is {game.pot}")
-        res, game.pot = self.action.choose_action(player, game.pot, enemy, self.bb)
+        print(f"{player.name}, u need to call {player.need_to_call}")
+        res, game.pot = self.option.choose_option(player, game.pot, enemy, self.bb)
         return res
 
+    def change_player_and_enemy(self, player, enemy):
+        if player == self.player:
+            player = self.enemy
+            enemy = self.player
+        else:
+            player = self.player
+            enemy = self.enemy
+        return player, enemy
+ 
     def loop_barganing(self):
+        if self.player.stack == 0:
+            return ""
         player, enemy = self.whoes_move()
         count = 0
         while True:
@@ -187,80 +219,101 @@ class Game:
             res = self.barganing(player, enemy)
             if "winner" in res:
                 return res
-            else:
-                print(res)
-            if player == self.player:
-                player = self.enemy
-                enemy = self.player
-            else:
-                player = self.player
-                enemy = self.enemy
+            player, enemy = self.change_player_and_enemy(player, enemy)
             count += 1
+            
+    def who_is_winner_for_program(self, winner):
+        if "Player" in winner:
+            return self.player
+        return self.enemy
 
-    def final_win(self):
-        pass
+    def final_winner(self, winner):
+        name = self.who_is_winner_for_program(winner)
+        return self.option.give_chips_to_the_winner(name, game.pot)
+    
+    def barganing_final(self):
+        res = self.loop_barganing()
+        if "winner" in res:
+            print(res, end="\n\n")
+            self.default()
+            return res
+        return
+
+       
+    def default(self):
+        self.pot = 0
+        self.cards = []
+        self.change_blinds()
+        self.player.need_to_call = 0
+        self.enemy.need_to_call = 0
+
 
     def spaces(self):
         print("                              ")
         print("------------------------------")
         print("                              ")
 
+    def one_time(self):
+        print(f"player_stack: {self.player.stack}\nenemy_stack: {self.enemy.stack}\npot: {self.pot}")
+        print(f"the cards are {self.print_cards(self.cards)}\n")
+        print(f"your combination is {self.print_combination(self.combination.define_combination(self.player.hand, self.cards))}")
+
     def run_game(self):
         self.spaces()
         self.preflop()
         print(f"your hand is {self.print_cards(self.player.hand)}")
-        print(f"enemy hand is {self.print_cards(self.enemy.hand)}\n")
 
-        res = self.loop_barganing()
-        if "winner" in res:
-            print(res)
+        res = self.barganing_final()
+        if res:
             return res
 
         self.spaces()
         self.flop()
-        print(f"the flop is {self.print_cards(self.cards)}\n")
-        print(f"yours combination is {self.print_combination(self.combination.define_combination(self.player.hand, self.cards))}")
-        print(f"enemys combination is {self.print_combination(self.combination.define_combination(self.enemy.hand, self.cards))}")
-        print(self.who_wins(
-            self.combination.define_combination(self.player.hand, self.cards), 
-            self.combination.define_combination(self.enemy.hand, self.cards),),end="\n\n")
+        self.one_time()
 
-        res = self.loop_barganing()
-        if "winner" in res:
-            print(res)
+        res = self.barganing_final()
+        if res:
             return res
+
         self.turn()
         self.spaces()
-        print(f"yours combination is {self.print_combination(self.combination.define_combination(self.player.hand, self.cards))}")
-        print(f"enemy combination is {self.print_combination(self.combination.define_combination(self.enemy.hand, self.cards))}")
-        print(f"the cards are {self.print_cards(self.cards)}")
-        print(self.who_wins(
-            self.combination.define_combination(self.player.hand, self.cards), 
-            self.combination.define_combination(self.enemy.hand, self.cards),),end="\n\n")
+        self.one_time()
 
-
-        res = self.loop_barganing()
-        if "winner" in res:
-            print(res)
+        res = self.barganing_final()
+        if res:
             return res
+
         self.spaces()
         self.river()
-        print(f"the cards are {self.print_cards(self.cards)}")
-        res = self.loop_barganing()
-        if "winner" in res:
-            print(res)
-            return res
-        print(f"yours combination is {self.print_combination(self.combination.define_combination(self.player.hand, self.cards))}")
-        print(f"enemys combination is {self.print_combination(self.combination.define_combination(self.enemy.hand, self.cards))}")
+        self.one_time()
 
-        print(self.who_wins(
-            self.combination.define_combination(self.player.hand, self.cards), 
-            self.combination.define_combination(self.enemy.hand, self.cards),),end="\n\n")
+        res = self.barganing_final()
+        if res:
+            return res
 
         self.spaces()
-        self.change_blinds()
+        print(self.final_winner(self.who_wins(
+            self.combination.define_combination(self.player.hand, self.cards), 
+            self.combination.define_combination(self.enemy.hand, self.cards),)),end="\n\n")
+
+        self.default()
 
 
 if __name__ == "__main__":
     game = Game()
-    game.run_game()
+    while True:
+        if game.player.stack == 0:
+            player_who_has_not_chips = game.player 
+        elif  game.enemy.stack == 0:
+            player_who_has_not_chips = game.enemy
+        else:
+            player_who_has_not_chips = None
+        if player_who_has_not_chips:
+            rebet = input(f"{player_who_has_not_chips.name}, do u want to buy extra chips\n")
+            if rebet == "yes":
+                player_who_has_not_chips.stack = 100
+            else:
+                break
+        game.run_game()
+
+        
