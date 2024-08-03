@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 from card import Card
-# need to make all tuples to lists
-# in some combination, like pair and two pairs, i need to return max card, because players may have same pair
 
 
 @dataclass
@@ -236,6 +234,64 @@ class Combinations:
         if res:
             result = res
         return result
+
+    def return_winner(self, winner):
+        match winner:
+            case "player":
+                return "Player is winning"
+            case "enemy":
+                return "Enemy is winning"
+            case "draw":
+                return "Draw"
+
+
+    def combinations_that_need_full_versions_check(self, combo1, combo2, cards, player_hand, enemy_hand):
+        players_full_combo = self.create_combination(cards, combo1, player_hand)
+        enemys_full_combo = self.create_combination(cards, combo2, enemy_hand)
+
+        for idx in range(5):
+            if players_full_combo[idx] > enemys_full_combo[idx]:
+                return self.return_winner("player")
+            elif players_full_combo[idx] < enemys_full_combo[idx]:
+                return self.return_winner("enemy")
+        return self.return_winner("draw")
+
+    def check_when_combo_is_royal_flush(self, players_combo_rate, enemys_combo_rate):
+        if players_combo_rate == 9:
+            return self.return_winner("player")
+        if enemys_combo_rate == 9:
+            return self.return_winner("enemy")
+
+    def simple_combos(self, players_combo_rate, enemys_combo_rate):
+        if players_combo_rate > enemys_combo_rate:
+            return self.return_winner("player")
+        elif players_combo_rate < enemys_combo_rate:
+            return self.return_winner("enemy")
+        return False
+
+    def straights(self, combo1, combo2):
+        if combo1[1][0] > combo2[1][0]:
+            return self.return_winner("player")
+        elif combo1[1][0] < combo2[1][0]:
+            return self.return_winner("enemy")
+        return self.return_winner("draw")
+
+    def who_wins(self, combo1, combo2, cards, player_hand, enemy_hand):
+        players_combo_rate = self.combination_rating(combo1)
+        enemys_combo_rate = self.combination_rating(combo2)
+
+        if players_combo_rate == 9 or enemys_combo_rate == 9:
+            return self.check_when_combo_is_royal_flush(players_combo_rate, enemys_combo_rate)
+
+        res = self.simple_combos(players_combo_rate, enemys_combo_rate)
+        if res:
+            return res
+
+        else:
+            if players_combo_rate in [0, 1, 2, 3, 6]:
+                return self.combinations_that_need_full_versions_check(combo1, combo2, cards, player_hand, enemy_hand)
+            else:
+                return self.straights(combo1, combo2)
 
 
 if __name__ == "__main__":

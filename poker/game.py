@@ -5,21 +5,23 @@ from option import Option
 from combinations import Combinations
 from dataclasses import dataclass, field
 import random
+from poker_math import PokerMath
 
 
 @dataclass
 class Game:
-    VALUES: tuple[int] = range(2, 14)
-    SUITS: tuple[str] = ("hearts", "spades", "clubs", "diamonds")
+    VALUES: list[int] = field(default_factory=lambda: list(range(2, 14)))
+    SUITS: list[str] = field(default_factory=lambda: ["hearts", "spades", "clubs", "diamonds"])
     cards: list[Card] = field(default_factory=list)
     combination = Combinations()
-    player = Player([], 100, "player", 0)
-    enemy = Player([], 100, "enemy", 0)
+    enemy = Player([], 100, "player", 0, cards)
+    player = Player([], 100, "player", 0, cards)
     hands: list[Card] = field(default_factory=list)
     pot: int = 0
     sb: int = 5
     bb: int = 10
     option = Option()
+    solutions = PokerMath()
 
     def __post_init__(self):
         self.who_need_to_pay_bblind = self.enemy
@@ -125,62 +127,6 @@ class Game:
                     combination[1][i] = "A"
         return combination
 
-    def return_winner(self, winner):
-        if winner == "player":
-            return "Player is winning"
-        elif winner == "enemy":
-            return "Enemy is winning"
-        else:
-            return "Draw"
-
-    def combinations_that_need_full_versions_check(self, combo1, combo2):
-        players_full_combo = self.combination.create_combination(self.cards, combo1, self.player.hand)
-        enemys_full_combo = self.combination.create_combination(self.cards, combo2, self.enemy.hand)
-
-        for idx in range(5):
-            if players_full_combo[idx] > enemys_full_combo[idx]:
-                return self.return_winner("player")
-            elif players_full_combo[idx] < enemys_full_combo[idx]:
-                return self.return_winner("enemy")
-        return self.return_winner("draw")
-
-    def check_when_combo_is_royal_flush(self, players_combo_rate, enemys_combo_rate):
-        if players_combo_rate == 9:
-            return self.return_winner("player")
-        if enemys_combo_rate == 9:
-            return self.return_winner("enemy")
-
-    def simple_combos(self, players_combo_rate, enemys_combo_rate):
-        if players_combo_rate > enemys_combo_rate:
-            return self.return_winner("player")
-        elif players_combo_rate < enemys_combo_rate:
-            return self.return_winner("enemy")
-        return False
-
-    def straights(self, combo1, combo2):
-        if combo1[1][0] > combo2[1][0]:
-            return self.return_winner("player")
-        elif combo1[1][0] < combo2[1][0]:
-            return self.return_winner("enemy")
-        return self.return_winner("draw")
-
-    def who_wins(self, combo1, combo2):
-        players_combo_rate = self.combination.combination_rating(combo1)
-        enemys_combo_rate = self.combination.combination_rating(combo2)
-
-        if players_combo_rate == 9 or enemys_combo_rate == 9:
-            return self.check_when_combo_is_royal_flush(players_combo_rate, enemys_combo_rate)
-
-        res = self.simple_combos(players_combo_rate, enemys_combo_rate)
-        if res:
-            return res
-
-        else:
-            if players_combo_rate in [0, 1, 2, 3, 6]:
-                return self.combinations_that_need_full_versions_check(combo1, combo2)
-            else:
-                return self.straights(combo1, combo2)
-
     def change_blinds(self):
         if self.who_need_to_pay_bblind == self.enemy:
             self.who_need_to_pay_bblind = self.player
@@ -194,8 +140,11 @@ class Game:
             return self.player, self.enemy
 
     def barganing(self, player, enemy):
-        print(f"{player.name}, u need to call {player.need_to_call}")
-        res, game.pot = self.option.choose_option(player, game.pot, enemy, self.bb)
+        if player.need_to_call == 0:
+            print(f"{player.name}, choose option")
+        else:
+            print(f"{player.name}, u need to call {player.need_to_call}")
+        res, self.pot = self.option.choose_option(player, self.pot, enemy, self.bb)
         return res
 
     def change_player_and_enemy(self, player, enemy):
@@ -206,6 +155,20 @@ class Game:
             player = self.player
             enemy = self.enemy
         return player, enemy
+
+    def barganing_for_algorithm(self):
+        sol = self.solve_sutiation()
+        match sol[0]:
+            case "call":
+                res, self.pot = self.option.call(self.enemy, self.pot)
+            case "check":
+                res = self.option.check(self.pot)
+            case "fold":
+                res = self.option.fold(self.player, self.pot)
+            case "raise":
+                res, self.pot = self.option.bet(self.enemy, self.pot, self.player, self.bb, sizing=sol[1])
+        return res
+ 
  
     def loop_barganing(self):
         if self.player.stack == 0:
@@ -216,11 +179,19 @@ class Game:
             if count >= 2:
                 if self.player.need_to_call == 0 and self.enemy.need_to_call == 0:
                     return "Barganing finished"
-            res = self.barganing(player, enemy)
+            if player == enemy:
+                 res = self.barganing_for_algorithm()
+            else:
+                res = self.barganing(player, enemy)
             if "winner" in res:
-                return res
+                 return res
             player, enemy = self.change_player_and_enemy(player, enemy)
             count += 1
+
+    def solve_sutiation(self):
+        solution = self.solutions.solve(self.pot, self.enemy, self.player, self.cards)
+        return solution
+
             
     def who_is_winner_for_program(self, winner):
         if "Player" in winner:
@@ -239,7 +210,6 @@ class Game:
             return res
         return
 
-       
     def default(self):
         self.pot = 0
         self.cards = []
@@ -292,16 +262,19 @@ class Game:
             return res
 
         self.spaces()
-        print(self.final_winner(self.who_wins(
-            self.combination.define_combination(self.player.hand, self.cards), 
-            self.combination.define_combination(self.enemy.hand, self.cards),)),end="\n\n")
+        combo1 = self.combination.define_combination(self.player.hand, self.cards)
+        combo2 = self.combination.define_combination(self.enemy.hand, self.cards)
+        print(self.final_winner(self.combination.who_wins(combo1, combo2, self.cards, self.player.hand, self.enemy.hand)),end="\n\n")
 
+        if "enemy" in self.final_winner(self.combination.who_wins(combo1, combo2, self.cards, self.player.hand, self.enemy.hand)):
+            print(f"enemy hand is {self.enemy.hand}")
         self.default()
 
 
 if __name__ == "__main__":
     game = Game()
-    while True:
+
+    def rebet(player_stack, enemy_stack, playing):
         if game.player.stack == 0:
             player_who_has_not_chips = game.player 
         elif  game.enemy.stack == 0:
@@ -313,7 +286,14 @@ if __name__ == "__main__":
             if rebet == "yes":
                 player_who_has_not_chips.stack = 100
             else:
-                break
+                playing = False
+ 
+    playing = True
+    while playing:
+        if rebet(game.player.stack, game.enemy.stack, playing) != None:
+            playing = rebet(game.player.stack, game.enemy.stack, playing)
+        else:
+            rebet(game.player.stack, game.enemy.stack, playing)
         game.run_game()
 
-        
+

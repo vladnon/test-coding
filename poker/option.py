@@ -50,7 +50,7 @@ class Option:
         size_in_percent = input(f"Choose bet size: 10%({simple_size["10"]}), 33%({simple_size["33"]}), 50%({simple_size["50"]}), 75%({simple_size["75"]}), 100%({pot}) of pot or all-in({player.stack}): \n")
         if size_in_percent not in simple_size:
             print("write valid size")
-            size_in_percent = self.bet_preflop(pot, player)
+            size_in_percent = self.bet_after_preflop(pot, player)
         size = simple_size[size_in_percent]
         return size
 
