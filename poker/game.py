@@ -1,30 +1,32 @@
-# in this class all methods from class main will be organised in main method, and the game will start in this module
 from card import Card
 from player import Player
 from option import Option
 from combinations import Combinations
-from dataclasses import dataclass, field
+# from dataclasses import dataclass, field
 import random
 from poker_math import PokerMath
 
+# if u want to, u can make menu, where the player will choose stackes and blinds, and if its realy important for u can write poker for 6+ player, not just heads up, its not too hard for u
 
-@dataclass
+
 class Game:
-    VALUES: list[int] = field(default_factory=lambda: list(range(2, 14)))
-    SUITS: list[str] = field(default_factory=lambda: ["hearts", "spades", "clubs", "diamonds"])
-    cards: list[Card] = field(default_factory=list)
-    combination = Combinations()
-    enemy = Player([], 100, "player", 0, cards)
-    player = Player([], 100, "player", 0, cards)
-    hands: list[Card] = field(default_factory=list)
-    pot: int = 0
-    sb: int = 5
-    bb: int = 10
-    option = Option()
-    solutions = PokerMath()
+    VALUES = range(2, 14)
+    SUITS = ["hearts", "spades", "clubs", "diamonds"]
+    ROUNDS = ["preflop", "postflop", "turn", "river"]
 
-    def __post_init__(self):
+    def __init__(self) -> None:
+        self.cards = []
+        self.combination = Combinations()
+        self.enemy = Player([], 100, "enemy", 0, self.cards)
+        self.player = Player([], 100, "player", 0, self.cards)
+        self.hands = []
+        self.pot = 0
+        self.sb = 5
+        self.bb = 10
+        self.option = Option()
+        self.solutions = PokerMath()
         self.who_need_to_pay_bblind = self.enemy
+        self.round = 0
 
     def pay_blind(self):
         if self.who_need_to_pay_bblind == self.enemy:
@@ -54,18 +56,23 @@ class Game:
             self.hands.append(card)
         return hand
 
+    def print_round(self):
+        print(f"{self.ROUNDS[self.round]} \n")
+
     def flop(self):
-        print("postflop \n")
+        self.round += 1
+        self.print_round()
         for _ in range(3):
             self.cards.append(self.make_card())
 
     def turn(self):
-        print("turn \n")
-        print("turn \n")
+        self.round += 1
+        self.print_round()
         self.cards.append(self.make_card())
 
     def river(self):
-        print("river \n")
+        self.round += 1
+        self.print_round()
         self.cards.append(self.make_card())
 
     def make_card(self):
@@ -76,7 +83,7 @@ class Game:
         if card in all_cards:
             card = self.make_card()
         return card
-    
+
     def print_value(self, card):
         new_card = ""
 
@@ -92,10 +99,10 @@ class Game:
             else:
                 new_card += "A"
         return new_card
-    
+
     def print_suit(self, card):
         suit = ""
-        match card.suit: 
+        match card.suit:
             case "clubs":
                 suit += "♣"
             case "diamonds":
@@ -144,7 +151,8 @@ class Game:
             print(f"{player.name}, choose option")
         else:
             print(f"{player.name}, u need to call {player.need_to_call}")
-        res, self.pot = self.option.choose_option(player, self.pot, enemy, self.bb)
+        res, self.pot = self.option.choose_option(
+            player, self.pot, enemy, self.bb, round)
         return res
 
     def change_player_and_enemy(self, player, enemy):
@@ -158,6 +166,7 @@ class Game:
 
     def barganing_for_algorithm(self):
         sol = self.solve_sutiation()
+        res = None
         match sol[0]:
             case "call":
                 res, self.pot = self.option.call(self.enemy, self.pot)
@@ -166,10 +175,10 @@ class Game:
             case "fold":
                 res = self.option.fold(self.player, self.pot)
             case "raise":
-                res, self.pot = self.option.bet(self.enemy, self.pot, self.player, self.bb, sizing=sol[1])
+                res, self.pot = self.option.bet(
+                    self.enemy, self.pot, self.player, self.bb, self.round, sizing=sol[1])
         return res
- 
- 
+
     def loop_barganing(self):
         if self.player.stack == 0:
             return ""
@@ -179,20 +188,26 @@ class Game:
             if count >= 2:
                 if self.player.need_to_call == 0 and self.enemy.need_to_call == 0:
                     return "Barganing finished"
-            if player == enemy:
-                 res = self.barganing_for_algorithm()
+            if player == self.enemy:
+                res = self.barganing_for_algorithm()
+                if len(res[0]) > 7:
+                    return res[0]
+                if len(res) != 2:
+                    print(f"opponets option is {res}")
+                else:
+                    print(f"opponets option is {res[0]}")
             else:
                 res = self.barganing(player, enemy)
-            if "winner" in res:
-                 return res
+                if "winner" in res:
+                    return res
             player, enemy = self.change_player_and_enemy(player, enemy)
             count += 1
 
     def solve_sutiation(self):
-        solution = self.solutions.solve(self.pot, self.enemy, self.player, self.cards)
+        solution = self.solutions.solve(
+            self.pot, self.player, self.enemy, self.round)
         return solution
 
-            
     def who_is_winner_for_program(self, winner):
         if "Player" in winner:
             return self.player
@@ -201,11 +216,11 @@ class Game:
     def final_winner(self, winner):
         name = self.who_is_winner_for_program(winner)
         return self.option.give_chips_to_the_winner(name, game.pot)
-    
+
     def barganing_final(self):
         res = self.loop_barganing()
-        if "winner" in res:
-            print(res, end="\n\n")
+        if len(res) > 50:
+            print(res, end="\n")
             self.default()
             return res
         return
@@ -216,7 +231,8 @@ class Game:
         self.change_blinds()
         self.player.need_to_call = 0
         self.enemy.need_to_call = 0
-
+        self.hands = []
+        self.round = 0
 
     def spaces(self):
         print("                              ")
@@ -224,13 +240,16 @@ class Game:
         print("                              ")
 
     def one_time(self):
-        print(f"player_stack: {self.player.stack}\nenemy_stack: {self.enemy.stack}\npot: {self.pot}")
+        print(f"player_stack: {self.player.stack}\nenemy_stack: {
+              self.enemy.stack}\npot: {self.pot}")
         print(f"the cards are {self.print_cards(self.cards)}\n")
-        print(f"your combination is {self.print_combination(self.combination.define_combination(self.player.hand, self.cards))}")
+        print(f"your combination is {self.print_combination(
+            self.combination.define_combination(self.player.hand, self.cards))}")
 
-    def run_game(self):
+    def run_game(self, testing=False):
         self.spaces()
-        self.preflop()
+        if not testing:
+            self.preflop()
         print(f"your hand is {self.print_cards(self.player.hand)}")
 
         res = self.barganing_final()
@@ -245,8 +264,8 @@ class Game:
         if res:
             return res
 
-        self.turn()
         self.spaces()
+        self.turn()
         self.one_time()
 
         res = self.barganing_final()
@@ -262,38 +281,44 @@ class Game:
             return res
 
         self.spaces()
-        combo1 = self.combination.define_combination(self.player.hand, self.cards)
-        combo2 = self.combination.define_combination(self.enemy.hand, self.cards)
-        print(self.final_winner(self.combination.who_wins(combo1, combo2, self.cards, self.player.hand, self.enemy.hand)),end="\n\n")
+        combo1 = self.combination.define_combination(
+            self.player.hand, self.cards)
+        combo2 = self.combination.define_combination(
+            self.enemy.hand, self.cards)
+        print(self.final_winner(self.combination.who_wins(combo1, combo2,
+              self.cards, self.player.hand, self.enemy.hand)), end="\n")
 
         if "enemy" in self.final_winner(self.combination.who_wins(combo1, combo2, self.cards, self.player.hand, self.enemy.hand)):
-            print(f"enemy hand is {self.enemy.hand}")
+            print(f"enemy hand is {self.print_cards(self.enemy.hand)}, and his combination is {self.print_combination(
+                  self.combination.define_combination(self.enemy.hand, self.cards))}")
         self.default()
 
 
 if __name__ == "__main__":
     game = Game()
+    # game.enemy.hand = [Card(9, "clubs"), Card(9, "hearts")]
+    # game.player.hand = [Card(13, "spades"), Card(11, "hearts")]
 
-    def rebet(player_stack, enemy_stack, playing):
+    def rebet(playing):
         if game.player.stack == 0:
-            player_who_has_not_chips = game.player 
-        elif  game.enemy.stack == 0:
+            player_who_has_not_chips = game.player
+        elif game.enemy.stack == 0:
             player_who_has_not_chips = game.enemy
         else:
             player_who_has_not_chips = None
         if player_who_has_not_chips:
-            rebet = input(f"{player_who_has_not_chips.name}, do u want to buy extra chips\n")
+            rebet = input(
+                f"{player_who_has_not_chips.name}, do u want to buy extra chips\n")
             if rebet == "yes":
                 player_who_has_not_chips.stack = 100
             else:
                 playing = False
- 
+        return playing
+
     playing = True
     while playing:
-        if rebet(game.player.stack, game.enemy.stack, playing) != None:
-            playing = rebet(game.player.stack, game.enemy.stack, playing)
+        if rebet(playing) != None:
+            playing = rebet(playing)
         else:
-            rebet(game.player.stack, game.enemy.stack, playing)
+            rebet(playing)
         game.run_game()
-
-

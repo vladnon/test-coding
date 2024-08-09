@@ -1,38 +1,37 @@
 from dataclasses import dataclass
-#  когда придешь, тебе надо будет сделать ретерн из каждого метода действия, чтобы потом обновить атрибут класса, тогда игра действительно будет работать, и почти готова
 
-
+# update choose_option: add up check function, where u will delete all spaces of the end or caps
 @dataclass
 class Option:
-    def choose_option(self, player, pot, enemy, bb):
+    def choose_option(self, player, pot, enemy, bb, round):
         if player.need_to_call == 0:
-            option = input("Choose option: check/fold, raise: \n")
+            option = input("Choose option: check/fold, raise: ")
         elif player.need_to_call == player.stack:
-            option = input("Choose option: fold, call: \n")
+            option = input("Choose option: fold, call: ")
         else:
-            option = input("Choose option: fold, call, raise: \n")
+            option = input("Choose option: fold, call, raise: ")
         match option:
             case "check":
                 return self.check(pot)
             case "fold":
                 return self.fold(enemy, pot)
             case "call":
-                return self.call(player, pot, enemy)
+                return self.call(player, pot)
             case "raise":
-                return self.bet(player, pot, enemy, bb)
+                return self.bet(player, pot, enemy, bb, round)
             case _:
                 print("write valid option")
-                return self.choose_option(player, pot, enemy, bb)
+                return self.choose_option(player, pot, enemy, bb, round)
 
     def fold(self, enemy, pot):
         return self.give_chips_to_the_winner(enemy, pot), pot
 
 
     def bet_preflop(self, bb, pot, player):
-        size_bb = {"2": int(bb * 2), "3": int(bb * 3), "4": int(bb * 4), "100": pot}
+        size_bb = {"2": int(bb * 2), "3": int(bb * 3), "4": int(bb * 4), "100": pot, "all-in": player.stack}
 
-        size_in_bb = (input(f"Choose bet size: 2bb({size_bb["2"]}), 3bb({size_bb["3"]}), 4bb({size_bb["4"]}), 100%({pot}) of pot or all-in({player.stack}): \n"))
-        if size_in_bb not in size_bb:
+        size_in_bb = (input(f"Choose bet size: 2bb({size_bb["2"]}), 3bb({size_bb["3"]}), 4bb({size_bb["4"]}), 100%({pot}) of pot or all-in({player.stack}): "))
+        if size_in_bb not in size_bb.keys():
             print("write valid size")
             size_in_bb = self.bet_preflop(bb, pot, player)
         size = size_bb[size_in_bb]
@@ -47,42 +46,48 @@ class Option:
             "100": pot,
             "all-in": player.stack
         }
-        size_in_percent = input(f"Choose bet size: 10%({simple_size["10"]}), 33%({simple_size["33"]}), 50%({simple_size["50"]}), 75%({simple_size["75"]}), 100%({pot}) of pot or all-in({player.stack}): \n")
-        if size_in_percent not in simple_size:
+        size_in_percent = input(f"Choose bet size: 10%({simple_size["10"]}), 33%({simple_size["33"]}), 50%({simple_size["50"]}), 75%({simple_size["75"]}), 100%({pot}) of pot or all-in({player.stack}): ")
+        if size_in_percent not in simple_size and size_in_percent != "all-in":
             print("write valid size")
             size_in_percent = self.bet_after_preflop(pot, player)
         size = simple_size[size_in_percent]
         return size
 
     def check_if_player_has_enough_money(self, stack, bet_size):
-        if stack > bet_size:
+        if stack >= bet_size:
             return True
         else:
             return False
 
-    def choose_size(self, bb, pot, player):
-        if pot == bb + (bb // 2):
+    def choose_size(self, bb, pot, player, round):
+        if round == 0:
             size = self.bet_preflop(bb, pot, player)
         else:
             size = self.bet_after_preflop(pot, player)
         if not self.check_if_player_has_enough_money(player.stack, size):
+            size = self.choose_size(bb, pot, player, round)
             return size
-            self.choose_size(bb, pot, player)
+            
         return size
 
-    def bet(self, player, pot, enemy, bb):
-        size = self.choose_size(bb, pot, player)
-        player.stack -= size
+    def bet(self, player, pot, enemy, bb, round, sizing=False):
+        if sizing == False:
+            size = self.choose_size(bb, pot, player, round)
+        else:
+            size = sizing
+            sizing = False
+        player.stack -= size + player.need_to_call
         player.need_to_call = 0
         enemy.need_to_call += size
         pot += size
         return "raise", pot
 
-    def call(self, player, pot, enemy):
-        pot += player.need_to_call
+    def call(self, player, pot):
         if player.stack <= player.need_to_call:
+            pot += player.stack
             player.stack = 0
             player.need_to_call = 0
+        pot += player.need_to_call
         player.stack -= player.need_to_call
         player.need_to_call = 0
         return "call", pot
@@ -92,4 +97,4 @@ class Option:
 
     def give_chips_to_the_winner(self, player, pot):
         player.stack += pot
-        return f"The winner is {player.name}, his prize is {pot} and his stack is {player.stack}"
+        return f"The winner is {player.name}, his prize is {pot - player.need_to_call} and his stack is {player.stack}"

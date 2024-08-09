@@ -38,7 +38,7 @@ class Combinations:
 
     def sort_res(self, res):
         if res[0] < res[1]:
-            res[0], res[1] = res[1], res[0]
+            res = res[::-1]
         return res
 
     def two_pairs_check(self, counter):
@@ -135,8 +135,14 @@ class Combinations:
         else:
             return False
 
+    def check_if_it_is_preflop(self, cards):
+        if len(cards) == 2:
+            return True
+
     def add_pair_to_combination(self, cards, comb):
         combination = [comb[1], comb[1]]
+        if self.check_if_it_is_preflop(cards):
+            return combination
         cards_copy = [card for card in cards if card.value != comb[1]]
         nums = self.from_cards_to_nums(cards_copy)
         for _ in range(3):
@@ -155,6 +161,8 @@ class Combinations:
 
     def add_two_pairs_to_combination(self, cards, comb):
         combination = [comb[1][0], comb[1][0], comb[1][1], comb[1][1]]
+        if self.check_if_it_is_preflop(cards):
+            return combination
         cards_copy = [card for card in cards if card.value not in (comb[1][0], comb[1][1])]
         nums = self.from_cards_to_nums(cards_copy)
         combination.append(max(nums))
@@ -164,6 +172,8 @@ class Combinations:
         combination = []
         for _ in range(3):
             combination.append(comb[1])
+        if self.check_if_it_is_preflop(cards):
+            return combination
         for card in cards:
             if card.value == comb[1]:
                 card.value = -1
@@ -174,6 +184,8 @@ class Combinations:
 
     def add_high_card_to_combination(self, cards, comb):
         combination = [comb[1]]
+        if self.check_if_it_is_preflop(cards):
+            return combination
         for _ in range(4):
             card = max([card.value for card in cards])
             if card == comb[1]:
@@ -249,7 +261,7 @@ class Combinations:
         players_full_combo = self.create_combination(cards, combo1, player_hand)
         enemys_full_combo = self.create_combination(cards, combo2, enemy_hand)
 
-        for idx in range(5):
+        for idx in range(len(players_full_combo)):
             if players_full_combo[idx] > enemys_full_combo[idx]:
                 return self.return_winner("player")
             elif players_full_combo[idx] < enemys_full_combo[idx]:
@@ -297,11 +309,13 @@ class Combinations:
 if __name__ == "__main__":
     combo = Combinations()
     cards = [
-        Card(9, "diamonds"),
-        Card(5, "hearts"),
-        Card(12, "spades"),
-        Card(12, "spades"),
+        Card(4, "diamonds"),
+        Card(4, "hearts"),
+        Card(10, "spades"),
     ]
-    print(combo.define_combination([Card(value=9, suit="diamonds"), Card(value=12, suit="diamonds")], cards))
-    print(combo.define_combination([Card(value=5, suit="spades"), Card(value=11, suit="diamonds")], cards))
-    print(combo.create_combination(cards, combo.define_combination([Card(value=13, suit="diamonds"), Card(value=8, suit="diamonds")], cards), [Card(value=13, suit="diamonds"), Card(value=8, suit="diamonds")]))
+    player_hand = [Card(9, "clubs"), Card(9, "spades")]
+    enemy_hand = [Card(13, "diamonds"), Card(11, "spades")]
+    combination_player = combo.define_combination(player_hand, cards) 
+    combination_enemy = combo.define_combination(enemy_hand, cards)
+    print(combo.who_wins(combination_player, combination_enemy, cards, player_hand, enemy_hand))
+
