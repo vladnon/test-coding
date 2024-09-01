@@ -13,10 +13,10 @@ class Combinations:
         "three of a kind": 3,
         "straight": 4,
         "flush": 5,
-        "full_house": 6,
+        "full house": 6,
         "four of a kind": 7,
-        "straight_flush": 8,
-        "royal_flush": 9,
+        "straight flush": 8,
+        "royal flush": 9,
     }
 
     def make_hashmap_of_cards(self, cards):
@@ -119,18 +119,18 @@ class Combinations:
                     return value
         return False
 
-    def straight_flush_check(self, counter, cards):
-        res1 = self.flush_check(counter[1], cards)
-        res2 = self.straight_check(counter[0])
+    def straight_flush_check(self, counter, nums, cards):
+        res1 = self.flush_check(counter, cards)
+        res2 = self.straight_check(nums)
         if res1 and res2:
             return res1
         else:
             return False
 
-    def royal_flush_check(self, counter, cards):
-        res1 = self.straight_check(counter[0])
-        res2 = self.flush_check(counter[1], cards)
-        if res1 and res2:
+    def royal_flush_check(self, counter, nums, cards):
+        res1 = self.flush_check(counter, cards)
+        res2 = self.straight_check(nums)
+        if res1 and res2 and res2 == [9, 13]:
             return "royal flush"
         else:
             return False
@@ -235,14 +235,14 @@ class Combinations:
             result = ["flush", [res]]
         res = self.full_house_check(values_of_cards)
         if res:
-            result = ["full_house", res]
+            result = ["full house", res]
         res = self.four_of_a_kind_check(values_of_cards)
         if res:
             result = ["four of a kind", [res]]
-        res = self.straight_flush_check(cards, new_cards)
+        res = self.straight_flush_check(suits_of_cards, nums, new_cards)
         if res:
             result = ["straight flush", res]
-        res = self.royal_flush_check(cards, new_cards)
+        res = self.royal_flush_check(suits_of_cards, nums, new_cards)
         if res:
             result = res
         return result
@@ -310,12 +310,13 @@ if __name__ == "__main__":
     combo = Combinations()
     cards = [
         Card(4, "diamonds"),
-        Card(4, "hearts"),
-        Card(10, "spades"),
+        Card(5, "diamonds"),
+        Card(6, "diamonds"),
     ]
-    player_hand = [Card(9, "clubs"), Card(9, "spades")]
+    player_hand = [Card(2, "diamonds"), Card(3, "diamonds")]
     enemy_hand = [Card(13, "diamonds"), Card(11, "spades")]
     combination_player = combo.define_combination(player_hand, cards) 
+    print(combination_player)
     combination_enemy = combo.define_combination(enemy_hand, cards)
     print(combo.who_wins(combination_player, combination_enemy, cards, player_hand, enemy_hand))
 

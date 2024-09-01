@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
+
 from card import Card
 from combinations import Combinations
-from poker_ranges import PokerRanges
-from itertools import combinations
+
 
 @dataclass
 class Player:
@@ -14,6 +14,7 @@ class Player:
     combination = Combinations()
     position: str = field(default_factory=str)
     equity: float = field(default_factory=float)
+    deposit: int = field(default_factory=int)
 
 
     def __lt__(self, enemy):

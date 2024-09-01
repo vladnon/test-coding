@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 # update choose_option: add up check function, where u will delete all spaces of the end or caps
 @dataclass
 class Option:
@@ -87,6 +88,7 @@ class Option:
             size = sizing
             sizing = False
         player.stack -= size + player.need_to_call
+        player.deposit += size + player.need_to_call
         player.need_to_call = 0
         enemy.need_to_call += size
         pot += size
@@ -94,10 +96,12 @@ class Option:
 
     def call(self, player, pot):
         if player.stack <= player.need_to_call:
+            player.deposit += player.stack
             pot += player.stack
             player.stack = 0
             player.need_to_call = 0
         pot += player.need_to_call
+        player.deposit += player.need_to_call 
         player.stack -= player.need_to_call
         player.need_to_call = 0
         return ["call", pot]
@@ -107,4 +111,4 @@ class Option:
 
     def give_chips_to_the_winner(self, player, pot):
         player.stack += pot
-        return f"The winner is {player.name}, his prize is {pot - player.need_to_call} and his stack is {player.stack}"
+        return f"The winner is {player.name}, his prize is {pot - player.deposit} and his stack is {player.stack}"

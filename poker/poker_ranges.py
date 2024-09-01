@@ -1,4 +1,5 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+
 
 @dataclass
 class PokerRanges:
@@ -35,9 +36,9 @@ class PokerRanges:
         [7, 5, "s"], [6, 6, "p"], [6, 5, "o"], [5, 5, "p"], [4, 4, "p"], [3, 3, "p"], [2, 2, "p"]
 ]
 
-    raise_range = []
     call_range = []
-    fold_range = []
+    raise_range = []
     check_range = []
+    fold_range = []
 
     
