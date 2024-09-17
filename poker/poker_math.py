@@ -3,6 +3,7 @@ from itertools import combinations
 
 from card import Card
 from poker_ranges import PokerRanges
+from player import Player
 
 
 # need to add up ranges for all positions
@@ -35,9 +36,9 @@ class PokerMath:
     def draw_check(self):
         pass
 
-    def decrease_range(self, pot, player, enemy, stage, last_action):
+    def decrease_range(self, pot, player1, player2, stage, last_action):
         cur_range = []
-        self.calc_actions_equity(pot, player, enemy, stage, last_action)
+        self.calc_actions_equity(pot, player1, player2, stage, last_action)
         match last_action:
             case "call":
                 cur_range = self.call_range
@@ -45,7 +46,7 @@ class PokerMath:
                 cur_range = self.range_check
             case "raise":
                 cur_range = self.raise_range
-        if player.position == "sb":
+        if player1.position == "sb":
             self.sb_range = cur_range
         self.bb_range = cur_range
         self.call_range = []
@@ -107,12 +108,11 @@ class PokerMath:
 
 
 
-    def calculating_equity(self, player, enemy):
-        if self.check_if_hand_is_in_range(player):
-            return self.calc_equity(player, enemy)
-        return False
+    def calculating_equity(self, player):
+        return self.calc_equity(player)
     
-    def calc_equity(self, player, enemy):
+    def calc_equity(self, player):
+        enemy = Player()
         hand = enemy.hand
         wins = 0
         count = 0
@@ -168,23 +168,23 @@ class PokerMath:
         # )
         return ev_to_call
 
-    def bet(self, pot, player, enemy):
+    def bet(self, pot, player1, player2):
         sizes = [
             round(pot * 0.1),
             round(pot * 0.33),
             pot // 2,
             round(pot * 0.75),
             pot,
-            player.stack - player.need_to_call,
+            player1.stack - player1.need_to_call,
         ]
         ev_to_raise = 0
         ans = 0
         for size in sizes:
-            if self.bet_check(player, size):
-                if player.need_to_call != 0:
-                    size += player.need_to_call
-                fe = self.calc_fe(size, pot, enemy.equity)
-                ev = ((player.equity * (pot + size)) - ((1 - player.equity) * (pot + size))+ (fe * pot))
+            if self.bet_check(player1, size):
+                if player1.need_to_call != 0:
+                    size += player1.need_to_call
+                fe = self.calc_fe(size, pot, player2.equity)
+                ev = ((player1.equity * (pot + size)) - ((1 - player1.equity) * (pot + size))+ (fe * pot))
                 # print(f"ev to raise with {size} is {ev}, ({player.equity} * ({pot} + {size})) - (({1 - player.equity}) * ({pot + size})) + ({fe} * {pot}), fe: {fe}")
                 if ev > ev_to_raise:
                     fe_to_fold = size / (pot + size)
@@ -261,13 +261,13 @@ class PokerMath:
         self.sb_range = self.pokerranges.sb_range
 
 
-    def solve(self, pot, player, enemy, stage, last_action, calc_ranges=False):
+    def solve(self, pot, player1, player2, stage, last_action, calc_ranges=False):
         if not calc_ranges:
-            if player.position == 'bb':
+            if player1.position == 'bb':
                 print(f"bb_range(player): {self.bb_range}\n sb_range(enemy): {self.sb_range}")
             else:
                 print(f"bb_range(enemy): {self.bb_range}\n sb_range(player): {self.sb_range}")
-            print(f"player: {player}, enemy: {enemy}")
+            print(f"player: {player1}, enemy: {player2}")
         # cur_range1 = self.check_range(player.position)
         # diff = []
         # cur_range2 = self.check_range(player.position)
@@ -277,25 +277,25 @@ class PokerMath:
         # if stage > 0:
         #     print(diff)
         if stage != 0 and not calc_ranges:
-            self.decrease_range(pot, player, enemy, stage, last_action)
+            self.decrease_range(pot, player1, player2, stage, last_action)
         if stage == 0 and not calc_ranges:
-            if not enemy.equity:
+            if not player2.equity:
                 return ["fold"]
         ev = {}  # ev : option, size
-        ev[self.call(enemy, pot)] = ["call"]
-        res_bet = self.bet(pot, enemy, player)
+        ev[self.call(player2, pot)] = ["call"]
+        res_bet = self.bet(pot, player2, player1)
         ev[res_bet[0]] = ["raise", res_bet[1]]
         # print(ev)
         solution = max(ev.keys())
         if ev[solution][0] == "raise":
-            if player.stack == 0:
+            if player1.stack == 0:
                 return ["call"]
         if solution <= 0:
-            if enemy.need_to_call == 0:
+            if player2.need_to_call == 0:
                 return ["check"]
             self.set_default()
             return ["fold"]
-        if enemy.need_to_call == 0 and ev[solution][0] == "call":
+        if player2.need_to_call == 0 and ev[solution][0] == "call":
             return ["check"]
         calc_ranges = False
         if stage == 2:

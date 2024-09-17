@@ -257,27 +257,27 @@ class Combinations:
                 return "Draw"
 
 
-    def combinations_that_need_full_versions_check(self, combo1, combo2, cards, player_hand, enemy_hand):
-        players_full_combo = self.create_combination(cards, combo1, player_hand)
-        enemys_full_combo = self.create_combination(cards, combo2, enemy_hand)
+    def combinations_that_need_full_versions_check(self, combo1, combo2, cards, hand1, hand2):
+        full_combo1 = self.create_combination(cards, combo1, hand1)
+        full_combo2 = self.create_combination(cards, combo2, hand2)
 
-        for idx in range(len(players_full_combo)):
-            if players_full_combo[idx] > enemys_full_combo[idx]:
+        for idx in range(len(full_combo1)):
+            if full_combo1[idx] > full_combo2[idx]:
                 return self.return_winner("player")
-            elif players_full_combo[idx] < enemys_full_combo[idx]:
+            elif full_combo1[idx] < full_combo2[idx]:
                 return self.return_winner("enemy")
         return self.return_winner("draw")
 
-    def check_when_combo_is_royal_flush(self, players_combo_rate, enemys_combo_rate):
-        if players_combo_rate == 9:
+    def check_when_combo_is_royal_flush(self, combo1_rate, combo2_rate):
+        if combo1_rate == 9:
             return self.return_winner("player")
-        if enemys_combo_rate == 9:
+        if combo2_rate == 9:
             return self.return_winner("enemy")
 
-    def simple_combos(self, players_combo_rate, enemys_combo_rate):
-        if players_combo_rate > enemys_combo_rate:
+    def simple_combos(self, combo1_rate, combo2_rate):
+        if combo1_rate > combo1_rate:
             return self.return_winner("player")
-        elif players_combo_rate < enemys_combo_rate:
+        elif combo1_rate < combo2_rate:
             return self.return_winner("enemy")
         return False
 
@@ -288,7 +288,7 @@ class Combinations:
             return self.return_winner("enemy")
         return self.return_winner("draw")
 
-    def who_wins(self, combo1, combo2, cards, player_hand, enemy_hand):
+    def who_wins(self, combo1, combo2, cards, hand1, hand2):
         players_combo_rate = self.combination_rating(combo1)
         enemys_combo_rate = self.combination_rating(combo2)
 
@@ -301,7 +301,7 @@ class Combinations:
 
         else:
             if players_combo_rate in [0, 1, 2, 3, 6]:
-                return self.combinations_that_need_full_versions_check(combo1, combo2, cards, player_hand, enemy_hand)
+                return self.combinations_that_need_full_versions_check(combo1, combo2, cards, hand1, hand2)
             else:
                 return self.straights(combo1, combo2)
 

@@ -33,6 +33,7 @@ class Player:
             return True
         return False
 
+
 if __name__ == "__main__":
     icommunty_cards = [Card(7, "hearts"), Card(5, "spades"), Card(7, "spades")]
     player = Player([Card(5, "hearts"), Card(10, "spades")], 100, "player", 0, communty_cards=icommunty_cards)
