@@ -1,0 +1,22 @@
+##[pylyzer] failed /home/vlad/Documents/test-coding/poker/player.py 1723146819 1429
+.___v_desugar_1: Never
+.dataclass: Never
+.field: Never
+.___v_desugar_2 = pyimport "card"
+.card = pyimport "card"
+.Card: {card.Card}
+.___v_desugar_3 = pyimport "combinations"
+.combinations = pyimport "combinations"
+.Combinations: {combinations.Combinations}
+.Player: ClassType
+.Player.__call__: () -> player.Player
+.Player.hand: Never
+.Player.stack: Int
+.Player.name: Str
+.Player.need_to_call: Int
+.Player.communty_cards: Never
+.Player.combination: Never
+.Player.__lt__: |Type_1538 <: Structural({.hand = Type_1549}), Type_1549 <: Ref(Obj)|(self: player.Player, enemy: Type_1538) -> {False}
+.Player.__gt__: |Type_1541 <: Structural({.hand = Type_1556}), Type_1556 <: Ref(Obj)|(self: player.Player, enemy: Type_1541) -> {False}
+
+

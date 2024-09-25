@@ -313,7 +313,7 @@ if __name__ == "__main__":
         Card(4, "hearts"),
         Card(10, "spades"),
     ]
-    player_hand = [Card(9, "clubs"), Card(9, "spades")]
+    player_hand = [Card(4, "clubs"), Card(5, "spades")]
     enemy_hand = [Card(13, "diamonds"), Card(11, "spades")]
     combination_player = combo.define_combination(player_hand, cards) 
     combination_enemy = combo.define_combination(enemy_hand, cards)

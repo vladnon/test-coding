@@ -1,0 +1,8 @@
+##[pylyzer] failed /home/vlad/Documents/test-coding/poker/card.py 1722381741 151
+.___v_desugar_1: Never
+.dataclass: Never
+.Card: ClassType
+.Card.value: Int
+.Card.suit: Str
+.Card.__call__: () -> card.Card
+

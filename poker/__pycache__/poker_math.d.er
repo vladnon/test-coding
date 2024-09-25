@@ -1,0 +1,23 @@
+##[pylyzer] failed /home/vlad/Documents/test-coding/poker/poker_math.py 1723146915 4279
+.___v_desugar_1: Never
+.dataclass: Never
+.___v_desugar_2 = pyimport "card"
+.card = pyimport "card"
+.Card: {card.Card}
+.___v_desugar_3: Never
+.combinations: Never
+.PokerMath: ClassType
+.PokerMath.__call__: () -> poker_math.PokerMath
+.PokerMath.my_own_range: List!(List!({Type_v_global_3472: Nat or Str | (((((((((((((((Type_v_global_3472 == 13) or (Type_v_global_3472 == 2)) or (Type_v_global_3472 == "s")) or (((Type_v_global_3472 == 13) or (Type_v_global_3472 == 3)) or (Type_v_global_3472 == "s"))) or (((Type_v_global_3472 == 13) or (Type_v_global_3472 == 4)) or (Type_v_global_3472 == "s"))) or (((Type_v_global_3472 == 13) or (Type_v_global_3472 == 5)) or (Type_v_global_3472 == "s"))) or (((Type_v_global_3472 == 13) or (Type_v_global_3472 == 6)) or (Type_v_global_3472 == "s"))) or (((Type_v_global_3472 == 13) or (Type_v_global_3472 == 7)) or (Type_v_global_3472 == "s"))) or (((Type_v_global_3472 == 13) or (Type_v_global_3472 == 8)) or (Type_v_global_3472 == "s"))) or (((Type_v_global_3472 == 13) or (Type_v_global_3472 == 9)) or (Type_v_global_3472 == "s"))) or (((Type_v_global_3472 == 13) or (Type_v_global_3472 == 10)) or (Type_v_global_3472 == "s"))) or (((Type_v_global_3472 == 13) or (Type_v_global_3472 == 10)) or (Type_v_global_3472 == "0"))) or (((Type_v_global_3472 == 13) or (Type_v_global_3472 == 11)) or (Type_v_global_3472 == "s"))) or (((Type_v_global_3472 == 13) or (Type_v_global_3472 == 11)) or (Type_v_global_3472 == "o"))) or (((Type_v_global_3472 == 13) or (Type_v_global_3472 == 12)) or (Type_v_global_3472 == "s"))) or ((Type_v_global_3472 == 13) or (Type_v_global_3472 == "p"))}, 3), 28)
+.PokerMath.suits: List!({"spades", "hearts", "clubs", "diamonds"}, 4)
+.PokerMath.check_if_hand_is_suitable: (self: poker_math.PokerMath, hand: Indexable(Obj, Never)) -> Bool
+.PokerMath.sort_arr: |K :> {0, 1}, Self <: Indexable(K, Never)|(self: poker_math.PokerMath, arr: Self) -> Self
+.PokerMath.from_hand_to_arr: |K :> {0, 1}, K :> {1, 0}|(self: poker_math.PokerMath, hand: Iterable(Structural({.value = Never})) and Indexable(K, Never)) -> Indexable(K, Never)
+.PokerMath.calc_equity: |R <: Structural({.hand = Type_855}), Type_855: Type, Type_812 <: Structural({.__gt__ = (self: Never, R) -> Bool})|(self: poker_math.PokerMath, player: Type_812, enemy: R) -> Float
+.PokerMath.bet_check: |Type_870 <: Structural({.__ge__ = (self: Never, R) -> Bool}), Type_816 <: Structural({.stack = Type_870}), R: Type|(self: poker_math.PokerMath, player: Type_816, size: R) -> {True, False}
+.PokerMath.call: |Type_820 <: Structural({.need_to_call = Type_877}), O <: Structural({.__sub__ = (self: Never, R) -> O}), Type_877 <: Structural({.__mul__ = (self: Never, R) -> R}), O: Type, R <: Nat, R :> Int, R: Type, O <: Structural({.__mul__ = (self: Never, R) -> O})|(self: poker_math.PokerMath, player: Type_820, pot: Structural({.__add__ = (self: Never, R) -> O}), equity: R) -> O
+.PokerMath.bet: |R :> Int, R <: Structural({.__gt__ = (self: Never, Never) -> Bool}), Type_825 <: Structural({.__floordiv__ = (self: Never, R) -> Never; .__add__ = (self: Never, Int) -> O; .__mul__ = (self: Never, R) -> O}), R :> {0.75}, R :> Int, R <: Structural({.__gt__ = (self: Never, R) -> Bool}), R <: Nat, O <: Structural({.__mul__ = (self: Never, R) -> O}), O <: Float, R :> Int, R <: Structural({.__gt__ = (self: Never, Obj) -> Bool}), O <: Structural({.__sub__ = (self: Never, R) -> R}), R :> {2}, R :> Int|(self: poker_math.PokerMath, pot: Type_825, equity: R, player: Structural({.stack = Structural({.__ge__ = (self: Never, Int) -> Bool})})) -> List!(R, 2)
+.PokerMath.check_if_hand_is_in_range: (self: poker_math.PokerMath, hand: Iterable(Structural({.value = Never})) and Indexable(Obj, Never)) -> {False}
+.PokerMath.solve: |O <: Structural({.__mul__ = (self: Never, Float) -> Obj}), Type_825 <: Structural({.__add__ = (self: Never, Int) -> O; .__mul__ = (self: Never, Float) -> O; .__floordiv__ = (self: Never, Float) -> Never})|(self: poker_math.PokerMath, pot: Type_825, player: Never, enemy: Never, round: Obj) -> List!({"raise"} or Float, 2)
+
+

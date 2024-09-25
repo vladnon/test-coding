@@ -13,7 +13,7 @@ def isGood(nums: list[int]) -> bool:
 
 def checkIfExist(arr: list[int]) -> bool:
     for num in arr:
-        if (num * 2) in arr and num is not num:
+        if (num * 2) in arr and num != num:
             return True
     return False
 
@@ -419,7 +419,9 @@ def maxSum(nums: list[int], m: int, k: int) -> int:
 #          result.append(res)
 #          k -= 1
 #      return result
-#
+
+
+
 def eazy(a: str, b: str, k) -> bool:
     count = 0
     for char in set(a):
@@ -429,6 +431,7 @@ def eazy(a: str, b: str, k) -> bool:
         return True
     return False
 
+print(1 - 0.19234234)
 
 if __name__ == "__main__":
     # graph = {

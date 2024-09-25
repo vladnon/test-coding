@@ -6,27 +6,12 @@ from PIL import Image
 
 class WindowGame():
     def __init__(self) -> None:
-        # настройка окна
-        self.window = CTkToplevel(fg_color='#242424')
-        self.window.geometry('650x400')
-        self.window.title("Игра")
-        
-        self.window.resizable(width=False, height=False)
-        
-        
-        # создание изображение
+        self.create_window()
+        self.create_img()
+        self.create_btns()
+        self.create_other_things()
 
-        self.paper_img = CTkImage(light_image = Image.open('./something like game/img/paper.png'), size=(125, 91))
-        self.stone_img = CTkImage(light_image = Image.open('./something like game/img/stone.png'), size=(130, 91))
-        self.scissors_img = CTkImage(light_image = Image.open('./something like game/img//scissors.png'), size=(87, 91))
-        
-        
-        # создание кнопок
-        self.paper_b = CTkButton(self.window, image=self.paper_img,  command=self.paper, text=None, fg_color="transparent", hover=False, bg_color="transparent")
-        self.stone_b = CTkButton(self.window, text=None,  command=self.stone, fg_color='transparent', image=self.stone_img, hover=False, bg_color="transparent")
-        self.scissors_b = CTkButton(self.window, text=None,  command=self.scissors, image=self.scissors_img, fg_color='transparent', hover=False, bg_color="transparent")
-
-        # создание заголовков и прочего
+    def create_other_things(self):
         self.user = Game()
         self.balance = CTkLabel(self.window, font=CTkFont(family='Benzin-Bold', size=15), text=f'Баланс: {self.user.coins}', text_color='white')
         self.user_sign = CTkLabel(self.window ,image=self.paper_img, text=None)
@@ -34,7 +19,28 @@ class WindowGame():
         self.res = CTkLabel(self.window, text= 'Нет',  font=CTkFont(family='Benzin-Bold', size=15), anchor=CENTER, fg_color="transparent", bg_color="transparent", text_color='white')
         self.bet_entry = CTkEntry(self.window, placeholder_text='Ставка', font=CTkFont(family='Benzin-Bold', size=10), text_color='white', width=80, fg_color="transparent", bg_color="transparent")
         self.max = CTkLabel(self.window, text=10, font=CTkFont(family='Benzin-Bold', size=15), fg_color="transparent", bg_color="transparent", text_color='white')
+
+    def create_btns(self):
+        self.paper_b = CTkButton(self.window, image=self.paper_img,  command=self.paper, text=None, fg_color="transparent", hover=False, bg_color="transparent")
+        self.stone_b = CTkButton(self.window, text=None,  command=self.stone, fg_color='transparent', image=self.stone_img, hover=False, bg_color="transparent")
+        self.scissors_b = CTkButton(self.window, text=None,  command=self.scissors, image=self.scissors_img, fg_color='transparent', hover=False, bg_color="transparent")
+
+    def create_img(self):
+        self.paper_img = CTkImage(light_image = Image.open('./something like game/img/paper.png'), size=(125, 91))
+        self.stone_img = CTkImage(light_image = Image.open('./something like game/img/stone.png'), size=(130, 91))
+        self.scissors_img = CTkImage(light_image = Image.open('./something like game/img//scissors.png'), size=(87, 91))
+ 
         
+
+    def create_window(self):
+        self.window = CTkToplevel(fg_color='#242424')
+        self.window.geometry('650x400')
+        self.window.title("Игра")
+        
+        self.window.resizable(width=False, height=False)
+        
+        
+ 
         
         
     def paper(self):

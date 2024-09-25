@@ -1,0 +1,40 @@
+##[pylyzer] failed /home/vlad/Documents/test-coding/poker/combinations.py 1723146818 11079
+.___v_desugar_1: Never
+.dataclass: Never
+.___v_desugar_2 = pyimport "card"
+.card = pyimport "card"
+.Card: {card.Card}
+.Combinations: ClassType
+.Combinations.__call__: () -> combinations.Combinations
+.Combinations.VALUES: Never
+.Combinations.SUITS: {Type_v_global_4344: Tuple([Str, Str, Str, Str]) | Type_v_global_4344 == ("heart", "spades", "clubs", "diamonds")}
+.Combinations.COMBINATIONS: Never
+.Combinations.make_hashmap_of_cards: (self: combinations.Combinations, cards: Iterable(Structural({.value = Never; .suit = Never}))) -> Tuple([Dict!({Never: Nat}), Dict!({Never: Nat})])
+.Combinations.pair_check: (self: combinations.Combinations, counter: Dict(_: GenericDict)) -> {Type_v_global_4447: Nat | (Type_v_global_4447 != 0) and (Type_v_global_4447 == 0)}
+.Combinations.sort_res: |Self <: Indexable(K, Never), K :> {1, 0}|(self: combinations.Combinations, res: Self) -> Self
+.Combinations.two_pairs_check: |D: GenericDict, T: Type, U: Type|(self: combinations.Combinations, counter: Dict(D)) -> T or U
+.Combinations.three_of_a_kind_check: |D: GenericDict, U :> {False}, T :> {Type_v_global_4518: Nat | (Type_v_global_4518 != 0) and (Type_v_global_4518 == 0)}|(self: combinations.Combinations, counter: Dict(D)) -> T or U
+.Combinations.from_cards_to_nums: |T <: Structural({.value = T}), T: Type|(self: combinations.Combinations, cards: Iterable(T)) -> List!(T, 1)
+.Combinations.straight_check: (self: combinations.Combinations, nums: List(Never, _: Nat)) -> {0}
+.Combinations.flush_check: |T :> {Type_v_global_4658: Nat | (Type_v_global_4658 != 0) and (Type_v_global_4658 == 0)}, U :> {False}, D: GenericDict, T <: Structural({.suit = E; .value = Type_1243}), Type_1243: Type, E :> Str|(self: combinations.Combinations, counter: Dict(D), cards: Iterable(T)) -> T or U
+.Combinations.full_house_check: |D: GenericDict, T: Type, U: Type|(self: combinations.Combinations, counter: Dict(D)) -> T or U
+.Combinations.four_of_a_kind_check: |D: GenericDict|(self: combinations.Combinations, counter: Dict(D)) -> {False}
+.Combinations.straight_flush_check: |U: Type, T: Type, K :> {1, 0}|(self: combinations.Combinations, counter: Indexable(K, Never), cards: Iterable(Never)) -> T or U
+.Combinations.royal_flush_check: |U: Type, K :> {0, 1}, T <: Structural({.suit = E; .value = Type_1243}), Type_1243: Type, T: Type, E :> Str|(self: combinations.Combinations, counter: Indexable(K, Never), cards: Iterable(T)) -> T or U
+.Combinations.check_if_it_is_preflop: |Type_1107 <: Structural({.__len__ = (self: Never) -> Nat}), U :> NoneType, T: Type|(self: combinations.Combinations, cards: Type_1107) -> T or U
+.Combinations.add_pair_to_combination: |T <: Ord, Type_1107 <: Structural({.__len__ = (self: Never) -> Nat}), Self <: Indexable(K, T), K :> {1}|(self: combinations.Combinations, cards: Type_1107, comb: Self) -> List!(T, 3)
+.Combinations.add_full_house_to_combination: |K :> {1, 0}, Type_1114: Type, K :> {1}, T: Type, Self <: Indexable(K, T)|(self: combinations.Combinations, cards: Type_1114, comb: Indexable(K, Self)) -> List!(T, 2)
+.Combinations.add_two_pairs_to_combination: |Self <: Indexable(K, Self), Self <: Indexable(K, T), T <: Ord, K :> {1, 0}, Type_1107 <: Structural({.__len__ = (self: Never) -> Nat}), K :> {1}|(self: combinations.Combinations, cards: Type_1107, comb: Self) -> List!(T, 5)
+.Combinations.add_three_of_a_kind_to_combination: |K :> {1}, T <: Ord, Type_1107 <: Structural({.__len__ = (self: Never) -> Nat}), Self <: Indexable(K, T)|(self: combinations.Combinations, cards: Type_1107, comb: Self) -> List!(T, 2)
+.Combinations.add_high_card_to_combination: |Self <: Indexable(K, T), T: Type, T <: Structural({.value = T}), Type_1107 <: Structural({.__len__ = (self: Never) -> Nat}), K :> {1}|(self: combinations.Combinations, cards: Type_1107, comb: Self) -> List!(T, 2)
+.Combinations.create_combination: |R: Type, U :> NoneType, T: Type|(self: combinations.Combinations, cards: Never, comb: Never, hand: R) -> T or U
+.Combinations.combination_rating: |Type_1136: Type, K :> {0}, V: Type|(self: combinations.Combinations, combination: Indexable(K, V)) -> Type_1136
+.Combinations.define_combination: |Type_1138: Type, E :> Str, O :> T or U, O <: Ord, T <: Structural({.suit = E; .value = Type_1243}), Type_1243 <: Never, T <: Structural({.value = Obj}), U :> {False}, U <: Bool, K :> {1, 0}|(self: combinations.Combinations, hand: Type_1138, cards: Copy and Iterable(T) and Indexable(K, Never)) -> List!(Str or List!(O, 1), 2)
+.Combinations.return_winner: |Type_1142: Type, Type_1143: Type|(self: combinations.Combinations, winner: Type_1142) -> Type_1143
+.Combinations.combinations_that_need_full_versions_check: |R: Type, Type_1143: Type|(self: combinations.Combinations, combo1: Never, combo2: Never, cards: Never, player_hand: R, enemy_hand: R) -> Type_1143
+.Combinations.check_when_combo_is_royal_flush: |E :> {9}, E :> {9}, U :> NoneType, T: Type|(self: combinations.Combinations, players_combo_rate: E, enemys_combo_rate: E) -> T or U
+.Combinations.simple_combos: |R: Type, Type_1156 <: Structural({.__gt__ = (self: Never, R) -> Bool; .__lt__ = (self: Never, R) -> Bool})|(self: combinations.Combinations, players_combo_rate: Type_1156, enemys_combo_rate: R) -> {False}
+.Combinations.straights: |Self <: Indexable(K, R), K :> {1}, K :> {0}, K :> {1}, Type_1143: Type, V <: Structural({.__gt__ = (self: Never, R) -> Bool; .__lt__ = (self: Never, R) -> Bool}), K :> {0}, Self <: Indexable(K, Self), Self <: Indexable(K, V), R: Type, Self <: Indexable(K, Self)|(self: combinations.Combinations, combo1: Self, combo2: Self) -> Type_1143
+.Combinations.who_wins: |U :> T or U, T: Type, R: Type, U: Type|(self: combinations.Combinations, combo1: Never, combo2: Never, cards: Never, player_hand: R, enemy_hand: R) -> T or U
+
+
