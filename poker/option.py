@@ -1,27 +1,38 @@
 from dataclasses import dataclass
 
+
 # update choose_option: add up check function, where u will delete all spaces of the end or caps
 @dataclass
 class Option:
-    def choose_option(self, player, pot, enemy, bb, round):
+    def choose_option(self, player, pot, enemy, bb, stage):
+        option = self.options(player)
+        option.strip()
+        option.lower()
+
+        while True:
+            match option:
+                case "check":
+                    return self.check(pot)
+                case "fold":
+                    return self.fold(enemy, pot)
+                case "call":
+                    return self.call(player, pot)
+                case "raise":
+                    return self.bet(player, pot, enemy, bb, stage)
+                case _:
+                    print("write valid option")
+                    option = self.options(player)
+
+
+    def options(self, player):
         if player.need_to_call == 0:
             option = input("Choose option: check/fold, raise: ")
         elif player.need_to_call == player.stack:
             option = input("Choose option: fold, call: ")
         else:
             option = input("Choose option: fold, call, raise: ")
-        match option:
-            case "check":
-                return self.check(pot)
-            case "fold":
-                return self.fold(enemy, pot)
-            case "call":
-                return self.call(player, pot)
-            case "raise":
-                return self.bet(player, pot, enemy, bb, round)
-            case _:
-                print("write valid option")
-                return self.choose_option(player, pot, enemy, bb, round)
+        return option
+ 
 
     def fold(self, enemy, pot):
         return self.give_chips_to_the_winner(enemy, pot), pot
@@ -59,42 +70,45 @@ class Option:
         else:
             return False
 
-    def choose_size(self, bb, pot, player, round):
-        if round == 0:
+    def choose_size(self, bb, pot, player, stage):
+        if stage == 0:
             size = self.bet_preflop(bb, pot, player)
         else:
             size = self.bet_after_preflop(pot, player)
         if not self.check_if_player_has_enough_money(player.stack, size):
-            size = self.choose_size(bb, pot, player, round)
+            size = self.choose_size(bb, pot, player, stage)
             return size
             
         return size
 
-    def bet(self, player, pot, enemy, bb, round, sizing=False):
+    def bet(self, player, pot, enemy, bb, stage, sizing=False):
         if sizing == False:
-            size = self.choose_size(bb, pot, player, round)
+            size = self.choose_size(bb, pot, player, stage)
         else:
             size = sizing
             sizing = False
         player.stack -= size + player.need_to_call
+        player.deposit += size + player.need_to_call
         player.need_to_call = 0
         enemy.need_to_call += size
         pot += size
-        return "raise", pot
+        return ["raise", pot]
 
     def call(self, player, pot):
         if player.stack <= player.need_to_call:
+            player.deposit += player.stack
             pot += player.stack
             player.stack = 0
             player.need_to_call = 0
         pot += player.need_to_call
+        player.deposit += player.need_to_call 
         player.stack -= player.need_to_call
         player.need_to_call = 0
-        return "call", pot
+        return ["call", pot]
 
     def check(self, pot):
-        return "check", pot
+        return ["check", pot]
 
     def give_chips_to_the_winner(self, player, pot):
         player.stack += pot
-        return f"The winner is {player.name}, his prize is {pot - player.need_to_call} and his stack is {player.stack}"
+        return f"The winner is {player.name}, his prize is {pot - player.deposit} and his stack is {player.stack}"

@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
+
 from card import Card
 from combinations import Combinations
+
 
 @dataclass
 class Player:
@@ -10,6 +12,9 @@ class Player:
     need_to_call: int = field(default_factory=int)
     communty_cards: list[Card] = field(default_factory=list)
     combination = Combinations()
+    position: str = field(default_factory=str)
+    equity: float = field(default_factory=float)
+    deposit: int = field(default_factory=int)
 
 
     def __lt__(self, enemy):
@@ -28,9 +33,11 @@ class Player:
             return True
         return False
 
+
 if __name__ == "__main__":
-    player = Player([Card(5, "hearts"), Card(10, "spades")], 100, "player", 0)
-    enemy = Player([Card(7, "clubs"), Card(9, "hearts")], 100, "enemy", 0)
+    icommunty_cards = [Card(7, "hearts"), Card(5, "spades"), Card(7, "spades")]
+    player = Player([Card(5, "hearts"), Card(10, "spades")], 100, "player", 0, communty_cards=icommunty_cards)
+    enemy = Player([Card(7, "clubs"), Card(9, "hearts")], 100, "enemy", 0, communty_cards=icommunty_cards)
     print(type(player.combination))
     
-    print(player > enemy)
+    print(enemy < player)

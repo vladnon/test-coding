@@ -431,7 +431,23 @@ def eazy(a: str, b: str, k) -> bool:
         return True
     return False
 
+<<<<<<< HEAD
 print(1 - 0.19234234)
+=======
+def check_parentthless(s):
+    stack = []
+    hashmap = {")":"(", "]": "[", "]": "["}
+    for char in s:
+        if char in hashmap.values():
+           stack.append(char) 
+        elif char in hashmap.keys():
+            char2 = stack.pop()
+            if not stack and hashmap[char] != char2: 
+                return False
+
+    return not stack
+
+>>>>>>> refs/remotes/origin/main
 
 if __name__ == "__main__":
     # graph = {
@@ -455,5 +471,6 @@ if __name__ == "__main__":
     # print(maxSum([1,1,1,2], 2, 4))
     # print(topKFrequent([-1, -1], 1))
     print(eazy("aac", "abca", 3))
-    nums = [1000, 20]
-    print(sorted(nums))
+    print(check_parentthless("()"))
+
+
