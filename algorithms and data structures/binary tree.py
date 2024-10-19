@@ -1,24 +1,25 @@
 from collections import deque
 
+
 class Node:
     def __init__(self, data) -> None:
         self.data = data
         self.left = None
         self.right = None
-    
+
+
 class BinaryTree:
     def __init__(self) -> None:
         self.root = None
-        
-        
+
     def append(self, data):
         cur_node = self.root
         new_node = Node(data)
-        
+
         if not self.root:
             self.root = new_node
             return
-        
+
         while cur_node:
             if not cur_node.left:
                 cur_node.left = new_node
@@ -28,31 +29,30 @@ class BinaryTree:
                 return
             else:
                 cur_node = cur_node.left
-                
-                
+
     def print(self):
         queue = deque()
         queue.append(self.root)
         result = []
-        
+
         while queue:
             cur_node = queue.popleft()
             result.append(cur_node.data)
             if cur_node.left:
                 queue.append(cur_node.left)
-            if  cur_node.right:
+            if cur_node.right:
                 queue.append(cur_node.right)
         return result
-    
+
     def average_of_every_level(self):
-        queue = []                  
+        queue = []
         queue.append(self.root)
         level = []
         result = []
-        
+
         while queue:
             size = len(queue)
-            
+
             while size > 0:
                 cur_node = queue.pop()
                 level.append(cur_node.data)
@@ -64,8 +64,7 @@ class BinaryTree:
             result.append(sum(level) / len(level))
             level = []
         return result
-    
-    
+
     def max_level_sum_binary_tree(self):
         queue = deque()
         queue += [self.root]
@@ -91,8 +90,7 @@ class BinaryTree:
                 result = count_level
             level = []
         return result
-    
-    
+
     def max_level_sum_binary_tree(self):
         queue = deque()
         queue += [self.root]
@@ -115,7 +113,7 @@ class BinaryTree:
             count_level += 1
             level = []
         return levels[max(levels.keys())]
-    
+
     def kth_smallest_node(self, k):
         queue = deque()
         queue += [self.root]
@@ -128,7 +126,7 @@ class BinaryTree:
                 queue.append(cur.left)
             count += 1
         return cur.data
-    
+
     def return_levels(self):
         queue = deque([self.root])
         level = []
@@ -148,7 +146,7 @@ class BinaryTree:
             result.extend([level])
             level = []
         return result
-    
+
     def is_uni_valued(self):
         queue = deque()
         val = self.root.data
@@ -161,8 +159,9 @@ class BinaryTree:
                 queue.append(cur.left)
             if cur.right:
                 queue.append(cur.right)
-                
+
         return True
+
     def min_depth(self):
         queue = deque([self.root])
         count = 1
@@ -179,14 +178,13 @@ class BinaryTree:
             if cur.left:
                 queue.append(cur.left)
             count += 1
-            
-    
+
     def is_cousins(self, x, y):
         queue = deque([self.root])
         parents = {}
         levels = {}
         count = 0
-        
+
         while queue:
             size = len(queue)
             while size > 0:
@@ -203,8 +201,7 @@ class BinaryTree:
         if parents[x] != parents[y] and levels[x] == levels[y]:
             return True
         return False
-    
-    
+
     def second_min_val(self) -> int:
         queue = deque([self.root])
         result = set()
@@ -220,11 +217,10 @@ class BinaryTree:
         if result == set():
             return -1
         return min(result)
-    
+
     def isEvenOddTree(self) -> bool:
         queue = deque([self.root])
         count = 0
-        
 
         while queue:
             size = len(queue)
@@ -247,7 +243,7 @@ class BinaryTree:
                         return False
                 else:
                     if level == sorted(level, reverse=True):
-                        for num  in level:
+                        for num in level:
                             if num % 2 != 0:
                                 return False
                     else:
@@ -255,27 +251,71 @@ class BinaryTree:
             count += 1
             print(level)
         return True
-    
+
+    def go_throught_all_paths(self):
+
+        def dfs_recursive(node, path, paths):
+            if not node:
+                return
+
+            path.append(node.data)
+
+            if not node.left and not node.right:
+                paths.append(list(path))
+
+            else:
+                dfs_recursive(node.left, path, paths)
+                dfs_recursive(node.right, path, paths)
+
+            path.pop()
+
+        paths = []
+        dfs_recursive(self.root, [], paths)
+        return paths
+
+    def goodNodes(self) -> int:
+
+        def dfs_recursive(node, path, paths, count):
+            if not node:
+                return
+
+            path.append(node.data)
+            if max(path) == node.data:
+                count += 1
+
+            if not node.left and not node.right:
+                paths.append(list(path))
+
+            else:
+                dfs_recursive(node.left, path, paths, count)
+                dfs_recursive(node.right, path, paths, count)
+
+            path.pop()
+
+        count = 0
+        paths = []
+        dfs_recursive(self.root, [], paths, count)
+        return count
+
+
+
+
 if __name__ == "__main__":
     tree = BinaryTree()
+    tree.append(3)
     tree.append(1)
-    tree.append(10)
     tree.append(4)
     tree.append(3)
-    tree.append(7)
-    tree.append(9)
-    tree.append(12)
-    tree.append(8)
-    tree.append(6)
-    tree.append(2)
+    tree.append(1)
+    tree.append(5)
     print(tree.print())
-    print(tree.average_of_every_level())
-    print(tree.max_level_sum_binary_tree())
-    print(tree.kth_smallest_node(1))
-    print(tree.return_levels())
-    print(tree.is_uni_valued())
-    print(tree.min_depth())
+    # print(tree.average_of_every_level())
+    # print(tree.max_level_sum_binary_tree())
+    # print(tree.kth_smallest_node(1))
+    # print(tree.return_levels())
+    # print(tree.is_uni_valued())
+    # print(tree.min_depth())
     # print(tree.is_cousins(15, 21))
-    print(tree.second_min_val())
-    print(tree.isEvenOddTree())
-    
+    # print(tree.second_min_val())
+    # print(tree.isEvenOddTree())
+    print(tree.goodNodes())
