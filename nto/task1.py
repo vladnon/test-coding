@@ -8,7 +8,7 @@ def convert_to_gray(img):
 
 
 def find_contours(img):
-    ret, binthresh = cv2.threshold(img, 200, 255, 4)
+    ret, binthresh = cv2.threshold(img, 230, 255, 4)
     # cv2.imshow('binary_thrashhold', binthresh)  # показываем результат
     contours, hierarchy = cv2.findContours(
         binthresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -17,8 +17,10 @@ def find_contours(img):
 
 
 def draw_contours(img, contours):
-    cv2.drawContours(img, contours[0], -1, (0, 255, 0), 2)
+    img = cv2.drawContours(img, contours, -1, (0, 255, 0), 4)
+    cv2.imshow("image with contours", img)
     cv2.waitKey()
+    return img
 
 
 def predict(contours, img, count):
@@ -28,7 +30,7 @@ def predict(contours, img, count):
 
 def main():
     dir = "/home/vlad/Documents/test-coding/nto/images"
-    count = 0
+    count = 1
     for path, folders, files in os.walk(dir):
         for file in files:
             img = cv2.imread(
@@ -36,7 +38,8 @@ def main():
             gray_image = convert_to_gray(img)
             contours = find_contours(gray_image)
             predict(contours, gray_image, count)
-            draw_contours(img, contours)
+            img_with_contours = draw_contours(img, contours)
+            # cv2.imwrite(f"image {count} with contours", img_with_contours)
             count += 1
 
 
