@@ -86,7 +86,7 @@ def smallerNumbersThanCurrent(nums):
 def middle_elem(nums):
     for idx in range(len(nums)):
         left = sum(nums[:idx])
-        right = sum(nums[idx + 1 :])
+        right = sum(nums[idx + 1:])
         if left == right:
             return idx
         left, right = 0, 0
@@ -421,7 +421,6 @@ def maxSum(nums: list[int], m: int, k: int) -> int:
 #      return result
 
 
-
 def eazy(a: str, b: str, k) -> bool:
     count = 0
     for char in set(a):
@@ -431,23 +430,26 @@ def eazy(a: str, b: str, k) -> bool:
         return True
     return False
 
-<<<<<<< HEAD
-print(1 - 0.19234234)
-=======
+
 def check_parentthless(s):
     stack = []
-    hashmap = {")":"(", "]": "[", "]": "["}
+    hashmap = {")": "(", "]": "[", "]": "["}
     for char in s:
         if char in hashmap.values():
-           stack.append(char) 
+            stack.append(char)
         elif char in hashmap.keys():
             char2 = stack.pop()
-            if not stack and hashmap[char] != char2: 
+            if not stack and hashmap[char] != char2:
                 return False
 
     return not stack
 
->>>>>>> refs/remotes/origin/main
+
+def test(num1: int, num2: int) -> int:
+    nums = [num for num in range(
+        min(num1, num2), max(num1, num2) + 1) if num % 7 != 0]
+    return sum(nums)
+
 
 if __name__ == "__main__":
     # graph = {
@@ -472,5 +474,4 @@ if __name__ == "__main__":
     # print(topKFrequent([-1, -1], 1))
     print(eazy("aac", "abca", 3))
     print(check_parentthless("()"))
-
-
+    print(test(2, 7))

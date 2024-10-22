@@ -573,7 +573,8 @@ class AVLBinaryTree:
     def update_height(self, node):
         if not node:
             return
-        node.height = 1 + max(self._height(node.left), self._height(node.right))
+        node.height = 1 + max(self._height(node.left),
+                              self._height(node.right))
 
     def balance_check(self, node):
         if not node:
