@@ -1,4 +1,4 @@
-from heapq import heap, heapify, heappop
+# from heapq import heap, heapify, heappop
 from collections import deque
 from binary_heap import BinaryHeap, Node
 
@@ -343,8 +343,11 @@ def majority_elem(nums: list[int]) -> int:
 
 
 def fib(n):
+    if n == 0:
+        return 0
     if n in (1, 2):
         return 1
+    print(n)
     return fib(n - 1) + fib(n - 2)
 
 
@@ -446,7 +449,7 @@ def find_num_between_target(nums, target):
         left += 1
     while nums[right] != target:
         right -= 1
-    return nums[left + 1 : right]
+    return nums[left + 1: right]
 
 
 # Метод sliding window
@@ -644,20 +647,20 @@ if __name__ == "__main__":
     # print(quick_sort([8, 5, 3, 7, 7 ,2]))
     # print(binary_search([90, 150 , 8, 5, 3, 7 , 2], 2))
     # print(linear_search([8, 5, 3, 7, 7 ,2], 8))
-    # print(fib(3))
+    print(fib(52))
     # print(fact(5))
     # print(sum([2, 4, 6]))
-    print(insertion_sort([8, 5, 3, 7, 7, 2]))
-    print(count_sort([8, 5, 3, 7, 7, 2]))
+    # print(insertion_sort([8, 5, 3, 7, 7, 2]))
+    # print(count_sort([8, 5, 3, 7, 7, 2]))
     # print(merge_two_lists([2, 8, 8, 16], [3, 4, 5, 5, 10]))
     # print(merge_sort([8, 5, 3, 7, 7 ,2]))
     # print(majority_elem([1, 2]))
     # print(shell_sort([8, 5, 3, 7, 7 ,2]))
-    heap = BinaryHeap()
-    print(heap.heap_sort([8, 5, 3, 7, 7, 2]))
-    print(heap_sort([8, 5, 3, 7, 7, 2]))
-    print(find_num_between_target([1, 2, 3, 1234, "asdfas", 12341234, 4, 5, 2], 2))
-
+    # heap = BinaryHeap()
+    # print(heap.heap_sort([8, 5, 3, 7, 7, 2]))
+    # print(heap_sort([8, 5, 3, 7, 7, 2]))
+    # print(find_num_between_target([1, 2, 3, 1234, "asdfas", 12341234, 4, 5, 2], 2))
+    #
     graph = {1: [1, 3], 2: [1], 3: [1, 3, 2]}
 
     graph_for_algorithm = {
@@ -670,16 +673,16 @@ if __name__ == "__main__":
     # print(bfs(graph, 1, 2))
     # print(dfs(1, 3, graph, visited = []))
     # print(dijkstra(graph_for_algorithm, 1, 4))
-    print(countGoodSubstrings("xyzzaz"))
-    print(lengthOfLongestSubstring("abcabcbb"))
-    print(longes_substring_of_0("0010001"))
-    print(minSubArrayLen(7, [2, 3, 1, 2, 4, 3]))
-    print(maximumSubarraySum([1, 5, 4, 2, 9, 9, 9], 3))
-    print(even_odd_sort([5, 4, 1, 10, 15, 7]))
-
-    print(dividers(24))
-    print(isprime(1))
-    print(isprime_diap(10))
-    print(gcd(152, 42))
-    print(lcm(3, 9))
-    print(factor(24))
+    # print(countGoodSubstrings("xyzzaz"))
+    # print(lengthOfLongestSubstring("abcabcbb"))
+    # print(longes_substring_of_0("0010001"))
+    # print(minSubArrayLen(7, [2, 3, 1, 2, 4, 3]))
+    # print(maximumSubarraySum([1, 5, 4, 2, 9, 9, 9], 3))
+    # print(even_odd_sort([5, 4, 1, 10, 15, 7]))
+    #
+    # print(dividers(24))
+    # print(isprime(1))
+    # print(isprime_diap(10))
+    # print(gcd(152, 42))
+    # print(lcm(3, 9))
+    # print(factor(24))
