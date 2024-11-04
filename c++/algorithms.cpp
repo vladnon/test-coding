@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -101,27 +102,36 @@ string printVector(vector<int> arr) {
 int main() {
   Algorithms algorithms = Algorithms();
 
-  vector<int> array = {-100, 5, 20, 1, 50, 60, 9, 0};
+  vector<int> array(10000);
+  for (int i = 0; i < array.size(); i++) {
+    int random_number = rand();
+    array[i] = random_number;
+  }
   string result = printVector(array);
   cout << "This is unsorted array: " << result << "\n" << endl;
 
-  array = algorithms.mergeSort(array);
-  result = printVector(array);
-  cout << "This is sorted array: " << result << "\n" << endl;
+  vector<int> sorted_array2 = algorithms.mergeSort(array);
+  result = printVector(sorted_array2);
+  cout << "This is sorted array by mergeSort: " << result << "\n\n\n\n\n"
+       << endl;
 
-  int target = -100;
-  cout << boolalpha;
-  cout << algorithms.binarySearch(array, target) << endl;
+  vector<int> sorted_array1 = algorithms.bubleSort(array);
+  result = printVector(sorted_array1);
+  cout << "This is sorted array by bubleSort: " << result << "\n" << endl;
 
-  vector<int> array1 = {100, -2, 5, 20, -56};
-  array1 = algorithms.mergeSort(array1);
-  vector<int> array2 = {123, -29, -23, 56, 40};
-  array2 = algorithms.bubleSort(array2);
-  vector<int> array12 = algorithms.mergeTwoSortedArrays(array1, array2);
-  cout << "\nThis is array1: " << printVector(array1)
-       << "\nThis is array2: " << printVector(array2)
-       << "\nThis is array creating by merging this two sorted arrays: "
-       << printVector(array12) << endl;
-
+  // int target = -100;
+  // cout << boolalpha;
+  // cout << algorithms.binarySearch(array, target) << endl;
+  //
+  // vector<int> array1 = {100, -2, 5, 20, -56};
+  // array1 = algorithms.mergeSort(array1);
+  // vector<int> array2 = {123, -29, -23, 56, 40};
+  // array2 = algorithms.bubleSort(array2);
+  // vector<int> array12 = algorithms.mergeTwoSortedArrays(array1, array2);
+  // cout << "\nThis is array1: " << printVector(array1)
+  //      << "\nThis is array2: " << printVector(array2)
+  //      << "\nThis is array creating by merging this two sorted arrays: "
+  //      << printVector(array12) << endl;
+  //
   return 0;
 }
