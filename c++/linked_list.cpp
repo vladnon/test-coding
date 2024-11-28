@@ -42,17 +42,63 @@ class LinkedList {
     }
 
     void removeFromBeginng() {
+        if (checkIfListIsEmpty()) {
+            return;
+        }
         Node *node = head;
         head = head->next;
         delete node;
     }
 
-    void remove(int value) {
+    bool checkIfListIsEmpty() {
         if (!head) {
-            cout << "The list is empty" << endl;
-            return;
+            cout << "The list is empty!" << endl;
+            return true;
+        }
+        return false;
+    }
+
+    bool find(int value) {
+        Node *node = head;
+
+        while (node) {
+            if (node->value == value) {
+                return true;
+            }
+            node = node->next;
+        }
+        return false;
+    }
+
+    int size() {
+        int count = 0;
+        Node *node = head;
+
+        while (node) {
+            count++;
+            node = node->next;
         }
 
+        return count;
+    }
+
+    void removeFromTheEnd() {
+        if (checkIfListIsEmpty()) {
+            return;
+        }
+        Node *node = head;
+
+        while (node->next->next) {
+            node = node->next;
+        }
+        delete node->next;
+        node->next = NULL;
+    }
+
+    void remove(int value) {
+        if (checkIfListIsEmpty()) {
+            return;
+        }
         Node *node = head;
 
         if (node->value == value) {
@@ -69,6 +115,15 @@ class LinkedList {
             node = node->next;
         }
     }
+
+    Node popFront() {
+        Node *node = head;
+        Node *tmp = head;
+        head = head->next;
+        cout << "this is working :)" << endl;
+        delete node;
+        return *tmp;
+    }
 };
 
 LinkedList createListFromArray(vector<int> arr, LinkedList list) {
@@ -80,12 +135,44 @@ LinkedList createListFromArray(vector<int> arr, LinkedList list) {
 }
 
 int main() {
+    cout << "the linked list has created" << endl;
     LinkedList list = LinkedList();
-    vector<int> arr(10000000000000000);
-    list = createListFromArray(arr, list);
+    // vector<int> arr(10000);
+    // list = createListFromArray(arr, list);
     // cout << "this is fine";
-    // list.remove(10);
-
-    cout << "My linked list: " << list.print() << endl;
+    list.append(10);
+    list.append(234);
+    list.append(0);
+    list.append(143);
+    list.append(50);
+    list.append(90);
+    list.append(23);
+    list.append(211);
+    list.append(98);
+    // cout << "the list: " << list.print() << endl;
+    //
+    // cout << "after removing the first node" << endl;
+    // list.removeFromBeginng();
+    //
+    // cout << list.print() << endl;
+    // cout << "after removing the last node" << endl;
+    // list.removeFromTheEnd();
+    // cout << list.print() << endl;
+    //
+    // cout << "after removing 50 " << endl;
+    // list.remove(50);
+    // cout << list.print() << endl;
+    //
+    // cout << "show list size: " << list.size() << endl;
+    // cout << boolalpha;
+    // cout << "finding 234 in the list: " << list.find(234) << endl;
+    //
+    // list.remove(234);
+    // cout << "finding 234 in the after removing it: " << list.find(234) <<
+    // endl;
+    //
+    // cout << "My linked list: " << list.print() << endl;
+    Node node = list.popFront();
+    cout << node.value << endl;
     return 0;
 }

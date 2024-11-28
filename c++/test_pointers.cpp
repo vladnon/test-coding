@@ -3,4 +3,10 @@
 #include <string>
 using namespace std;
 
-int main() { return 0; }
+int main() {
+  int a = 234;
+  int *pa = &a;
+  int *pa1 = pa;
+  cout << pa1 << " " << pa << " " << &a << endl;
+  return 0;
+}
