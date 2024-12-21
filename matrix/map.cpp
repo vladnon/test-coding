@@ -2,25 +2,29 @@
 #include <string>
 
 class GameMap {
-    std::string game_map[20][30];
+    std::string game_map[40][50];
+
+    void removeExtraColumns() {}
 
   public:
     void fillMap() {
-        for (int i = 0; i < 20; i++) {
-            for (int j = 0; j < 30; j++) {
-                game_map[i][j] = "0";
+        for (int i = 0; i < 40; i++) {
+            for (int j = 0; j < 50; j++) {
+                game_map[i][j] = '"';
             }
         }
     }
 
     void printMap() {
-        for (int i = 0; i < 20; i++) {
-            for (int j = 0; j < 30; j++) {
+        for (int i = 0; i < 40; i++) {
+            for (int j = 0; j < 50; j++) {
                 std::cout << game_map[i][j] << " ";
             }
             std::cout << std::endl;
         }
     }
+
+    void setValue(int x, int y, std::string name) { game_map[x][y] = name; }
 
     void updateMap() {}
 };
@@ -28,5 +32,6 @@ class GameMap {
 int main() {
     GameMap game_map = GameMap();
     game_map.fillMap();
+    game_map.setValue(5, 10, "Player_nothing");
     game_map.printMap();
 }

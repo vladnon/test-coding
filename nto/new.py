@@ -3,58 +3,81 @@ import cv2
 import numpy as np
 
 
-def read_file(filepath):
-    """Считывает черно-белое изображение."""
-    img = cv2.imread(filepath, cv2.IMREAD_GRAYSCALE)
-    if img is None:
-        raise FileNotFoundError(f"Файл '{filepath}' не найден.")
-    return img
+def find_line_equations(image_path):
+    # Загрузка изображения
+    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    if image is None:
+        raise FileNotFoundError(f"Изображение '{image_path}' не найдено.")
 
-
-def get_pixels_in_contour(img):
-    """Находит все пиксели внутри каждой области, ограниченной контуром."""
-    # Бинаризация изображения
-    _, binary = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
+    # Бинаризация
+    _, binary = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
 
     # Поиск контуров
     contours, _ = cv2.findContours(
-        binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        binary, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
-    # Список для хранения пикселей каждой фигуры
-    all_pixels = []
-
-    # Создаём пустую маску
-    mask = np.zeros_like(binary)
-
+    # Находим линии (аппроксимация)
+    lines = []
     for contour in contours:
-        # Очищаем маску для текущего контура
-        mask[:] = 0
+        if len(contour) >= 2:
+            # Аппроксимируем контур как прямую
+            [vx, vy, x0, y0] = cv2.fitLine(contour, cv2.DIST_L2, 0, 0.01, 0.01)
+            slope = vy / vx
+            intercept = y0 - slope * x0
+            # Уравнение вида y = slope * x + intercept
+            lines.append((slope[0], intercept[0]))
 
-        # Рисуем контур на маске
-        cv2.drawContours(mask, [contour], -1, color=(255, 255, 0),
-                         thickness=-1)  # Закрашиваем область
+    print(lines)
 
-        cv2.imshow("something", mask)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-
-        # Получаем координаты всех пикселей внутри контура
-        pixels = np.column_stack(np.where(mask == 255))  # Формат (y, x)
-        all_pixels.append(pixels)
-
-    return all_pixels
+    return lines, binary
 
 
-def main(filepath):
-    """Главная функция."""
-    image = read_file(filepath)
-    all_pixels = get_pixels_in_contour(image)
+def find_intersections(lines, image_shape):
+    height, width = image_shape
+    intersections = []
 
-    # Вывод информации о пикселях
-    for i, pixels in enumerate(all_pixels):
-        print(f"Контур {i + 1}: {len(pixels)} пикселей")
-        print(pixels[:10])  # Вывод первых 10 пикселей
+    for i in range(len(lines)):
+        for j in range(i + 1, len(lines)):
+            # Уравнения двух прямых: y = m1 * x + b1, y = m2 * x + b2
+            m1, b1 = lines[i]
+            m2, b2 = lines[j]
+
+            # Если прямые параллельны, пропускаем
+            if abs(m1 - m2) < 1e-6:
+                continue
+
+            # Найдём точку пересечения
+            x = (b2 - b1) / (m1 - m2)
+            y = m1 * x + b1
+
+            # Проверяем, находится ли точка в пределах изображения
+            if 0 <= x < width and 0 <= y < height:
+                intersections.append((int(round(x)), int(round(y))))
+
+    print(intersections)
+
+    return intersections
+
+
+def count_white_intersections(intersections, binary):
+    count = 0
+    for x, y in intersections:
+        if binary[y, x] == 255:  # Белый пиксель
+            count += 1
+    return count
 
 
 if __name__ == "__main__":
-    main("input.png")
+    image_path = "./input.png"
+    try:
+        # Шаг 1: Найдём уравнения прямых
+        lines, binary = find_line_equations(image_path)
+
+        # Шаг 2: Найдём точки пересечения
+        intersections = find_intersections(lines, binary.shape)
+
+        # Шаг 3: Подсчитаем только белые пересечения
+        result = count_white_intersections(intersections, binary)
+        print(result)
+    except Exception as e:
+        print(f"Ошибка: {e}")

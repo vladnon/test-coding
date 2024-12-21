@@ -451,6 +451,42 @@ def test(num1: int, num2: int) -> int:
     return sum(nums)
 
 
+def checkTwoChessboards(coordinate1: str, coordinate2: str) -> bool:
+
+    def check_color(coord):
+        hashmap = {"a": 1, "b": 2, "c": 3, "d": 4,
+                   "e": 5, "f": 6, "g": 7, "h": 8}
+        print(coord[0], coord[1])
+        if (int(coordinate1[1]) + hashmap[coordinate1[0]]) % 2 == 0:
+            return "black"
+        return "white"
+
+    first = check_color(coordinate1)
+    second = check_color(coordinate2)
+    return first == second
+
+
+def prime_palindrome(n):
+    size = 100
+    nums = [0] * size
+
+    for i in range(1, size):
+        for idx in range(i, i+1):
+            nums[i] += 1
+
+    for i in range(1, size):
+        if nums[i] == 2:
+            if str(i) == str(i)[::-1]:
+                nums[i] += 1
+
+    print(nums)
+
+    for i in range(size):
+        if nums[i] == 2:
+            if i >= n:
+                return i
+
+
 if __name__ == "__main__":
     # graph = {
     #     1 : {2 : 5, 3 : 1},
@@ -472,6 +508,8 @@ if __name__ == "__main__":
     # print(replaceElements())
     # print(maxSum([1,1,1,2], 2, 4))
     # print(topKFrequent([-1, -1], 1))
-    print(eazy("aac", "abca", 3))
-    print(check_parentthless("()"))
-    print(test(2, 7))
+    # print(eazy("aac", "abca", 3))
+    # print(check_parentthless("()"))
+    # print(test(2, 7))
+    print(checkTwoChessboards("a1", "c3"))
+    print(prime_palindrome(6))

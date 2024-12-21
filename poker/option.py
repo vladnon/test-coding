@@ -23,7 +23,6 @@ class Option:
                     print("write valid option")
                     option = self.options(player)
 
-
     def options(self, player):
         if player.need_to_call == 0:
             option = input("Choose option: check/fold, raise: ")
@@ -32,16 +31,16 @@ class Option:
         else:
             option = input("Choose option: fold, call, raise: ")
         return option
- 
 
     def fold(self, enemy, pot):
         return self.give_chips_to_the_winner(enemy, pot), pot
 
-
     def bet_preflop(self, bb, pot, player):
-        size_bb = {"2": int(bb * 2), "3": int(bb * 3), "4": int(bb * 4), "100": pot, "all-in": player.stack}
+        size_bb = {"2": int(bb * 2), "3": int(bb * 3),
+                   "4": int(bb * 4), "100": pot, "all-in": player.stack}
 
-        size_in_bb = (input(f"Choose bet size: 2bb({size_bb["2"]}), 3bb({size_bb["3"]}), 4bb({size_bb["4"]}), 100%({pot}) of pot or all-in({player.stack}): "))
+        size_in_bb = (input(f"Choose bet size: 2bb({size_bb["2"]}), 3bb({size_bb["3"]}), 4bb({
+                      size_bb["4"]}), 100%({pot}) of pot or all-in({player.stack}): "))
         if size_in_bb not in size_bb.keys():
             print("write valid size")
             size_in_bb = self.bet_preflop(bb, pot, player)
@@ -57,7 +56,8 @@ class Option:
             "100": pot,
             "all-in": player.stack
         }
-        size_in_percent = input(f"Choose bet size: 10%({simple_size["10"]}), 33%({simple_size["33"]}), 50%({simple_size["50"]}), 75%({simple_size["75"]}), 100%({pot}) of pot or all-in({player.stack}): ")
+        size_in_percent = input(f"Choose bet size: 10%({simple_size["10"]}), 33%({simple_size["33"]}), 50%({
+                                simple_size["50"]}), 75%({simple_size["75"]}), 100%({pot}) of pot or all-in({player.stack}): ")
         if size_in_percent not in simple_size and size_in_percent != "all-in":
             print("write valid size")
             size_in_percent = self.bet_after_preflop(pot, player)
@@ -78,7 +78,7 @@ class Option:
         if not self.check_if_player_has_enough_money(player.stack, size):
             size = self.choose_size(bb, pot, player, stage)
             return size
-            
+
         return size
 
     def bet(self, player, pot, enemy, bb, stage, sizing=False):
@@ -101,7 +101,7 @@ class Option:
             player.stack = 0
             player.need_to_call = 0
         pot += player.need_to_call
-        player.deposit += player.need_to_call 
+        player.deposit += player.need_to_call
         player.stack -= player.need_to_call
         player.need_to_call = 0
         return ["call", pot]

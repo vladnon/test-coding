@@ -273,11 +273,13 @@ class Game:
         print("                              ")
         print("------------------------------")
         print("                              ")
- 
+
     def one_time(self):
-        print(f"player_stack: {self.player1.stack}\nenemy_stack: {self.player2.stack}\npot: {self.pot}")
+        print(f"player_stack: {self.player1.stack}\nenemy_stack: {
+              self.player2.stack}\npot: {self.pot}")
         print(f"the cards are {self.print_cards(self.cards)}\n")
-        print(f"your combination is {self.print_combination(self.combination.define_combination(self.player1.hand, self.cards))}")
+        print(f"your combination is {self.print_combination(
+            self.combination.define_combination(self.player1.hand, self.cards))}")
 
     def run_game(self, testing=False):
         self.spaces()
@@ -319,11 +321,15 @@ class Game:
             return res
 
         self.spaces()
-        combo1 = self.combination.define_combination(self.player1.hand, self.cards)
-        combo2 = self.combination.define_combination(self.player2.hand, self.cards)
-        print(self.final_winner(self.combination.who_wins(combo1, combo2, self.cards, self.player1.hand, self.player2.hand)),end="\n")
+        combo1 = self.combination.define_combination(
+            self.player1.hand, self.cards)
+        combo2 = self.combination.define_combination(
+            self.player2.hand, self.cards)
+        print(self.final_winner(self.combination.who_wins(combo1, combo2,
+              self.cards, self.player1.hand, self.player2.hand)), end="\n")
 
-        print(f"enemy hand is {self.print_cards(self.player2.hand)}, and his combination is {self.print_combination(self.combination.define_combination(self.player2.hand, self.cards))}")
+        print(f"enemy hand is {self.print_cards(self.player2.hand)}, and his combination is {
+              self.print_combination(self.combination.define_combination(self.player2.hand, self.cards))}")
         self.default()
 
 

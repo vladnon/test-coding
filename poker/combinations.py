@@ -35,7 +35,6 @@ class Combinations:
                     result = max(result, value)
         return result if result != 0 else False
 
-
     def sort_res(self, res):
         if res[0] < res[1]:
             res = res[::-1]
@@ -163,7 +162,8 @@ class Combinations:
         combination = [comb[1][0], comb[1][0], comb[1][1], comb[1][1]]
         if self.check_if_it_is_preflop(cards):
             return combination
-        cards_copy = [card for card in cards if card.value not in (comb[1][0], comb[1][1])]
+        cards_copy = [card for card in cards if card.value not in (
+            comb[1][0], comb[1][1])]
         nums = self.from_cards_to_nums(cards_copy)
         combination.append(max(nums))
         return combination
@@ -256,7 +256,6 @@ class Combinations:
             case "draw":
                 return "Draw"
 
-
     def combinations_that_need_full_versions_check(self, combo1, combo2, cards, hand1, hand2):
         full_combo1 = self.create_combination(cards, combo1, hand1)
         full_combo2 = self.create_combination(cards, combo2, hand2)
@@ -313,14 +312,11 @@ if __name__ == "__main__":
         Card(5, "diamonds"),
         Card(6, "diamonds"),
     ]
-<<<<<<< HEAD
     player_hand = [Card(4, "clubs"), Card(5, "spades")]
-=======
     player_hand = [Card(2, "diamonds"), Card(3, "diamonds")]
->>>>>>> refs/remotes/origin/main
     enemy_hand = [Card(13, "diamonds"), Card(11, "spades")]
-    combination_player = combo.define_combination(player_hand, cards) 
+    combination_player = combo.define_combination(player_hand, cards)
     print(combination_player)
     combination_enemy = combo.define_combination(enemy_hand, cards)
-    print(combo.who_wins(combination_player, combination_enemy, cards, player_hand, enemy_hand))
-
+    print(combo.who_wins(combination_player,
+          combination_enemy, cards, player_hand, enemy_hand))

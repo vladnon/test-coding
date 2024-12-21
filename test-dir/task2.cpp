@@ -1,4 +1,130 @@
-#include <iostream>
+##include <iostream>
+#include <set>
+using namespace std;
+
+int main() {
+    int size = 10000000;
+    int *factors = new int[size];
+    for (int i = 1; i <= size + 1; i++) {
+        for (int idx = 0; idx <= size; idx += i) {
+            factors[idx] += 1;
+        }
+    }
+
+    for (int i; i <= size; i++) {
+        cout << factors[i] << ", " << endl;
+    }
+
+    set<int> peak_numbers;
+    int result = 0;
+    int max_factors = 0;
+
+    for (int i = 0; i <= size; i++) {
+        if (factors[i] > max_factors) {
+            max_factors = factors[i];
+            result = i;
+            peak_numbers.insert(result);
+            cout << result << endl;
+        }
+    }
+
+    delete[] factors;
+    return 0;
+}include <set>
+using namespace std;
+
+int main() {
+    int size = 10000000;
+    int *factors = new int[size];
+    for (int i = 1; i <= size + 1; i++) {
+        for (int idx = 0; idx <= size; idx += i) {
+            factors[idx] += 1;
+        }
+    }
+
+    for (int i; i <= size; i++) {
+        cout << factors[i] << ", " << endl;
+    }
+
+    set<int> peak_numbers;
+    int result = 0;
+    int max_factors = 0;
+
+    for (int i = 0; i <= size; i++) {
+        if (factors[i] > max_factors) {
+            max_factors = factors[i];
+            result = i;
+            peak_numbers.insert(result);
+            cout << result << endl;
+        }
+    }
+
+    delete[] factors;
+    return 0;
+}#include <iostream>
+#include <set>
+using namespace std;
+
+int main() {
+    int size = 10000000;
+    int *factors = new int[size];
+    for (int i = 1; i <= size + 1; i++) {
+        for (int idx = 0; idx <= size; idx += i) {
+            factors[idx] += 1;
+        }
+    }
+
+    for (int i; i <= size; i++) {
+        cout << factors[i] << ", " << endl;
+    }
+
+    set<int> peak_numbers;
+    int result = 0;
+    int max_factors = 0;
+
+    for (int i = 0; i <= size; i++) {
+        if (factors[i] > max_factors) {
+            max_factors = factors[i];
+            result = i;
+            peak_numbers.insert(result);
+            cout << result << endl;
+        }
+    }
+
+    delete[] factors;
+    return 0;
+}include <set>
+using namespace std;
+
+int main() {
+    int size = 10000000;
+    int *factors = new int[size];
+    for (int i = 1; i <= size + 1; i++) {
+        for (int idx = 0; idx <= size; idx += i) {
+            factors[idx] += 1;
+        }
+    }
+
+    for (int i; i <= size; i++) {
+        cout << factors[i] << ", " << endl;
+    }
+
+    set<int> peak_numbers;
+    int result = 0;
+    int max_factors = 0;
+
+    for (int i = 0; i <= size; i++) {
+        if (factors[i] > max_factors) {
+            max_factors = factors[i];
+            result = i;
+            peak_numbers.insert(result);
+            cout << result << endl;
+        }
+    }
+
+    delete[] factors;
+    return 0;
+}include <iostream>
 #include <vector>
 using namespace std;
 

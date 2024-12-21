@@ -13,17 +13,36 @@ using namespace std;
 struct Task {
     string name;        // name of task
     string description; // information about task
-    int status;         // 0 - didnt start, 1 started, 2 - finished
+    string commit;
+    int status; // 0 - didnt start, 1 started, 2 - finished
 };
 
 class ToDoList {
     vector<Task> tasks;
+
+    void addTask_(string name, string description, int status, string commit) {
+        Task new_task = Task();
+        new_task.name = name;
+        new_task.description = description;
+        new_task.status = status;
+        new_task.commit = commit;
+        tasks.push_back(new_task);
+    }
 
     void addTask_(string name, string description, int status) {
         Task new_task = Task();
         new_task.name = name;
         new_task.description = description;
         new_task.status = status;
+        new_task.commit = "";
+        tasks.push_back(new_task);
+    }
+
+    void addTask_(string name, string description) {
+        Task new_task = Task();
+        new_task.name = name;
+        new_task.description = description;
+        new_task.commit = "";
         tasks.push_back(new_task);
     }
 
@@ -43,7 +62,7 @@ class ToDoList {
         getline(cin, description);
 
         cout << "\nNew task has added" << endl;
-        addTask_(name, description, 0);
+        addTask_(name, description);
         menu();
     }
 
@@ -61,6 +80,7 @@ class ToDoList {
         menu();
     }
 
+    // dont forget, that you are writing on fucking c++, u have overloads
     void printTasks(int mode) {
         if (tasks.size() == 0) {
             cout << "No tasks yet\n";
@@ -68,6 +88,7 @@ class ToDoList {
                 menu();
             }
         }
+
         for (int i = 0; i < tasks.size(); i++) {
             string status;
             if (tasks[i].status == 0) {
@@ -77,14 +98,45 @@ class ToDoList {
             } else {
                 status = "completed ";
             }
-            cout << "\n"
-                 << i + 1 << ". Name: " << tasks[i].name
-                 << "\t Description: " << tasks[i].description
-                 << "\tStatus: " << status << endl;
+            if (tasks[i].commit == "") {
+                cout << "\n"
+                     << i + 1 << ". Name: " << tasks[i].name
+                     << "\t Description: " << tasks[i].description
+                     << "\tStatus: " << status
+                     << "\tCommit: " << "No commits yet" << endl;
+            } else {
+                cout << "\n"
+                     << i + 1 << ". Name: " << tasks[i].name
+                     << "\t Description: " << tasks[i].description
+                     << "\tStatus: " << status
+                     << "\tCommit: " << tasks[i].commit << endl;
+            }
         }
         if (mode == 0) {
             menu();
         }
+    }
+
+    void LoadToHistory() {}
+    void uploadFromHistory() {}
+    void printHistory() {}
+
+    void addCommit() {
+        printTasks(1);
+        cout << "\nChoose task number, or back to menu(0)" << endl << ":";
+
+        int number;
+        cin >> number;
+
+        if (number == 0) {
+            menu();
+        }
+
+        cout << "\nWrite tasks commit" << endl << ":";
+        string commit;
+        cin >> commit;
+        this->tasks[number - 1].commit = commit;
+        menu();
     }
 
     void loadToJson() {
@@ -96,7 +148,8 @@ class ToDoList {
             for (int i = 0; i < tasks.size(); i++) {
                 j[i] = {{"name", tasks[i].name},
                         {"description", tasks[i].description},
-                        {"status", tasks[i].status}};
+                        {"status", tasks[i].status},
+                        {"commit", tasks[i].commit}};
             }
             file << j.dump(4);
             file.close();
@@ -116,7 +169,7 @@ class ToDoList {
             file >> j;
             for (const auto &new_task : j) {
                 addTask_(new_task["name"], new_task["description"],
-                         new_task["status"]);
+                         new_task["status"], new_task["commit"]);
             }
             file.close();
         }
@@ -141,7 +194,9 @@ class ToDoList {
 
         string help =
             "0 - help\n1 - add task\n2 - update status\n3 - show tasks\n4 - "
-            "save and exit\n5 - clear tasks \n";
+            "save and exit\n5 - clear tasks \n6 - add a commit(u can write "
+            "will do next day/ failed)\n7 - "
+            "history\n";
 
         cout << "Write 0 for help\n";
         cout << ":";
@@ -161,6 +216,10 @@ class ToDoList {
             loadToJson();
         } else if (action == 5) {
             clearJson();
+        } else if (action == 6) {
+            addCommit();
+        } else if (action == 7) {
+            printHistory();
         } else {
             cout << "wtf" << endl;
             menu();
