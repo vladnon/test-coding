@@ -39,7 +39,7 @@ def main():
     print("                          ")
     print("--------------------------")
     print("                          ")
-    print("This is utility for counting how many lines is in project. The path starts from /home/vlad") 
+    print("This is utility for counting lines is in project. The path starts from $HOME/") 
     print("It will print all filles in dir: \n")
     path = get_dir_path()
     go_to_the_dir(path)     

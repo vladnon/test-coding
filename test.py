@@ -1,3 +1,4 @@
+
 def isGood(nums: list[int]) -> bool:
     num = max(nums)
     if nums.count(num) == 2 and num == len(nums) - 1:
@@ -487,6 +488,44 @@ def prime_palindrome(n):
                 return i
 
 
+def why_i_need_to_do_that():
+    count = 0
+    result = 0
+    days = int(input())
+    while days > 0:
+        day = int(input())
+        if day > 0:
+            result += day
+            count += 1
+        days -= 1
+    print(result / count)
+    print(count)
+
+
+def commonChars(words: list[str]) -> list[str]:
+        hashmap = {}
+        result = []
+
+        for word in words:
+            new_word = set(word)
+            for char in new_word:
+                hashmap[char] = 1 + hashmap.get(char, 0)
+
+        for key, value in hashmap.items():
+            if value == len(words):
+                min_value = 10 **10
+                for word in words:
+                    min_value = min(word.count(key), min_value)
+                for _  in range(min_value):
+                    result.append(key)
+        left, right = 0, 0
+        while right < len(result) - 1:
+            if hashmap[result[left]] == hashmap[result[right]]:
+                right += 1
+            else:
+                result[left:right].sort() 
+        return result
+
 if __name__ == "__main__":
     # graph = {
     #     1 : {2 : 5, 3 : 1},
@@ -511,5 +550,8 @@ if __name__ == "__main__":
     # print(eazy("aac", "abca", 3))
     # print(check_parentthless("()"))
     # print(test(2, 7))
-    print(checkTwoChessboards("a1", "c3"))
-    print(prime_palindrome(6))
+    # print(checkTwoChessboards("a1", "c3"))
+    # print(prime_palindrome(6))
+    # why_i_need_to_do_that()
+    print(commonChars(["abc", "bc", "b"]))
+
